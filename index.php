@@ -5,6 +5,13 @@
 	<div class="v vc">
 		<div class="h hc">
 			<div class="simplebox">
+				<div class="body">
+					Hey-O! : This site is under construction.
+				</div>
+			</div>
+		</div>
+		<div class="h hc">
+			<div class="simplebox">
 				<a href="about" class="nolink">
 				<div class="title">
 					About

@@ -26,12 +26,12 @@
 		</div>
 		<div class="h hc">
 			<div class="simplebox preview">
-				<a href="static/resume.pdf" class="nolink">
+				<a href="binaryclock" class="nolink">
 				<div class="title">
-					Resume
+					Binary Clock
 				</div>
 				<div class="body">
-					<img src="static/document.svg" class="icon" alt="Document logo"/>
+					<img src="binaryclock/displaydark.jpg" class="icon" alt="Binary clock display"/>
 				</div>
 				</a>
 			</div>
