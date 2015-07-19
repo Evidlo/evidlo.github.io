@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>evanw.org</title>
+<link rel="stylesheet" type="text/css" href="/static/fancy.css"/>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25109327-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<?php 
+if(preg_match('/(?i)msie [1-9]/',$_SERVER['HTTP_USER_AGENT']))
+{
+	echo '<script>
+		  	alert("You may have trouble viewing my site.  Please upgrade to a modern browser.");
+		  </script>';
+}
+?>
+</head>

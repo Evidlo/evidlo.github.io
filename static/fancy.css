@@ -1,0 +1,85 @@
+html,body {
+	height: 100%;
+}
+
+
+/* create flexbox column */
+.v {
+	display:flex;
+	flex-direction: column;
+}
+
+/* create flexbox row */
+.h {
+	display: flex;
+}
+
+/* center content of column or row */
+.hc {
+	justify-content: center;
+	width: 100%;
+}
+.vc {
+	justify-content: center;
+	height: 100%;
+}
+
+/* minimalist box design */
+
+.simplebox {
+	margin: 10px;
+}
+
+.simplebox .title {
+	font-size: 25px;
+}
+
+.nolink {
+	text-decoration: none !important;
+	color: black;
+}
+
+.simplebox .body {
+	border: 1px solid;
+	border-radius: 20px;
+	padding: 20px;
+	display: flex;
+	max-width:600px;
+}
+
+.body img {
+	margin:20px;
+}
+
+.simplebox a:hover .body{
+	background-color:#EEEEEE;
+}
+
+/* preview page */
+
+.preview {
+	max-width: 400px;
+}
+
+/* center pane content on preview page */
+.preview .body {
+	display:flex;
+	justify-content:center;
+}
+
+/* front page icon */
+
+.icon {
+	height: 200px;
+	width: auto;
+}
+
+/* image annotations */
+.annotate {
+	margin: 20px;
+}
+
+.annotate img{
+	margin: 0;
+	width: 100%;
+} 
