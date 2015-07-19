@@ -31,10 +31,6 @@
 						<img src="appb.png"/>
 						Final design with all peripheral circuitry
 					</div>
-					<div class="annotate">
-						<img src="mc_in_thruster.jpg"/>
-						A V5 being tested with a thruster.
-					</div>
 				</div>
 			</div>
 		</div>
