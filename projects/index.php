@@ -36,56 +36,45 @@
 				</a>
 			</div>
 			<div class="simplebox preview">
-				<a href="foobar" class="nolink">
+				<a href="./" class="nolink">
 				<div class="title">
-					Another Thing
+					Automagic Door Unlocker
 				</div>
 				<div class="body">
-					yupyupyup
+					Coming Soon
 				</div>
 				</a>
 			</div>
 		</div>
 		<div class="h hc">
 			<div class="simplebox preview">
-				<a href="static/resume.pdf" class="nolink">
+				<a href="./" class="nolink">
 				<div class="title">
-					Resume
+					Reverse Engineering NIST Relay Test Panels
 				</div>
 				<div class="body">
-					<img src="static/document.svg" class="icon" alt="Document logo"/>
+					Coming Soon
 				</div>
 				</a>
 			</div>
 			<div class="simplebox preview">
-				<a href="foobar" class="nolink">
+				<a href="drawbotio" class="nolink">
 				<div class="title">
-					Another Thing
+					Drawing Robot
 				</div>
 				<div class="body">
-					yupyupyup
 				</div>
 				</a>
 			</div>
 		</div>
 		<div class="h hc">
 			<div class="simplebox preview">
-				<a href="static/resume.pdf" class="nolink">
+				<a href="./casting" class="nolink">
 				<div class="title">
-					Resume
+					Aluminum Casting
 				</div>
 				<div class="body">
-					<img src="static/document.svg" class="icon" alt="Document logo"/>
-				</div>
-				</a>
-			</div>
-			<div class="simplebox preview">
-				<a href="foobar" class="nolink">
-				<div class="title">
-					Another Thing
-				</div>
-				<div class="body">
-					yupyupyup
+					<img src="casting/b.out" class="icon" alt="Aluminum casting forge"/>
 				</div>
 				</a>
 			</div>
