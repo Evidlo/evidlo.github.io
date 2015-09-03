@@ -78,6 +78,16 @@
 				</div>
 				</a>
 			</div>
+			<div class="simplebox preview">
+				<a href="powerline" class="nolink">
+				<div class="title">
+					Purdue IEEE Powerline Transmission Prototype
+				</div>
+				<div class="body">
+					<img src="powerline/scope.out" class="icon" alt=""/>
+				</div>
+				</a>
+			</div>
 		</div>
 	</div>
 </body>
