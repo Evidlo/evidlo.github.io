@@ -6,6 +6,14 @@
 			<div class="simplebox">
 				<div class="title">Purdue IEEE Motor Controllers</div>
 				<div class="body v">
+            <a class="project_head" href="http://github.com/evidlo/motrocontroller">
+            <div class="v vc">
+                <div class="h">
+                      <div><img src="/static/github.png"/></div>
+                      <div class="v vc"> Project Files</div>
+                </div>
+            </div>
+            </a>
 					Shown below is a motor controller for the Seabotix BD-166 thruster.  These thrusters are designed to go on ROVs and can withstand depths of several hundred feet.  The BD-166 in particular keeps it's motor controller inside of the thruster itself which reduces wiring and saves space in the main electronics compartment.<br><br>
 					<div class="annotate">
 						<img src="seabotix.jpg"/>

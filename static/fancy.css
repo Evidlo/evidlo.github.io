@@ -84,3 +84,18 @@ html,body {
 	margin: 0;
 	width: 100%;
 } 
+
+
+/* Project Header */
+.project_head img {
+    height:50px;
+    width:50px;
+    margin:10px;
+}
+
+.project_head a{
+    text-decoration: none;
+}
+.project_head {
+    font-size: 20px;
+}

@@ -6,6 +6,24 @@
 			<div class="simplebox">
 				<div class="title">Binary Clock</div>
 				<div class="body v">
+          <div class="project_head h">
+            <a  href="http://github.com/evidlo/binary_clock">
+            <div class="v vc">
+                <div class="h">
+                      <div><img src="/static/github.png"/></div>
+                      <div class="v vc">Project Files</div>
+                </div>
+            </div>
+            </a>
+            <a href="http://hackaday.com/2015/07/20/scrappy-rgb-binary-block-from-the-parts-bin/">
+            <div class="v vc">
+                <div class="h">
+                    <img src="/static/hackaday.png">
+                    <div class="v vc">Featured on Hackaday</div>
+                </div>
+            </div>
+            </a>
+            </div>
 					<div class="annotate">
 						<img src="lightfinal.jpg"/>
 						Clock showing 7:45.
