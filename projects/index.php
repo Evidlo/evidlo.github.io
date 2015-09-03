@@ -36,12 +36,12 @@
 				</a>
 			</div>
 			<div class="simplebox preview">
-				<a href="./" class="nolink">
+				<a href="./doorbot" class="nolink">
 				<div class="title">
 					Automagic Door Unlocker
 				</div>
 				<div class="body">
-					Coming Soon
+          <img src="doorbot/door.jpg" class="icon">
 				</div>
 				</a>
 			</div>
