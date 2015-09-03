@@ -15,7 +15,7 @@
                 </div>
             </div>
             </a>
-            <a href="http://hackaday.com/2015/07/20/scrappy-rgb-binary-block-from-the-parts-bin/">
+            <a href="http://hackaday.com/2015/07/20/scrappy-rgb-binary-clock-from-the-parts-bin/">
             <div class="v vc">
                 <div class="h">
                     <img src="/static/hackaday.png">
