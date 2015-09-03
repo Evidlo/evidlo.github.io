@@ -6,7 +6,7 @@
 			<div class="simplebox">
 				<div class="title">Purdue IEEE Motor Controllers</div>
 				<div class="body v">
-            <a class="project_head" href="http://github.com/evidlo/motrocontroller">
+            <a class="project_head" href="http://github.com/evidlo/motorcontroller">
             <div class="v vc">
                 <div class="h">
                       <div><img src="/static/github.png"/></div>
