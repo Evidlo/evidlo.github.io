@@ -63,6 +63,7 @@
 					Drawing Robot
 				</div>
 				<div class="body">
+          <img src="drawbotio/stepper.png" class="icon"/>
 				</div>
 				</a>
 			</div>
