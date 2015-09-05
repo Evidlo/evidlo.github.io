@@ -1,6 +1,12 @@
+@font-face {
+    font-family: Terminus;
+    src: url(/static/Terminus.ttf);
+}
+
 html,body {
 	height: 100%;
 	margin:0;
+  font-family:Terminus;
 }
 
 
