@@ -6,6 +6,16 @@
 			<div class="simplebox">
 				<div class="title">Powerline Transmission Prototype</div>
 				<div class="body v">
+          <div class="project_head h">
+            <a  href="http://github.com/evidlo/transmission">
+            <div class="v vc">
+                <div class="h">
+                      <div><img src="/static/github.png"/></div>
+                      <div class="v vc">Project Files</div>
+                </div>
+            </div>
+            </a>
+        </div>
 					<div class="annotate">
 						<img src="receiver_board.out"/>
 						<img src="transmitter_board.out"/>
