@@ -1,0 +1,12 @@
+{# Define custom macros here #}
+{# These are available to all content nodes with the !j2 tag #}
+
+{% macro project_img(src,desc='') -%}
+<div class="annotate">
+  <img src="{{src}}"/>
+  {{desc}}
+</div>
+{%- endmacro %}
+
+{% block _macro_ %}
+{% endblock %}

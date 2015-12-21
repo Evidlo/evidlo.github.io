@@ -1,0 +1,40 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+<body>
+	<div class="v">
+    {% for project in projects %}
+    {% if loop.index0 % 2 == 0 %}
+		<div class="h hc">
+    {% endif %}
+			<div class="simplebox preview">
+				<a href="{{project.link}}" class="nolink">
+				<div class="title">
+            {{project.name}}
+				</div>
+				<div class="body">
+					<img src="{{project.img}}" class="icon" alt="{{project.alt}}"/>
+				</div>
+				</a>
+			</div>
+    {% if loop.index0 % 2 == 1 or loop.last %}
+		</div>
+    {% endif %}
+    {% endfor %}
+		<div class="h hc">
+			<div class="simplebox preview">
+				<a href="./" class="nolink">
+				<div class="title">
+					Reverse Engineering NIST Relay Test Panels
+				</div>
+				<div class="body">
+					Coming Soon
+				</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</body>
+
+{% endblock %}

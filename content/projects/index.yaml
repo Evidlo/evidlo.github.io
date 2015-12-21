@@ -1,0 +1,24 @@
+layout: projects/index.html
+
+projects:
+  - name: Purdue IEEE Motor Controller
+    img: motorcontroller/mc_v1.jpg
+    link: motorcontroller/
+  - name: Purdue IEEE Application Board
+    img: applicationboard/appa.png
+    link: applicationboard/
+  - name: Binary Clock
+    img: binaryclock/displaydark.jpg
+    link: binaryclock/
+  - name: Automagic Door Unlocker
+    img: doorbot/door.jpg
+    link: doorbot/
+  - name: Drawing Robot
+    img: drawbotio/stepper.png
+    link: drawbotio/
+  - name: Aluminum Casting
+    img: casting/b.out
+    link: casting/
+  - name: Purdue IEEE Powerline Transmission Prototype
+    img: powerline/scope.out
+    link: powerline/

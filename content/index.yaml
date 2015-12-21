@@ -1,0 +1,12 @@
+layout: index.html
+
+pages:
+  - text: About
+    img: about.svg
+    link: about.html
+  - text: Projects
+    img: multimeter.svg
+    link: projects/
+  - text: Resume
+    img: document.svg
+    link: resume.pdf

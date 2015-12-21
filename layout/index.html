@@ -1,0 +1,31 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<body>
+	
+	<div class="v vc">
+		<div class="h hc">
+			<div class="simplebox">
+				<div class="body">
+					Hey-O! : This site is under construction.
+				</div>
+			</div>
+		</div>
+		<div class="h hc">
+      {% for page in pages %}
+			<div class="simplebox">
+				<a href="{{page.link}}" class="nolink">
+				<div class="title">
+            {{page.text}}
+				</div>
+				<div class="body">
+					<img src="{{page.img}}" class="icon" alt="About logo"/>
+				</div>
+				</a>
+			</div>
+      {% endfor %}
+		</div>
+	</div>
+</body>
+
+{% endblock content %}

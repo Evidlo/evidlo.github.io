@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <title>evanw.org</title>
-<link rel="stylesheet" type="text/css" href="/static/fancy.css"/>
+<link rel="stylesheet" type="text/css" href="/fancy.css"/>
 
 <script type="text/javascript">
   var _gaq = _gaq || [];
@@ -15,12 +15,7 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 </script>
-<?php 
-if(preg_match('/(?i)msie [1-9]/',$_SERVER['HTTP_USER_AGENT']))
-{
-	echo '<script>
-		  	alert("You may have trouble viewing my site.  Please upgrade to a modern browser.");
-		  </script>';
-}
-?>
 </head>
+
+{% block content %}
+{% endblock content %}

@@ -1,0 +1,40 @@
+layout: projects/project.html
+
+resources:
+  - text: Project Files
+    img: /github.png
+    link: http://github.com/evidlo/binary_clock
+  - text: Featured on Hackaday
+    img: /hackaday.png
+    link: http://hackaday.com/2015/07/20/scrappy-rgb-binary-clock-from-the-parts-bin/
+
+content: !join
+  - !j2 |
+    {{ project_img('lightfinal.jpg', 'Clock showing 7:45') }}
+
+    This is a binary clock that I threw together in a few days almost entirely with parts on hand.  Each digit that you would normally see on a digital clock is represented as columns of 4 bits, with the least significant bit on the top row.
+
+    {{ project_img('display.jpg') }}
+    {{ project_img('display2.jpg', 'Display panel') }}
+
+    I didn't want to spend any money on this project, so everything is made out of scrap balsa and acrylic.  The first piece I made was the display.  I sandwiched a few pieces of balsa together, drilled some holes and glued a piece of acrylic over the front to diffuse the LEDs.  I also glued in a white sheet of paper and sanded the front of the acrylic to give it a frosty look.
+
+    {{ project_img('build1.jpg') }}
+    {{ project_img('build2.jpg', 'Display panel') }}
+
+    For driving the LEDs, I used the ubiquitous HC595 shift register.  I cut apart some small perfboard and soldered in an IC socket so the chips can easily be replaced if they burn out.  If you notice that the resistors are all different values, it's to make the brightnesses of all the colors match.
+
+    {{ project_img('tiny.jpg', 'Microcontroller') }}
+
+    Next, I soldered up an attiny (again with IC socket) and added headers for the realtime clock (RTC) module, which communicates with the tiny via I2C. To set the time, I wrote some code that sets the time immediately on boot with some hardcoded value.  Then I just waited until that time came and plugged the clock in.  I only have to do this once, as the RTC module uses the battery to keep the time even when power is lost.
+
+    {{ project_img('case.jpg', 'Watching glue dry is my favorite thing') }}
+
+    The last step was to glue the back on and add a hinged lid so I can reprogram the device if necessary.
+
+    {{ project_img('darkfinal.jpg') }}
+    {{ project_img('displaydark.jpg') }}
+
+    This thing really gives off a nice glow at night.  I'm pleased with the results.
+
+    <p> <a href="http://github.com/evidlo/binary_clock">Github Page</a>
