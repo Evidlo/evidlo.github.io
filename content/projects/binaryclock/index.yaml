@@ -8,8 +8,7 @@ resources:
     img: /hackaday.png
     link: http://hackaday.com/2015/07/20/scrappy-rgb-binary-clock-from-the-parts-bin/
 
-content: !join
-  - !j2 |
+content: !j2,md |
     {{ project_img('lightfinal.jpg', 'Clock showing 7:45') }}
 
     This is a binary clock that I threw together in a few days almost entirely with parts on hand.  Each digit that you would normally see on a digital clock is represented as columns of 4 bits, with the least significant bit on the top row.
