@@ -1,6 +1,6 @@
 @font-face {
     font-family: Terminus;
-    src: url(/static/Terminus.ttf);
+    src: url(/Terminus.ttf);
 }
 
 html,body {
@@ -54,9 +54,9 @@ html,body {
 	max-width:600px;
 }
 
-.body img {
-	margin:20px;
-}
+/* .body img { */
+/* 	margin:20px; */
+/* } */
 
 .simplebox a:hover .body{
 	background-color:#EEEEEE;
@@ -83,12 +83,12 @@ html,body {
 
 /* image annotations */
 .annotate {
-	margin: 20px;
+  width: 550px;
+  margin: auto;
 }
 
 .annotate img{
-	margin: 0;
-	width: 100%;
+    max-width:100%;
 } 
 
 
