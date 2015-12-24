@@ -54,10 +54,6 @@ html,body {
 	max-width:600px;
 }
 
-/* .body img { */
-/* 	margin:20px; */
-/* } */
-
 .simplebox a:hover .body{
 	background-color:#EEEEEE;
 }
@@ -83,14 +79,13 @@ html,body {
 
 /* image annotations */
 .annotate {
-  width: 550px;
-  margin: auto;
+  margin:  15px auto 15px auto;
+  text-align:center;
 }
 
 .annotate img{
-    max-width:100%;
+    max-width:550px;
 } 
-
 
 /* Project Header */
 .project_head img {
