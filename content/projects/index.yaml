@@ -1,6 +1,6 @@
 layout: projects/index.html
 
-projects:
+hw_projects:
   - name: Purdue IEEE Motor Controller
     img: motorcontroller/mc_v1.jpg
     link: motorcontroller/
@@ -22,3 +22,13 @@ projects:
   - name: Purdue IEEE Powerline Transmission Prototype
     img: powerline/scope.out
     link: powerline/
+sw_projects:
+  - name: Static Site Generator
+    img: http://imgur.com/j9BlQVV.png
+    link: http://github.com/evidlo/cereal
+  - name: IRC Bot
+    img:
+    link: http://github.com/evidlo/pepperoni
+  - name: Boilerconnect Volunteer Portal
+    img: boilerconnect.png
+    link: http://github.com/purdue-epics-ims/boilerconnect

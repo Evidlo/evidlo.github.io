@@ -4,7 +4,10 @@
 
 <body>
 	<div class="v">
-    {% for project in projects %}
+    <div class="h hc">
+      <h1>Hardware Projects</h1>
+    </div>
+    {% for project in hw_projects %}
     {% if loop.index0 % 2 == 0 %}
 		<div class="h hc">
     {% endif %}
@@ -34,6 +37,28 @@
 				</a>
 			</div>
 		</div>
+
+    <div class="h hc">
+      <h1>Software Projects</h1>
+    </div>
+    {% for project in sw_projects %}
+    {% if loop.index0 % 2 == 0 %}
+		<div class="h hc">
+    {% endif %}
+			<div class="simplebox preview">
+				<a href="{{project.link}}" class="nolink">
+				<div class="title">
+            {{project.name}}
+				</div>
+				<div class="body">
+					<img src="{{project.img}}" class="icon" alt="{{project.alt}}"/>
+				</div>
+				</a>
+			</div>
+    {% if loop.index0 % 2 == 1 or loop.last %}
+		</div>
+    {% endif %}
+    {% endfor %}
 	</div>
 </body>
 
