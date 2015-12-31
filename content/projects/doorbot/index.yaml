@@ -20,7 +20,7 @@ content: !md,j2 |
     The door unlocker consists of a servo mounted over the deadbolt of the door and a sensing switch to detect when the door opens or closes.  Initially I was having issues with the long wire that connected the servo to the control circuitry.  The servo would pull lots of current and the voltage would plummet due to the impedance of the wire (a few ohms).  I remedied this by stepping up the voltage to 12V on the wire and then regulating it back down to 5V near the servo.  This is the same reason powerlines are usually at several kV which is then stepped down to the residential 110VAC.
 
     {{project_img('modem1.jpg')}}
-    {{project_img('modem2.jpg','Repurposed DSL model')}}
+    {{project_img('modem2.jpg','Repurposed DSL modem')}}
 
     {{project_img('interface.png')}}
     {{project_img('log.png','The control and log interfaces')}}

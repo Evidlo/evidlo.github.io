@@ -7,8 +7,20 @@ html,body {
 	height: 100%;
 	margin:0;
   font-family:Terminus;
+  background-color:black;
 }
 
+h1 {
+  color:white;
+}
+
+hr {
+  margin:0;
+  border: 0 none;
+  border-top: 3px dashed white;
+  background: none;
+  height:0;
+}
 
 /* create flexbox column */
 .v {
@@ -38,6 +50,7 @@ html,body {
 }
 
 .simplebox .title {
+  color:white;
 	font-size: 25px;
 }
 
@@ -51,7 +64,8 @@ html,body {
 	border-radius: 20px;
 	padding: 20px;
 	display: block;
-	max-width:600px;
+  max-width:600px;
+  background-color:white;
 }
 
 .simplebox a:hover .body{
@@ -61,7 +75,7 @@ html,body {
 /* preview page */
 
 .preview {
-	max-width: 400px;
+  width: 300px;
 }
 
 /* center pane content on preview page */
@@ -89,9 +103,9 @@ html,body {
 
 /* Project Header */
 .project_head img {
-    height:50px;
-    width:50px;
-    margin:10px;
+    height:60px;
+    width:60px;
+    margin:5px 10px 5px 5px;
 }
 
 .project_head a{

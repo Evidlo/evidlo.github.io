@@ -3,10 +3,11 @@
 {% block content %}
 
 <body>
-	<div class="v">
+  <div class="v">
     <div class="h hc">
       <h1>Hardware Projects</h1>
     </div>
+    <hr/>
     {% for project in hw_projects %}
     {% if loop.index0 % 2 == 0 %}
 		<div class="h hc">
@@ -41,6 +42,7 @@
     <div class="h hc">
       <h1>Software Projects</h1>
     </div>
+    <hr/>
     {% for project in sw_projects %}
     {% if loop.index0 % 2 == 0 %}
 		<div class="h hc">
