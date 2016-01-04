@@ -7,7 +7,7 @@ html,body {
 	height: 100%;
 	margin:0;
   font-family:Terminus;
-  background-color:black;
+  background-color:#222222;
 }
 
 h1 {
@@ -65,11 +65,12 @@ hr {
 	padding: 20px;
 	display: block;
   max-width:600px;
-  background-color:white;
+  transition: background-color 0.3s ease;
+	background-color:#DDDDDD;
 }
 
 .simplebox a:hover .body{
-	background-color:#EEEEEE;
+  background-color:white;
 }
 
 /* preview page */
