@@ -1,6 +1,11 @@
 layout: projects/project.html
 
 title: Purdue IEEE Application Board
+resources:
+  - text: Project Files
+    img: /github.png
+    link: https://github.com/Evidlo/application
+
 content: !join
   - !j2 |
     {{ project_img('apptesta.png') }}

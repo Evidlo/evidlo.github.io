@@ -1,5 +1,6 @@
 layout: projects/project.html
 
+title: Binary Clock
 resources:
   - text: Project Files
     img: /github.png
