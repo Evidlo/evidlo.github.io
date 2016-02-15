@@ -20,8 +20,11 @@ hw_projects:
     img: casting/b.out
     link: casting/
   - name: Purdue IEEE Powerline Transmission Prototype
-    img: powerline/scope.out
+    img: powerline/scope.png
     link: powerline/
+  - name: Radiation Chamber
+    img: nuke/chamber.jpg
+    link: nuke/
 sw_projects:
   - name: Static Site Generator
     img: http://imgur.com/j9BlQVV.png

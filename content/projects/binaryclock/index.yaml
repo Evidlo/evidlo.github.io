@@ -36,5 +36,3 @@ content: !j2,md |
     {{ project_img('displaydark.jpg') }}
 
     This thing really gives off a nice glow at night.  I'm pleased with the results.
-
-    <p> <a href="http://github.com/evidlo/binary_clock">Github Page</a>
