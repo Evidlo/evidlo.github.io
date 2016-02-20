@@ -1,7 +1,7 @@
 layout: index.html
 
 pages:
-  - text: About
+  - text: About Me
     img: about.svg
     link: about.html
   - text: Projects
