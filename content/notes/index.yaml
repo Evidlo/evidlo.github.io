@@ -1,0 +1,23 @@
+layout: projects/index.html
+
+sections:
+  - name: Other
+    items:
+      - name: ATTiny
+        desc: Interrupts, timers, registers and examples
+        link: attiny/
+  - name: Engineering
+    items:
+      - name: ECE382
+        desc: Control Systems
+        link: ece382/
+      - name: ECE311
+        desc: Electromagnetism
+        link: ece311/
+  - name: Math
+    items:
+      - name: MA341
+        desc: Real Analysis
+        link: ma341/
+      - name: MA279
+        desc: Modern Mathematics in Society
