@@ -4,21 +4,25 @@
 
 <body>
   <div class="v">
+    {% for section in sections %} 
     <div class="h hc">
-      <h1>Hardware Projects</h1>
+      <h1>{{section['name']}}</h1>
     </div>
     <hr/>
-    {% for project in hw_projects %}
+    {% for item in section['items'] %}
     {% if loop.index0 % 2 == 0 %}
 		<div class="h hc">
     {% endif %}
 			<div class="simplebox preview">
-				<a href="{{project.link}}" class="nolink">
+				<a href="{{item.link}}" class="nolink">
 				<div class="title">
-            {{project.name}}
+            {{item.name}}
 				</div>
 				<div class="body">
-					<img src="{{project.img}}" class="icon" alt="{{project.alt}}"/>
+          {% if item.img %}
+					<img src="{{item.img}}" class="icon" alt="{{item.alt}}"/>
+          {% endif %}
+          {{item.desc}}
 				</div>
 				</a>
 			</div>
@@ -26,40 +30,6 @@
 		</div>
     {% endif %}
     {% endfor %}
-		<div class="h hc">
-			<div class="simplebox preview">
-				<a href="./" class="nolink">
-				<div class="title">
-					Reverse Engineering NIST Relay Test Panels
-				</div>
-				<div class="body">
-					Coming Soon
-				</div>
-				</a>
-			</div>
-		</div>
-
-    <div class="h hc">
-      <h1>Software Projects</h1>
-    </div>
-    <hr/>
-    {% for project in sw_projects %}
-    {% if loop.index0 % 2 == 0 %}
-		<div class="h hc">
-    {% endif %}
-			<div class="simplebox preview">
-				<a href="{{project.link}}" class="nolink">
-				<div class="title">
-            {{project.name}}
-				</div>
-				<div class="body">
-					<img src="{{project.img}}" class="icon" alt="{{project.alt}}"/>
-				</div>
-				</a>
-			</div>
-    {% if loop.index0 % 2 == 1 or loop.last %}
-		</div>
-    {% endif %}
     {% endfor %}
 	</div>
 </body>
