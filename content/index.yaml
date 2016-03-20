@@ -11,5 +11,5 @@ pages:
     img: document.svg
     link: resume.pdf
   - text: Notes
-    img: document.svg
+    img: paper.svg
     link: notes/

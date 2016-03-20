@@ -10,10 +10,10 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
-   height="239.91"
-   width="232.86"
+   height="240.27872"
+   width="181.4045"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="document.svg">
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -24,17 +24,21 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1596"
-     inkscape:window-height="858"
+     inkscape:window-width="796"
+     inkscape:window-height="856"
      id="namedview3073"
      showgrid="false"
      inkscape:zoom="2"
-     inkscape:cx="111.62302"
-     inkscape:cy="118.07296"
-     inkscape:window-x="0"
-     inkscape:window-y="40"
+     inkscape:cx="85.92871"
+     inkscape:cy="118.24464"
+     inkscape:window-x="800"
+     inkscape:window-y="42"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <defs
      id="defs4" />
   <metadata
@@ -51,7 +55,7 @@
   </metadata>
   <g
      id="layer1"
-     transform="translate(-133.92189,-119.3107)">
+     transform="translate(-159.6162,-119.11367)">
     <path
        style="fill:#2e49d0;fill-opacity:1"
        d="m 341.02069,178.25476 0,159.00408 c 0,12.26197 -9.87155,22.13354 -22.13354,22.13354 l -137.13741,0 c -12.26199,0 -22.13354,-9.87157 -22.13354,-22.13354 l 0,-196.00569 c 0,-12.26198 9.87155,-22.13354 22.13354,-22.13354 l 102.18096,0"
