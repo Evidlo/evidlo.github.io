@@ -3,7 +3,7 @@
 
 {% macro project_img(src,desc='') -%}
  <figure class="annotate">
-  <img src="{{src}}" >
+     <a href="{{src}}"><img src="{{src}}" ></a>
   <figcaption>{{desc}}</figcaption>
 </figure> 
 {%- endmacro %}
