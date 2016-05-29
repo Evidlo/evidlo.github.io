@@ -12,6 +12,9 @@ sections:
     - name: Binary Clock
       img: binaryclock/displaydark.jpg
       link: binaryclock/
+    - name: Amateur Radio Modem
+      img: balloon/brd.png
+      link: balloon/
     - name: Automagic Door Unlocker
       img: doorbot/door.jpg
       link: doorbot/
@@ -40,3 +43,4 @@ sections:
     - name: Boilerconnect Volunteer Portal
       img: boilerconnect.png
       link: http://github.com/purdue-epics-ims/boilerconnect
+

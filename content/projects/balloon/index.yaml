@@ -1,0 +1,56 @@
+layout: projects/project.html
+
+title: High Altitude Balloon Radio
+date: 2016-05-04
+resources:
+  - text: Project Files
+    img: /github.png
+    link: http://github.com/purdue-orbital/balloon
+content: !join
+  - !j2,md |
+    {{project_img('node_prototype_top.png','Top')}}
+    {{project_img('node_prototype_bottom.png','Bottom')}}
+
+    This is a prototype for a high altitude balloon project I worked on with the Purdue Orbital rocketry team.  I designed this board to test the range and power draw of our comms system and threw on a relay and microcontroller so that it can be used for triggering things on a real flight.
+
+    ###Parts list:
+
+    * Baofeng DRA818V
+    * Attiny 84
+    * Attiny 85
+    * Relay
+    * Regulator
+
+    One of the FAA requirements is that balloons over a certain weight have four cutdown systems (two on the balloon envelope and two on the payload tether) and that these systems must be independent, meaning they are electrically disconnected from each other and have separate batteries.  Many amateurs balloonists overlook this rule, but due to our close work with the FAA it is important that we follow the regulations.
+
+    To save on cost, I avoided the higher end radio specific devices on the market and stuck to hobby-tier components.  First was the Baofeng DRA818V.  This is cheap Chinese VHF transceiver that costs less than $20 on Amazon and has a decent amount of power.  Some users claim that these devices bleed onto other channels and should have a lowpass filter on the output (mine is inline with the coax).  There is also a UHF band available, but I chose VHF for potential future compatibility with the [APRS](https://en.wikipedia.org/wiki/Automatic_Packet_Reporting_System) system.
+
+    Since this radio module is for handheld units that transmit audio, I needed some sort of modem for converting data to an analog format and vice-versa.  One of the methods of modulation I investigated was DTMF, which is used commonly in amateur radio and is built in to many consumer units.  I eventually ruled this out because the chips were large and special purpose, making them costly, and this would mean I couldn't use my radio with APRS.
+
+    Eventually I found [this blogpost](https://sites.google.com/site/wayneholder/attiny-4-5-9-10-assembly-ide-and-programmer/bell-202-1200-baud-demodulator-in-an-attiny10) where somebody used an ATTiny as a software modulator/demodulator at 1200baud.  It was written in assembly for the ATTiny10, which has incompatible hardware with the ATTiny85, so I rewrote in C to be more portable.  Digital filtering requires multiplication, but since all Atmel chips in this family lack hardware multipliers, the code uses a combination of bitshifts and sums to do this multiplication quickly.
+
+    ### Multiplying by 45
+
+  - !code(python) |
+      cof1 += data;
+      data <<= 1;
+      data <<= 1;
+      cof1 += data;
+      data <<= 1;
+      cof1 += data;
+      data <<= 1;
+      data <<= 1;
+      cof1 += data;
+
+  - !j2,md |
+
+    {{project_img('fsk_modulation.png','Generating a test signal')}}
+    {{project_img('demod.png','Demodulation')}}
+    {{project_img('demod_lpf.png','Demodulation with lowpass applied')}}
+
+    {{project_img('freq_phase.png','Sweeping input signal phase at all frequencies')}}
+
+    Once the filter was working in simulation, I moved it to the ATTiny85 and began testing.
+
+    {{project_img('sch.png','Schematic')}}
+    {{project_img('brd.png','Board')}}
