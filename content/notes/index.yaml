@@ -19,6 +19,9 @@ sections:
       - name: MA341
         desc: Real Analysis
         link: ma341/
+      - name: MA353
+        desc: Linear Algebra II (WIP)
+        link: ma353/
       - name: MA279
         desc: Modern Mathematics in Society
         link: ma279/
