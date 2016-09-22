@@ -6,6 +6,12 @@ sections:
       - name: ATTiny
         desc: Interrupts, timers, registers and examples
         link: attiny/
+      - name: Pinouts
+        desc: Pinouts of various ICs
+        link: pinouts/
+      - name: Linux
+        desc: An archive of Linux commands for my own reference
+        link: linux/
   - name: Engineering
     items:
       - name: ECE382
