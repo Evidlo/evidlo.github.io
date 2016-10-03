@@ -43,6 +43,8 @@ content: !join
       cof1 += data;
 
   - !j2,md |
+    ### Simulation
+    I rewrote my C code in Octave for verification purposes.  Fortunately, Octave has an unsigned 8 bit integer type, so transcription was easy.  I generated a test signal with a bit of noise and examined the quality of the demodulation.  I also plotted the algorithm output value for a range of frequencies and phases.
 
     {{project_img('fsk_modulation.png','Generating a test signal')}}
     {{project_img('demod.png','Demodulation')}}
@@ -52,5 +54,9 @@ content: !join
 
     Once the filter was working in simulation, I moved it to the ATTiny85 and began testing.
 
+    {{project_img('prototype.jpg','Breadboarding and Testing')}}
     {{project_img('sch.png','Schematic')}}
     {{project_img('brd.png','Board')}}
+    {{project_img('pcb.jpg','PCB Received')}}
+    {{project_img('pair.jpg','Finished Pair')}}
+

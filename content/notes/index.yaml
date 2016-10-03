@@ -31,3 +31,6 @@ sections:
       - name: MA279
         desc: Modern Mathematics in Society
         link: ma279/
+      - name: MA425
+        desc: Complex Analysis
+        link: ma425/
