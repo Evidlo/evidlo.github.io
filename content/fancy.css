@@ -2,11 +2,6 @@
     font-family: Terminus;
     src: url(/Terminus.ttf);
 }
-@font-face {
-    font-family: Terminus;
-    src: url(/Terminus_bold.ttf);
-    font-weight: bold;
-}
 
 html,body {
 	height: 100%;
