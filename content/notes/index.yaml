@@ -14,23 +14,26 @@ sections:
         link: linux/
   - name: Engineering
     items:
-      - name: ECE382
-        desc: Control Systems
-        link: ece382/
       - name: ECE311
         desc: Electromagnetism
         link: ece311/
+      - name: ECE382
+        desc: Control Systems
+        link: ece382/
+      - name: ECE438 (WIP)
+        desc: Digital Signal Processing
+        link: ece311/
   - name: Math
     items:
-      - name: MA341
-        desc: Real Analysis
-        link: ma341/
-      - name: MA353
-        desc: Linear Algebra II (WIP)
-        link: ma353/
       - name: MA279
         desc: Modern Mathematics in Society
         link: ma279/
-      - name: MA425
+      - name: MA341
+        desc: Real Analysis
+        link: ma341/
+      - name: MA353 (WIP)
+        desc: Linear Algebra II
+        link: ma353/
+      - name: MA425 (WIP)
         desc: Complex Analysis
         link: ma425/
