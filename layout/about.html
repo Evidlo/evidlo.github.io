@@ -5,24 +5,23 @@
     <div class="v vc">
         <div class="h hc">
             <div class="v">
+                {% for section in sections %}
                 <div class="simplebox">
+                    {% if section.link %}
+                    <a class="nolink" href="{{ link }}">
+                    {% endif %}
                     <div class="title">
-                        Evan Widloski
+                        {{ section.title}}
                     </div>
                     <div class="body" style="max-width: 300px;">
-                        Trumpeter, sailor and electricity guru in training.  Rarely sees the light of day.  Some say he was raised by dolphins.
+                        {{ section.text }}
                     </div>
+                    {% if section.link %}
+                    </a>
+                    {% endif %}
                 </div>
-                <div class="simplebox">
-                <a class="nolink" href="/evanwidloski.gpg">
-                    <div class="title">
-                    GPG Key
-                    </div>
-                    <div class="body"> 
-                        Download it here
-                    </div>
-                </a>
-                </div>
+                {% endfor %}
+
             </div>
         </div>
     </div>

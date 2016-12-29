@@ -1,1 +1,12 @@
 layout: about.html
+sections:
+  - title: Evan Widloski
+    text: Trumpeter, sailor and electricity guru in training.  Rarely sees the light of day.  Some say he was raised by dolphins.
+  - title: Profiles
+    text: !md |
+      * [Github](http://github.com/evidlo) - Evidlo
+      * Freenode - Evidlo
+       * find me in #purduelug, ##electronics, ##linux
+  - title: GPG Key
+    text: Download it here
+    link: /evanwidloski.gpg
