@@ -11,86 +11,27 @@ content: !join
     {{project_img('node_prototype_top.png','Top')}}
     {{project_img('node_prototype_bottom.png','Bottom')}}
 
-    This is a prototype for a high altitude balloon project I worked on with the Purdue Orbital rocketry team.  I designed this board to test the range and power draw of our comms system and threw on a relay and microcontroller so that it can be used for triggering things on a real flight.
+    ### Problem
 
-    ###Parts list:
-
-    * Baofeng DRA818V
-    * Attiny 84
-    * Attiny 85
-    * Relay
-    * Regulator
+    This is a prototype for a high altitude balloon project I worked on with the Purdue Orbital rocketry team. I designed this board to test the range and power draw of our comms system and threw on a relay and microcontroller so that it can be used for triggering things on a real flight.
 
     One of the FAA requirements is that balloons over a certain weight have four cutdown systems (two on the balloon envelope and two on the payload tether) and that these systems must be independent, meaning they are electrically disconnected from each other and have separate batteries.  Many amateurs balloonists overlook this rule, but due to our close work with the FAA it is important that we follow the regulations.
 
     To save on cost, I avoided the higher end radio specific devices on the market and stuck to hobby-tier components.  First was the Baofeng DRA818V.  This is cheap Chinese VHF transceiver that costs less than $20 on Amazon and has a decent amount of power.  Some users claim that these devices bleed onto other channels and should have a lowpass filter on the output (mine is inline with the coax).  There is also a UHF band available, but I chose VHF for potential future compatibility with the [APRS](https://en.wikipedia.org/wiki/Automatic_Packet_Reporting_System) system.  APRS will be an essential part of the system, because most radios in this power level (0.5 - 1W transmission) can only achieve a few dozen miles tops transmitting from ground to balloon.  The incorporation of APRS will greatly extend this range by taking advantage of amateur repeating stations called `digipeaters`.
 
-    Since this radio module is for handheld units that transmit audio, I needed some sort of modem for converting data to an analog format and vice-versa.  One of the methods of modulation I investigated was DTMF, which is used commonly in amateur radio and is built in to many consumer units.  I eventually ruled this out because the chips were large and special purpose, making them costly, and this would mean I couldn't use my radio with APRS.
+    Since this radio module is for handheld units that transmit audio, I needed some sort of modem for converting data to an analog format and vice-versa.  One of the methods of modulation I investigated was DTMF, which is used commonly in amateur radio and is built in to many consumer units.  However, DTMF modems tend to be rather large pin-wise and aren't compatible with most digipeaters, so I decided to build one from scratch using my favorite microcontroller, the ATTiny85.  For starters, I need to modulate and demodulate incoming data (known as `symbols` in communications) so they can be transmitted over the air.  In this case, most digipeaters use a standard known as `Bell-202` (also known as AFSK-1200), which is a simple modulation scheme where a logic 1 (mark) is represented by a 1200 Hz tone and a logic 0 (space) is represented by a 2200 Hz tone.  I accomplished this by calculating an 8-point DTFT at 1200 Hz and 2200 Hz at a sample rate of 9600 Hz (determined through testing).  I didn't use the FFT here because I'm only interested in the spectral power at two points.
 
-    Eventually I found [this blogpost](https://sites.google.com/site/wayneholder/attiny-4-5-9-10-assembly-ide-and-programmer/bell-202-1200-baud-demodulator-in-an-attiny10) where somebody used an ATTiny as a software modulator/demodulator at 1200baud.  It was written in assembly for the ATTiny10, which has incompatible hardware with the ATTiny85, so I rewrote in C to be more portable.  Digital filtering requires multiplication, but since all Atmel chips in this family lack hardware multipliers, the code uses a combination of bitshifts and sums to do this multiplication quickly.
 
-    #### Multiplying by 45
-
-  - !code(python) |
-      cof1 += data;
-      data <<= 1;
-      data <<= 1;
-      cof1 += data;
-      data <<= 1;
-      cof1 += data;
-      data <<= 1;
-      data <<= 1;
-      cof1 += data;
-
-  - !j2,md |
-    ### Simulation
-    Before implementing my code on the ATTiny, I wanted to do some verification and evaluate performance.  Fortunately, Octave has a [C/C++ api](https://www.gnu.org/software/octave/doc/v4.0.1/Getting-Started-with-Oct_002dFiles.html) which allowed me to test my code with the same bit-precision as I would have on the microcontroller.  I generated a test signal with a bit of noise and examined the quality of the demodulation.  I also plotted the algorithm output value for a range of frequencies and phases.
-
-    {{project_img('fsk_modulation.png','Generating a test signal')}}
-    {{project_img('demod.png','Demodulation')}}
-    {{project_img('demod_lpf.png','Demodulation with lowpass applied')}}
-
-    {{project_img('freq_phase.png','Sweeping input signal phase at all frequencies')}}
-
-    Once the filter was working in simulation, I designed some PCBs, moved it to the ATTiny85 and began physical testing.
-
-    {{project_img('prototype.jpg','Breadboarding and Testing')}}
-    {{project_img('sch.png','Schematic')}}
-    {{project_img('brd.png','Board')}}
-    {{project_img('pcb.jpg','PCB Received')}}
-    {{project_img('pair.jpg','Finished Pair')}}
-
-  - !j2,md |
-    While the modem was functional, I could only get my FSK rate up to about 300 Hz (600 baud) before the bit lengths coming out of the modem varied too much, a far cry of the purported 1200 baud.  Upon further inspection of the original blogpost, I realized the code is actually performing a [DFT](https://en.wikipedia.org/wiki/Discrete_Fourier_transform) at 1200 and 2200 Hz (sample rate 9600 Hz) with the DFT coefficients represented in [Q7](https://en.wikipedia.org/wiki/Q_%28number_format%29) number format.  By doubling the sample rate, I could double my data rate with the same timing error, putting me just at 1200 baud.  With this new understanding, I set about recalculating the DFT coefficients for this new sample rate.
+    Once I generated my DTFT coefficients, I used the [Q number format](https://en.wikipedia.org/wiki/Q_%28number_format%29), which is a method of handling signed fractional numbers within fixed point datatypes.  I wrote a bit of code to do the conversion.
 
     #### Calculating coefficients
+
   - !code(octave) |
-      ##------------- Create coefficients for implementation in C ------------
-      N = 8
-      ## generate DFT coefficients
-      Xd1 = e.^(-i*2*pi*(1200/19200)*[0:N-1]);
-      Xd2 = e.^(-i*2*pi*(2200/19200)*[0:N-1]);
-
-      ## scale down coefficients slightly.  `1` can't be expressed as binary fraction
-      ## e.g. `Xd1 = Xd1 * 127/128` for N = 8
-      Xd1 = Xd1*((2^(N-1) - 1)/2^(N-1));
-      Xd2 = Xd2*((2^(N-1) - 1)/2^(N-1));
-      ## Xd1 = Xd1/2;
-      ## Xd2 = Xd2/2;
-      ## express coefficients as signed N-bit binary fractions (Q7)
-
-      arrayfun(@(x) dec2binfrac(x,8),real(Xd1))
-      arrayfun(@(x) dec2binfrac(x,8),imag(Xd1))
-      arrayfun(@(x) dec2binfrac(x,8),real(Xd2))
-      arrayfun(@(x) dec2binfrac(x,8),imag(Xd2))
-
-  - !md |
-    #### Q format converter
-  - !code(python) |
       #!/bin/octave
       ## Evan Widloski - 2016-10-15
-      ## convert `x` to `n`-bit signed binary fraction, expressed as an `n`-bit decimal
+      ## calculate DTFT coefficients and express as binary fractions
 
+      ## ----- Convert decimal numbers to n bit signed binary fractions -----
       function out = dec2binfrac(x,n)
         ## round input array to nearest 1/(2^n)
         x = round(x * 2^n)/(2^n);
@@ -106,13 +47,100 @@ content: !join
         out += sum(bin_values .* twos_complement);
       endfunction
 
+      ## ----- Create coefficients for implementation in C -----
+      N = 8
+
+      ## generate DFT coefficients
+      Xd1 = e.^(-i*2*pi*(1200/9600)*[0:N-1]);
+      Xd2 = e.^(-i*2*pi*(2200/9600)*[0:N-1]);
+
+      ## scale down coefficients by 1 bit, since `1` can't be expressed as binary fraction
+      ## e.g. scale 1 to 127/128
+      Xd1 = Xd1*((2^(N-1) - 1)/2^(N-1));
+      Xd2 = Xd2*((2^(N-1) - 1)/2^(N-1));
+
+      ## express coefficients as signed N-bit binary fractions (Q7)
+      arrayfun(@(x) dec2binfrac(x,N),real(Xd1))
+      arrayfun(@(x) dec2binfrac(x,N),imag(Xd1))
+      arrayfun(@(x) dec2binfrac(x,N),real(Xd2))
+      arrayfun(@(x) dec2binfrac(x,N),imag(Xd2))
+
   - !j2,md |
-    This yielded 4 arrays which would calculate the DFT at 1200 and 2200 Hz with a 19200 Hz sample rate.
+    This yielded 4 arrays which would calculate the DFT at 1200 and 2200 Hz with a 9600 Hz sample rate.
 
-    However, there was one more problem.  The ATTiny85 is a fairly underpowered device, and with all the multiplications I was doing, I was using up most of the sample period performing computations.  With the sample period now cut in half, there wasn't enough time to finish the DFT calculation before the next sample came in.  My first thought to a solution was to simply use an external 16MHz crystal rather than the built in 8MHz oscillator.  However
+  - !j2,md |
+    ### Simulation
+    Before implementing my code on the ATTiny, I wanted to do some verification and evaluate performance.  Fortunately, Octave has a [C/C++ api](https://www.gnu.org/software/octave/doc/v4.0.1/Getting-Started-with-Oct_002dFiles.html) which allowed me to test my code with the same bit-precision as I would have on the microcontroller.  Below you can see the 4 arrays of DTFT coefficients (generated previously) in Q.7 number format (1 sign bit, 7 data bits).
 
-    After some research, I learned I could use the ATTiny's PLL as a clock source to double the frequency of the built in oscillator and achieve the desired 16MHz.  This was just a new target in my makefile:
+  - !code(octave) |
+      // Evan Widloski - FSK Computation
+      // Intended to be called from Octave
+      #include <octave/oct.h>
+      #include <stdint.h>
+      #include <math.h>
 
+      // Input: 8 element row-vector containing time samples, 9600 samp/s
+      // Output: 1 element. DTFT(2200) - DTFT(1200)
+
+      DEFUN_DLD(compute_cpp, args, , "FSK"){
+        // get input vector from args
+        int8NDArray arg = args(0).vector_value();
+        int8_t in[8] = {arg(0), arg(1), arg(2), arg(3), arg(4), arg(5), arg(6), arg(7)};
+        printf("input:%d,%d,%d,%d,%d,%d,%d,%d\n",in[0],in[1],in[2],in[3],in[4],in[5],in[6],in[7]);
+
+        // define coefficient vectors
+        int8_t coeff_1200_real[8] = {127,   90,    0,  -90, -127,  -90,    0,   90};
+        int8_t coeff_1200_imag[8] = {  0,  -90, -127,  -90,    0,   90,  127,   90};
+        int8_t coeff_2200_real[8] = {127,   16, -123,  -49,  110,   77,  -90, -101};
+        int8_t coeff_2200_imag[8] = {  0, -126,  -33,  117,   63, -101,  -90,   77};
+
+        int16_t dtft_1200_real, dtft_1200_imag, dtft_2200_real, dtft_2200_imag;
+        dtft_1200_real =  dtft_1200_imag =  dtft_2200_real =  dtft_2200_imag = 0;
+
+        for (int i = 0; i < 8; i++){
+          dtft_1200_real += (int8_t)(((int16_t)in[i]*(int16_t)coeff_1200_real[i])>>7);
+          dtft_1200_imag += (int8_t)(((int16_t)in[i]*(int16_t)coeff_1200_imag[i])>>7);
+          dtft_2200_real += (int8_t)(((int16_t)in[i]*(int16_t)coeff_2200_real[i])>>7);
+          dtft_2200_imag += (int8_t)(((int16_t)in[i]*(int16_t)coeff_2200_imag[i])>>7);
+        }
+        dtft_1200_real = dtft_1200_real>>3;
+        dtft_1200_imag = dtft_1200_imag>>3;
+        dtft_2200_real = dtft_2200_real>>3;
+        dtft_2200_imag = dtft_2200_imag>>3;
+
+        int16_t dtft_1200 = dtft_1200_real*dtft_1200_real +
+                            dtft_1200_imag*dtft_1200_imag;
+        int16_t dtft_2200 = dtft_2200_real*dtft_2200_real +
+                            dtft_2200_imag*dtft_2200_imag;
+        // dtft_1200 = sqrt(dtft_1200);
+        // dtft_2200 = sqrt(dtft_2200);
+
+        return octave_value(dtft_2200 - dtft_1200);
+        return octave_value(dtft_2200);
+      }
+  - !j2,md |
+
+    Initially, I generated my test signals incoherently, meaning that the phase resets each time the signal transitions from a mark to a space and vice versa.  This creates discontinuities and adds noise to the spectrum in the transition regions.  From the results below, it was clear that my implementation really needed to be coherent.
+
+    {{project_img('modulation_incoherent.png','Incoherent test signal.  Notice jumps in the generated signal.')}}
+    {{project_img('spectrogram_incoherent.png','Spectrogram view of incoherent test signal.  There is noticeable `fuzziness` in the transition regions.')}}
+    {{project_img('modulation_coherent.png','Coherent test signal.  No more discontinuities.')}}
+    {{project_img('spectrogram_coherent.png','Spectrogram view of coherent test signal.  Cleaner transitions between frequencies.')}}
+
+    ##
+
+    Once the filter was working in simulation, I designed some PCBs, moved it to the ATTiny85 and began physical testing.
+
+    {{project_img('modem_testing.jpg','Direct modem-to-modem comms testing')}}
+    {{project_img('prototype.jpg','Radio breadboarding and testing')}}
+    {{project_img('sch.png','Schematic')}}
+    {{project_img('brd.png','Board')}}
+    {{project_img('pcb.jpg','PCB Received')}}
+    {{project_img('pair.jpg','Finished Pair')}}
+
+    However, there was one more problem.  The ATTiny85 is a fairly underpowered device, and with all the multiplications I was doing, I was using up most of the sample period performing computations.  With the sample period now cut in half, there wasn't enough time to finish the DFT calculation before the next sample came in.  My first thought to a solution was to simply use an external 16 MHz crystal rather than the built in 8 MHz oscillator.  However
+
+    After some research, I learned I could use the ATTiny's PLL as a clock source to double the frequency of the built in oscillator and achieve the desired 16 MHz.  This was just a new target in my makefile:
 
   - !code(make) |
       16mhz-pll:
