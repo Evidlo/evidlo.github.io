@@ -17,6 +17,8 @@ content: !join
 
     One of the FAA requirements is that balloons over a certain weight have four cutdown systems (two on the balloon envelope and two on the payload tether) and that these systems must be independent, meaning they are electrically disconnected from each other and have separate batteries.  Many amateurs balloonists overlook this rule, but due to our close work with the FAA it is important that we follow the regulations.
 
+    ### APRS and Modem selection
+
     To save on cost, I avoided the higher end radio specific devices on the market and stuck to hobby-tier components.  First was the Baofeng DRA818V.  This is cheap Chinese VHF transceiver that costs less than $20 on Amazon and has a decent amount of power.  Some users claim that these devices bleed onto other channels and should have a lowpass filter on the output (mine is inline with the coax).  There is also a UHF band available, but I chose VHF for potential future compatibility with the [APRS](https://en.wikipedia.org/wiki/Automatic_Packet_Reporting_System) system.  APRS will be an essential part of the system, because most radios in this power level (0.5 - 1W transmission) can only achieve a few dozen miles tops transmitting from ground to balloon.  The incorporation of APRS will greatly extend this range by taking advantage of amateur repeating stations called `digipeaters`.
 
     Since this radio module is for handheld units that transmit audio, I needed some sort of modem for converting data to an analog format and vice-versa.  One of the methods of modulation I investigated was DTMF, which is used commonly in amateur radio and is built in to many consumer units.  However, DTMF modems tend to be rather large pin-wise and aren't compatible with most digipeaters, so I decided to build one from scratch using my favorite microcontroller, the ATTiny85.  For starters, I need to modulate and demodulate incoming data (known as `symbols` in communications) so they can be transmitted over the air.  In this case, most digipeaters use a standard known as `Bell-202` (also known as AFSK-1200), which is a simple modulation scheme where a logic 1 (mark) is represented by a 1200 Hz tone and a logic 0 (space) is represented by a 2200 Hz tone.  I accomplished this by calculating an 8-point DTFT at 1200 Hz and 2200 Hz at a sample rate of 9600 Hz (determined through testing).  I didn't use the FFT here because I'm only interested in the spectral power at two points.
@@ -69,7 +71,9 @@ content: !join
     This yielded 4 arrays which would calculate the DFT at 1200 and 2200 Hz with a 9600 Hz sample rate.
 
   - !j2,md |
+
     ### Simulation
+
     Before implementing my code on the ATTiny, I wanted to do some verification and evaluate performance.  Fortunately, Octave has a [C/C++ api](https://www.gnu.org/software/octave/doc/v4.0.1/Getting-Started-with-Oct_002dFiles.html) which allowed me to test my code with the same bit-precision as I would have on the microcontroller.  Below you can see the 4 arrays of DTFT coefficients (generated previously) in Q.7 number format (1 sign bit, 7 data bits).
 
   - !code(octave) |
@@ -127,9 +131,76 @@ content: !join
     {{project_img('modulation_coherent.png','Coherent test signal.  No more discontinuities.')}}
     {{project_img('spectrogram_coherent.png','Spectrogram view of coherent test signal.  Cleaner transitions between frequencies.')}}
 
-    ##
+    ## Bit synchronization
 
-    Once the filter was working in simulation, I designed some PCBs, moved it to the ATTiny85 and began physical testing.
+    At this point, the modem had no awareness of bits. The modem simply modulated at 1200 or 2200 Hz if it saw a logic 1 or 0 and vice versa for demodulation. If you look carefully at the thresholded output, you'll notice that the widths of the pulses are not exactly the same. This was problematic because UARTs operate asynchronously (without a clock line) and depend on the timing and width of bits to be precise. To solve this problem, I wrote some simple code that detects the phase of the thresholded output and samples it at regular intervals to ensure that the UART is receiving equally spaced bits.
+
+    {{project_img('bit_clock.png','Input signal and bit synchronized output. Input signal is resampled (green dots) to create output with clean timing.')}}
+
+  - !code(python) |
+    #!/bin/python
+    ## Evan Widloski - 2016-11-27
+    ## Test bit synchronization algorithm
+    from itertools import cycle
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    ## inputs generated from simulation.m
+    ## noisy input
+    # input = [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+
+
+    bit_period = 8
+
+    last_change_time = 16
+    last_bit_time = 0
+    last_bit = 1
+    sync = []
+    output = []
+    bit_get = []
+    for bit in input:
+        if last_change_time > 15 and bit != last_bit:
+            last_bit_time = bit_period/2
+            last_change_time = 0
+            sync.append(1)
+        else:
+            sync.append(0)
+        if last_bit_time == 8:
+            if bit != last_bit:
+                last_change_time = 0
+            last_bit = bit
+            last_bit_time = 0
+            bit_get.append(1)
+        else:
+            bit_get.append(0)
+
+        last_change_time += 1
+        last_bit_time += 1
+        output.append(last_bit)
+
+
+    input = np.array(input)
+    output = np.array(output)
+    bit_get = np.array(bit_get)
+    sync = np.array(sync)
+
+    plt.subplot(2,1,1)
+    plt.plot(input, 'b')
+    plt.plot(np.where(bit_get == 1),1, 'go')
+    plt.title('Thresholded input')
+    plt.axis([0, len(output), -.2, 1.2])
+    # plt.plot(sync, 'g')
+    plt.subplot(2,1,2)
+    plt.plot(output, 'r')
+    plt.title('Final output')
+    plt.axis([0, len(output), -.2, 1.2])
+    plt.show()
+
+  - !j2,md |
+
+    The algorithm waits for a quiet period (no data being transmitted), then synchronizes on the first bit edge it sees.  So long as there are breaks between transmitted packets, the algorithm works well enough to clean up the incoming bit stream.
+
+    ## Construction
 
     {{project_img('modem_testing.jpg','Direct modem-to-modem comms testing')}}
     {{project_img('prototype.jpg','Radio breadboarding and testing')}}
