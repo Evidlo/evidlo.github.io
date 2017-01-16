@@ -1,0 +1,23 @@
+layout: projects/project.html
+
+title: Dumpster Diving
+content: !md,j2 |
+  This page serves as a shrine to all the things I've found in the dump over the years.
+
+  {{ project_img("IMG_20160821_012532.jpg", "Kilovolt power supply + depth gauge.", "300px") }}
+  {{ project_img("IMG_20170115_231719.jpg", "Panavise.", width="300px") }}
+  {{ project_img("IMG_20160903_202745.jpg", "Chromebook sans SSD.", "300px") }}
+  {{ project_img("IMG_20160912_161850.jpg", "Bundle of scope probes.", "300px") }}
+  {{ project_img("IMG_20170115_003938.jpg", "Fancy linear actuator.", "300px") }}
+  {{ project_img("IMG_20170115_004201.jpg", width="300px") }}
+  {{ project_img("IMG_20170115_004221.jpg", width="300px") }}
+  {{ project_img("IMG_20170115_004240.jpg", width="300px") }}
+  {{ project_img("IMG_20170115_004311.jpg", "Strobe light.", width="300px") }}
+  {{ project_img("IMG_20170115_004349.jpg", "Organizers.", width="300px") }}
+  {{ project_img("IMG_20170115_004513.jpg", "Workbenches.", width="300px") }}
+  {{ project_img("IMG_20170115_005350.jpg", "Industrial Hotplate.", width="300px") }}
+  {{ project_img("IMG_20170115_005441.jpg", "Receiver/EQ combo.", width="300px") }}
+  {{ project_img("IMG_20170115_005540.jpg", width="300px") }}
+  {{ project_img("IMG_20170115_005648.jpg", "60s Desk Lamp - Dazor Model 1000.", width="300px") }}
+  {{ project_img("IMG_20170115_005734.jpg", "Buckling spring keyboard from IBM Wheelwriter.", width="300px") }}
+

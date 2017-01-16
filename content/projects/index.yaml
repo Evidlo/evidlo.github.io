@@ -43,4 +43,8 @@ sections:
     - name: Boilerconnect Volunteer Portal
       img: boilerconnect.png
       link: http://github.com/purdue-epics-ims/boilerconnect
-
+  - name: Other Stuff
+    items:
+    - name: Dumpster Diving
+      img:
+      link: dump/
