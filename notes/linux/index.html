@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="/fancy.css"/>
+  <link rel="stylesheet" type="text/css" href="/notes.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Evan Widloski</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25109327-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+    <style type="text/css">
+  a.sourceLine { display: inline-block; line-height: 1.25; }
+  a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+  a.sourceLine:empty { height: 1.2em; position: absolute; }
+  .sourceCode { overflow: visible; }
+  code.sourceCode { white-space: pre; position: relative; }
+  div.sourceCode { margin: 1em 0; }
+  pre.sourceCode { margin: 0; }
+  @media screen {
+  div.sourceCode { overflow: auto; }
+  }
+  @media print {
+  code.sourceCode { white-space: pre-wrap; }
+  a.sourceLine { text-indent: -1em; padding-left: 1em; }
+  }
+  pre.numberSource a.sourceLine
+    { position: relative; }
+  pre.numberSource a.sourceLine:empty
+    { position: absolute; }
+  pre.numberSource a.sourceLine::before
+    { content: attr(data-line-number);
+      position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+      border: none; pointer-events: all;
+      -webkit-touch-callout: none; -webkit-user-select: none;
+      -khtml-user-select: none; -moz-user-select: none;
+      -ms-user-select: none; user-select: none;
+      padding: 0 4px; width: 4em;
+      color: #aaaaaa;
+    }
+  pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+  div.sourceCode
+    {  }
+  @media screen {
+  a.sourceLine::before { text-decoration: underline; }
+  }
+  code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+  code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+  code span.at { color: #7d9029; } /* Attribute */
+  code span.bn { color: #40a070; } /* BaseN */
+  code span.bu { } /* BuiltIn */
+  code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+  code span.ch { color: #4070a0; } /* Char */
+  code span.cn { color: #880000; } /* Constant */
+  code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+  code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+  code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+  code span.dt { color: #902000; } /* DataType */
+  code span.dv { color: #40a070; } /* DecVal */
+  code span.er { color: #ff0000; font-weight: bold; } /* Error */
+  code span.ex { } /* Extension */
+  code span.fl { color: #40a070; } /* Float */
+  code span.fu { color: #06287e; } /* Function */
+  code span.im { } /* Import */
+  code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+  code span.op { color: #666666; } /* Operator */
+  code span.ot { color: #007020; } /* Other */
+  code span.pp { color: #bc7a00; } /* Preprocessor */
+  code span.sc { color: #4070a0; } /* SpecialChar */
+  code span.ss { color: #bb6688; } /* SpecialString */
+  code span.st { color: #4070a0; } /* String */
+  code span.va { color: #19177c; } /* Variable */
+  code span.vs { color: #4070a0; } /* VerbatimString */
+  code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  
+  
+  <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    displayAlign: "left",
+    displayIndent: "0em"
+  });
+  </script>
+
+  <script>
+    function showHide(e) {
+    latexblock = $(e).find('.latex');
+    if (latexblock.hasClass('opened')) {
+        // close block
+        latexblock.removeClass('opened');
+        latexblock.hide();
+    } else {
+        // open block
+        latexblock.addClass('opened');
+        latexblock.show();
+    }
+  }
+  </script>
+
+  </head>
+
+<body>
+	<div class="v h">
+		<div class="h hc">
+			<div class="simplebox">
+				<div class="title"></div>
+				<div class="body v">
+                    <ul>
+          <li><a href="#systemd">systemd</a><ul>
+          <li><a href="#commands">Commands</a></li>
+          <li><a href="#examples">Examples</a></li>
+          </ul></li>
+          <li><a href="#basic-arch-install">Basic Arch Install</a></li>
+          <li><a href="#generic-linux-install">Generic Linux Install</a></li>
+          <li><a href="#udev">udev</a></li>
+          <li><a href="#iptables">iptables</a><ul>
+          <li><a href="#commands-1">Commands</a></li>
+          <li><a href="#examples-1">Examples</a></li>
+          </ul></li>
+          <li><a href="#lvm">LVM</a><ul>
+          <li><a href="#adding">Adding</a></li>
+          <li><a href="#deleting">Deleting</a></li>
+          </ul></li>
+          <li><a href="#btrfs">BTRFS</a></li>
+          <li><a href="#lxc">LXC</a><ul>
+          <li><a href="#config-examples">Config examples</a></li>
+          <li><a href="#commands-2">Commands</a></li>
+          <li><a href="#new-container-setup">New Container Setup</a><ul>
+          <li><a href="#debian">Debian</a></li>
+          <li><a href="#fedora">Fedora</a></li>
+          </ul></li>
+          </ul></li>
+          <li><a href="#weechat">Weechat</a></li>
+          <li><a href="#mdadm">MDADM</a><ul>
+          <li><a href="#checking-state-and-simulating-failure">Checking state and simulating failure</a></li>
+          <li><a href="#replacing-a-failed-drive-sdc">Replacing a failed drive (sdc)</a></li>
+          <li><a href="#notifying-on-harddrive-failure-gmail">Notifying on harddrive failure (gmail)</a></li>
+          <li><a href="#growing-raid-size">Growing RAID size</a></li>
+          <li><a href="#accessing-via-live-cd">Accessing via Live CD</a></li>
+          <li><a href="#installing-grub-on-a-live-cd-mounted-system">Installing GRUB on a Live CD Mounted System</a></li>
+          </ul></li>
+          <li><a href="#mounting-images">Mounting Images</a></li>
+          <li><a href="#auto-fs">Auto FS</a></li>
+          <li><a href="#resizing-luks-encrypted-lvm">Resizing LUKS encrypted LVM</a></li>
+          <li><a href="#fixing-nodejs">Fixing Nodejs</a></li>
+          <li><a href="#rsync">Rsync</a></li>
+          <li><a href="#dns-tunneling-with-iodine">DNS Tunneling with iodine</a><ul>
+          <li><a href="#domain-setup">Domain Setup</a></li>
+          <li><a href="#server-setup">Server Setup</a></li>
+          <li><a href="#client-setup">Client Setup</a></li>
+          </ul></li>
+          <li><a href="#rdns">rDNS</a></li>
+          <li><a href="#booting">Booting</a><ul>
+          <li><a href="#gpt---guid-partition-table">GPT - GUID Partition Table</a></li>
+          <li><a href="#random-facts">Random facts</a></li>
+          </ul></li>
+          <li><a href="#smart-status">SMART Status</a></li>
+          <li><a href="#network-interfaces-and-bridging">Network interfaces and bridging</a><ul>
+          <li><a href="#simulating-network-disconnect">Simulating network disconnect</a></li>
+          </ul></li>
+          <li><a href="#ubuntu-vnc-server">Ubuntu VNC Server</a></li>
+          <li><a href="#buildroot">Buildroot</a><ul>
+          <li><a href="#useful-options">Useful options</a></li>
+          </ul></li>
+          </ul>
+                    <h1 id="systemd">systemd</h1>
+<p><strong>/etc/systemd/system</strong> - default location for system units <strong>~/.config/systemd/user</strong> - default location for user units</p>
+<h2 id="commands">Commands</h2>
+<p>Flags for operating on user units are given in []</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># reload units and timers</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="ex">systemctl</span> [--user] daemon-reload</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># show all units (including disabled)</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="ex">systemctl</span> [--user] list-units -a</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># view logs for unit</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># also accepts:</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#   -f               | tail the log</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#   --user-unit foo  | target user unit instead of system</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#   --boot=0         | show logs from current boot (-1 for previous, etc)</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="ex">journalctl</span> --unit foo</a></code></pre></div>
+<h2 id="examples">Examples</h2>
+<p>A simple service unit</p>
+<p><strong>foobar.service</strong></p>
+<pre class="text"><code>[Unit]
+Description=example service
+
+[Service]
+WorkingDirectory=/path/to/dir
+Environment=&quot;FOOBAR=foo&quot;
+ExecStart=foobar.sh
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p><strong>foobar.timer</strong> A simple timer unit</p>
+<pre class="text"><code>[Unit]
+Description=example timer
+
+[Timer]
+# run every 15 minutes (aligns to the hour)
+OnCalendar=*:0/15
+# run timer immediately if script is enabled and is past due
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+</code></pre>
+<h1 id="basic-arch-install">Basic Arch Install</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="ex">dhcpcd</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="ex">timedatectl</span> set-ntp true</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="ex">fdisk</span> /dev/sda </a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co"># Create 300MB boot, 2GB swap, and leave the rest for root</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="ex">mkswp</span> /dev/sda2</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="ex">mkfs.ext4</span> /dev/sda3</a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="fu">mount</span> /dev/sda3 /mnt</a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="ex">swapon</span> /dev/sda2</a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co"># edit /etc/pacman.d/mirrorlist to change mirror order **</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="ex">pacstrap</span> /mnt base</a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="ex">genfstab</span> -p /mnt <span class="op">&gt;&gt;</span> /mnt/etc/fstab</a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="ex">arch-chroot</span> /mnt</a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="fu">ln</span> -s /usr/share/zoneinfo/America/Indianapolis /etc/localtime</a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="ex">hwclock</span> --systohc --utc</a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb4-30" data-line-number="30"><span class="co"># uncomment en_US locales in /etc/locale.gen **</span></a>
+<a class="sourceLine" id="cb4-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb4-32" data-line-number="32"><span class="ex">locale-gen</span></a>
+<a class="sourceLine" id="cb4-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb4-34" data-line-number="34"><span class="co"># enter hostname in /etc/hostname **</span></a>
+<a class="sourceLine" id="cb4-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb4-36" data-line-number="36"><span class="ex">mkinitcpio</span> -p linux</a>
+<a class="sourceLine" id="cb4-37" data-line-number="37"></a>
+<a class="sourceLine" id="cb4-38" data-line-number="38"><span class="fu">passwd</span></a>
+<a class="sourceLine" id="cb4-39" data-line-number="39"></a>
+<a class="sourceLine" id="cb4-40" data-line-number="40"><span class="ex">pacman</span> -S grub</a>
+<a class="sourceLine" id="cb4-41" data-line-number="41"></a>
+<a class="sourceLine" id="cb4-42" data-line-number="42"><span class="ex">grub-install</span> --target=i386-pc --recheck --debug /dev/sda</a>
+<a class="sourceLine" id="cb4-43" data-line-number="43"></a>
+<a class="sourceLine" id="cb4-44" data-line-number="44"><span class="ex">grub-mkconfig</span> -o /boot/grub/grub.cfg</a>
+<a class="sourceLine" id="cb4-45" data-line-number="45"></a>
+<a class="sourceLine" id="cb4-46" data-line-number="46"><span class="bu">exit</span></a>
+<a class="sourceLine" id="cb4-47" data-line-number="47"></a>
+<a class="sourceLine" id="cb4-48" data-line-number="48"><span class="ex">reboot</span></a>
+<a class="sourceLine" id="cb4-49" data-line-number="49"></a>
+<a class="sourceLine" id="cb4-50" data-line-number="50"><span class="ex">pacman</span> -S vim htop git openssh wget</a>
+<a class="sourceLine" id="cb4-51" data-line-number="51"></a>
+<a class="sourceLine" id="cb4-52" data-line-number="52"><span class="ex">pacman</span> -S xorg-server xf86-video-ati xorg-xinit</a></code></pre></div>
+<h1 id="generic-linux-install">Generic Linux Install</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># list all available block devices</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="ex">lsblk</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co"># Copy bootable image to flash drive (status=progress requires dd &gt;= 8.24)</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># be careful not to mess up the of= argument, or you might overwrite your HD</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="fu">sudo</span> dd if=foobar.iso of=/dev/sdX status=progress <span class="kw">&amp;&amp;</span> <span class="fu">sync</span></a></code></pre></div>
+<h1 id="udev">udev</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># show device connect/disconnects and fired rules</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="ex">udevadm</span> monitor</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co"># list all attributes for a particular device (and parents)</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="ex">udevadm</span> info --attribute-walk --path=/devices/...</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># simple vendorid, productid example</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co"># note SYMLINK is only for block devices (I think, look it up yourself)</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="va">SUBSYSTEMS=</span>=<span class="st">&quot;usb&quot;</span>, <span class="ex">ATTRS</span><span class="dt">{idProduct}</span>==<span class="st">&quot;3300&quot;</span>, ATTRS<span class="dt">{idVendor}</span>==<span class="st">&quot;1e10&quot;</span>, MODE=<span class="st">&quot;0666&quot;</span>, SYMLINK+=<span class="st">&quot;foobar&quot;</span></a></code></pre></div>
+<h1 id="iptables">iptables</h1>
+<h2 id="commands-1">Commands</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># list all tables</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="ex">iptables</span> -L -n -v</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co"># (fedora) save iptables rules and remember to disable firewalld</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="ex">iptables-save</span> <span class="op">&gt;</span> /etc/sysconfig/iptables</a></code></pre></div>
+<h2 id="examples-1">Examples</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># allow ssh</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co"># must allow incoming connection and response</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co"># append rule to input (-A INPUT) on input interface enp6s0f0 (-i enp6s0f0) </span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co"># with destination port 22 (--dport 22).  use &#39;state&#39; module (-m state)</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co"># and allow new and established connections (--state NEW,ESTABLISHED)</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co"># jump to target ACCEPT (-j ACCEPT)</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="ex">iptables</span> -A INPUT -i enp6s0f0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co"># append rule to output (-A OUTPUT) on output interface enp6s0f0 (-o enp6s0f0) </span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co"># with source port 22 (--sport 22).  use &#39;state&#39; module (-m state)</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co"># and allow established connections (--state ESTABLISHED)</span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co"># jump to target ACCEPT (-j ACCEPT)</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="ex">iptables</span> -A OUTPUT -o enp6s0f0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># filter table: flush all chains, and delete all user added chains</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="ex">iptables</span> -F</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="ex">iptables</span> -X</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co"># nat table: flush all chains, and delete all user added chains</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="ex">iptables</span> -t nat -F</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="ex">iptables</span> -t nat -X</a></code></pre></div>
+<h1 id="lvm">LVM</h1>
+<h2 id="adding">Adding</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># create new lv `foo` in group `foo_group`</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="ex">lvcreate</span> -L 10G foo_group -n foo</a></code></pre></div>
+<h2 id="deleting">Deleting</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="ex">lvremove</span> /dev/[vgname]/[lvname]</a></code></pre></div>
+<h1 id="btrfs">BTRFS</h1>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># add all devices to filesystem</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="ex">btrfs</span> device add /dev/sdb2 /dev/sdc2 /dev/sdd2 /</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co"># convert system to raid10</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="ex">btrfs</span> balance start -dconvert=raid10 -mconvert=raid10 /</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co"># check balance progress</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="ex">btrfs</span> balance status /</a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co"># get rid of single chunks to get another shot at degraded,rw mount</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="ex">btrfs</span> balance start -dconvert=raid10,soft -mconvert=raid10,soft  /mount</a></code></pre></div>
+<h1 id="lxc">LXC</h1>
+<p><a href="https://www.flockport.com/enable-lxc-networking-in-debian-jessie-fedora-and-others/" class="uri">https://www.flockport.com/enable-lxc-networking-in-debian-jessie-fedora-and-others/</a></p>
+<h2 id="config-examples">Config examples</h2>
+<p><strong>/etc/lxc/lxc.conf</strong> - set path for containers to be stored (default /var/lib/lxc)</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="ex">lxc.lxcpath</span> = <span class="st">&quot;/lxc&quot;</span></a></code></pre></div>
+<p><strong>/etc/lxc/default.conf</strong> - config options for all newly created containers to inherit</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="ex">lxc.network.type</span> = veth</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="ex">lxc.network.link</span> = lxcbr0</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="ex">lxc.network.flags</span> = up</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="ex">lxc.network.hwaddr</span> = 00:16:3e:xx:xx:xx</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="ex">lxc.start.auto</span> = 1</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co"># address</span></a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#lxc.network.ipv4 = 192.168.1.1xx</span></a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="ex">lxc.network.ipv4.gateway</span> = 192.168.1.1</a>
+<a class="sourceLine" id="cb15-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="co"># memory</span></a>
+<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="ex">lxc.cgroup.memory.limit_in_bytes</span> = 512M</a>
+<a class="sourceLine" id="cb15-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb15-14" data-line-number="14"><span class="co"># memory + swap</span></a>
+<a class="sourceLine" id="cb15-15" data-line-number="15"><span class="ex">lxc.cgroup.memory.memsw.limit_in_bytes</span> = 1G</a></code></pre></div>
+<p><strong><em>etc/default/lxc-net* - it may be necessary to add /etc/lxc/dnsasq.conf to the apparmor profile (/etc/apparmor.d</em>*dnsmasq</strong>) with read privileges</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="va">USE_LXC_BRIDGE=</span><span class="st">&quot;true&quot;</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="va">LXC_BRIDGE=</span><span class="st">&quot;lxcbr0&quot;</span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="va">LXC_ADDR=</span><span class="st">&quot;192.168.1.1&quot;</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="va">LXC_NETMASK=</span><span class="st">&quot;255.255.255.0&quot;</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="va">LXC_NETWORK=</span><span class="st">&quot;192.168.1.0/24&quot;</span></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6"><span class="va">LXC_DHCP_RANGE=</span><span class="st">&quot;192.168.1.100,192.168.1.199&quot;</span></a>
+<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="va">LXC_DHCP_MAX=</span><span class="st">&quot;100&quot;</span></a>
+<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="va">LXC_DHCP_CONFILE=</span><span class="st">&quot;/etc/lxc/dnsmasq.conf&quot;</span></a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="va">LXC_DOMAIN=</span><span class="st">&quot;&quot;</span></a></code></pre></div>
+<p><strong>/etc/lxc/dnsmasq.conf</strong></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="ex">dhcp-host</span>=evan,192.168.1.102</a></code></pre></div>
+<p><strong>iptables config</strong></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="co">## Evan Widloski - 2016-11-11</span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="co"># Diode iptables rules</span></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="co"># filter table: flush all chains, and delete all user added chains</span></a>
+<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="ex">iptables</span> -F</a>
+<a class="sourceLine" id="cb18-7" data-line-number="7"><span class="ex">iptables</span> -X</a>
+<a class="sourceLine" id="cb18-8" data-line-number="8"><span class="co"># nat table: flush all chains, and delete all user added chains</span></a>
+<a class="sourceLine" id="cb18-9" data-line-number="9"><span class="ex">iptables</span> -t nat -F</a>
+<a class="sourceLine" id="cb18-10" data-line-number="10"><span class="ex">iptables</span> -t nat -X</a>
+<a class="sourceLine" id="cb18-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb18-12" data-line-number="12"><span class="co"># set default policies to DROP packets</span></a>
+<a class="sourceLine" id="cb18-13" data-line-number="13"><span class="ex">iptables</span> -P INPUT DROP</a>
+<a class="sourceLine" id="cb18-14" data-line-number="14"><span class="ex">iptables</span> -P OUTPUT DROP</a>
+<a class="sourceLine" id="cb18-15" data-line-number="15"><span class="ex">iptables</span> -P FORWARD DROP</a>
+<a class="sourceLine" id="cb18-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb18-17" data-line-number="17"><span class="co"># allow inbound outbound traffic on host </span></a>
+<a class="sourceLine" id="cb18-18" data-line-number="18"><span class="ex">iptables</span> -A OUTPUT -o enp6s0f0 -d 0.0.0.0/0 -j ACCEPT </a>
+<a class="sourceLine" id="cb18-19" data-line-number="19"><span class="ex">iptables</span> -A INPUT -i enp6s0f0 -m state --state ESTABLISHED,RELATED -j ACCEPT</a>
+<a class="sourceLine" id="cb18-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb18-21" data-line-number="21"><span class="co"># set up chain for sshguard</span></a>
+<a class="sourceLine" id="cb18-22" data-line-number="22"><span class="ex">iptables</span> -N sshguard</a>
+<a class="sourceLine" id="cb18-23" data-line-number="23"><span class="ex">iptables</span> -A INPUT -p tcp --dport 22 -j sshguard</a>
+<a class="sourceLine" id="cb18-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb18-25" data-line-number="25"><span class="co"># allow ssh</span></a>
+<a class="sourceLine" id="cb18-26" data-line-number="26"><span class="ex">iptables</span> -A INPUT -i enp6s0f0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT</a>
+<a class="sourceLine" id="cb18-27" data-line-number="27"><span class="ex">iptables</span> -A OUTPUT -o enp6s0f0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</a>
+<a class="sourceLine" id="cb18-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb18-29" data-line-number="29"><span class="co"># allow mosh</span></a>
+<a class="sourceLine" id="cb18-30" data-line-number="30"><span class="ex">iptables</span> -A INPUT -i enp6s0f0 -p udp --dport 60000:61000 -j ACCEPT</a>
+<a class="sourceLine" id="cb18-31" data-line-number="31"><span class="ex">iptables</span> -A OUTPUT -o enp6s0f0 -p udp --sport 60000:61000 -j ACCEPT</a>
+<a class="sourceLine" id="cb18-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb18-33" data-line-number="33"><span class="co"># allow connections to varnish service</span></a>
+<a class="sourceLine" id="cb18-34" data-line-number="34"><span class="co">#iptables -A INPUT -i enp6s0f0 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT</span></a>
+<a class="sourceLine" id="cb18-35" data-line-number="35"><span class="co">#iptables -A OUTPUT -o enp6s0f0 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT</span></a>
+<a class="sourceLine" id="cb18-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb18-37" data-line-number="37"><span class="co"># allow host to access LXC targets via network</span></a>
+<a class="sourceLine" id="cb18-38" data-line-number="38"><span class="ex">iptables</span> -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</a>
+<a class="sourceLine" id="cb18-39" data-line-number="39"><span class="ex">iptables</span> -A OUTPUT -s 192.168.1.0/24 -j ACCEPT</a>
+<a class="sourceLine" id="cb18-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb18-41" data-line-number="41"><span class="co"># allow outbound traffic for lxc containers</span></a>
+<a class="sourceLine" id="cb18-42" data-line-number="42"><span class="ex">iptables</span> -A FORWARD -i lxcbr0 -j ACCEPT</a>
+<a class="sourceLine" id="cb18-43" data-line-number="43"><span class="ex">iptables</span> -t nat -A POSTROUTING -s 192.168.1.0/24 -j MASQUERADE</a>
+<a class="sourceLine" id="cb18-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb18-45" data-line-number="45"><span class="co"># after incoming packets have been NAT&#39;ed (see below), allow them to pass through</span></a>
+<a class="sourceLine" id="cb18-46" data-line-number="46"><span class="co"># the forward chain to their intended LXC target</span></a>
+<a class="sourceLine" id="cb18-47" data-line-number="47"><span class="ex">iptables</span> -A FORWARD -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT</a>
+<a class="sourceLine" id="cb18-48" data-line-number="48"></a>
+<a class="sourceLine" id="cb18-49" data-line-number="49"><span class="co">##------------ evan --------------</span></a>
+<a class="sourceLine" id="cb18-50" data-line-number="50"><span class="co">## ssh</span></a>
+<a class="sourceLine" id="cb18-51" data-line-number="51"><span class="ex">iptables</span> -t nat -A PREROUTING -p tcp --dport 20022 -j DNAT --to-destination 192.168.1.102:22</a></code></pre></div>
+<h2 id="commands-2">Commands</h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co"># list container statuses and ip addresses (fancy mode)</span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="ex">lxc-ls</span> -f</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="ex">brctl</span> show</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="ex">brctl</span> delbr virbr0</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="ex">brctl</span> addbr virbr0</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="ex">ip</span> link set virbr0 down</a></code></pre></div>
+<h2 id="new-container-setup">New Container Setup</h2>
+<p>New LXC containers are very barebones and need a bit of setup to be useful. Here is an overview of steps for various distros.</p>
+<h3 id="debian">Debian</h3>
+<p>Setup PATH</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># add /bin, /sbin to path</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="bu">echo</span> <span class="st">&#39;PATH=$PATH:/bin:/sbin&#39;</span><span class="op">&gt;&gt;</span>.bashrc</a></code></pre></div>
+<p>Install packages</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># core commands</span></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="ex">apt-get</span> install apt-utils vim man tar less iputils-ping</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co"># extra commands</span></a>
+<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="ex">apt-get</span> install git zip autojump wget htop ncdu nload</a></code></pre></div>
+<h3 id="fedora">Fedora</h3>
+<p>Install packages</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="co"># core commands</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="ex">dnf</span> install vim man</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="co"># core commands</span></a>
+<a class="sourceLine" id="cb23-5" data-line-number="5"><span class="ex">dnf</span> install git zip autojump wget htop ncdu nload</a></code></pre></div>
+<h1 id="weechat">Weechat</h1>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="co"># enable notifications for any messages in buffer (works for Android client, too)</span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="ex">/buffer</span> set highlight_regex .\ast<span class="dt">{}</span>.*</a></code></pre></div>
+<h1 id="mdadm">MDADM</h1>
+<h2 id="checking-state-and-simulating-failure">Checking state and simulating failure</h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># check RAID state</span></a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="fu">cat</span> /proc/mdstat  # look for failure, (F), <span class="ex">after</span> the drive name: sda1[0](F)</a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="co"># simulate a failed drive</span></a>
+<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="ex">mdadm</span> --manage --set-faulty /dev/md/pv00 /dev/sda1</a>
+<a class="sourceLine" id="cb25-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="co"># remove faulty state by removing and readding</span></a>
+<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="ex">mdadm</span> --remove /dev/md/pv00 /dev/sda1</a>
+<a class="sourceLine" id="cb25-9" data-line-number="9"><span class="ex">mdadm</span> --add /dev/md/pv00 /dev/sda1</a></code></pre></div>
+<h2 id="replacing-a-failed-drive-sdc">Replacing a failed drive (sdc)</h2>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co"># set hard drive as failed</span></a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="co"># mark as failed and remove</span></a>
+<a class="sourceLine" id="cb26-3" data-line-number="3"><span class="ex">mdadm</span> --manage /dev/md127 --fail /dev/sdc1</a>
+<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="ex">mdadm</span> --manage /dev/md127 --remove /dev/sdc1</a>
+<a class="sourceLine" id="cb26-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb26-6" data-line-number="6"><span class="co"># write down serial number of failed drive</span></a>
+<a class="sourceLine" id="cb26-7" data-line-number="7"><span class="ex">hdparm</span> -i /dev/sdc1 <span class="kw">|</span> <span class="fu">grep</span> -i serial</a>
+<a class="sourceLine" id="cb26-8" data-line-number="8"><span class="ex">shutdown</span> -h now</a>
+<a class="sourceLine" id="cb26-9" data-line-number="9"><span class="co"># remove broken harddrive, insert the new hardddrive</span></a>
+<a class="sourceLine" id="cb26-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb26-11" data-line-number="11"><span class="co"># copy partition scheme from working harddrive to new harddrive</span></a>
+<a class="sourceLine" id="cb26-12" data-line-number="12"><span class="ex">sfdisk</span> -d /dev/sda <span class="kw">|</span> <span class="ex">sfdisk</span> /dev/sdc</a>
+<a class="sourceLine" id="cb26-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb26-14" data-line-number="14"><span class="co"># add new harddrive</span></a>
+<a class="sourceLine" id="cb26-15" data-line-number="15"><span class="ex">mdadm</span> --manage /dev/md127 --add /dev/sdc1</a>
+<a class="sourceLine" id="cb26-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb26-17" data-line-number="17"><span class="co"># verify that array is recovering</span></a>
+<a class="sourceLine" id="cb26-18" data-line-number="18"><span class="fu">cat</span> /proc/mdstat</a></code></pre></div>
+<h2 id="notifying-on-harddrive-failure-gmail">Notifying on harddrive failure (gmail)</h2>
+<p><strong>/etc/exim/exim.conf</strong></p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># add this after `begin routers` in router config section</span></a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"> send_via_gmail:</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">     driver <span class="op">=</span> manualroute</a>
+<a class="sourceLine" id="cb27-4" data-line-number="4">     domains <span class="op">=</span> <span class="op">!</span> <span class="op">+</span>local_domains</a>
+<a class="sourceLine" id="cb27-5" data-line-number="5">     transport <span class="op">=</span> gmail_smtp</a>
+<a class="sourceLine" id="cb27-6" data-line-number="6">     route_list <span class="op">=</span> <span class="op">*</span> gmail<span class="op">-</span>smtp.l.google.com</a>
+<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="co"># add this after `begin transports` in transports config section</span></a>
+<a class="sourceLine" id="cb27-8" data-line-number="8"> gmail_smtp:</a>
+<a class="sourceLine" id="cb27-9" data-line-number="9">     driver <span class="op">=</span> smtp</a>
+<a class="sourceLine" id="cb27-10" data-line-number="10">     port <span class="op">=</span> <span class="dv">587</span></a>
+<a class="sourceLine" id="cb27-11" data-line-number="11">     hosts_require_auth <span class="op">=</span> gmail<span class="op">-</span>smtp.l.google.com</a>
+<a class="sourceLine" id="cb27-12" data-line-number="12">     hosts_require_tls <span class="op">=</span> gmail<span class="op">-</span>smtp.l.google.com</a>
+<a class="sourceLine" id="cb27-13" data-line-number="13"><span class="co"># add this after `begin authenaticators` in authentication config section</span></a>
+<a class="sourceLine" id="cb27-14" data-line-number="14"> gmail_login:</a>
+<a class="sourceLine" id="cb27-15" data-line-number="15">     driver <span class="op">=</span> plaintext</a>
+<a class="sourceLine" id="cb27-16" data-line-number="16">     public_name <span class="op">=</span> LOGIN</a>
+<a class="sourceLine" id="cb27-17" data-line-number="17">     client_send <span class="op">=</span> : sender_email<span class="op">@</span>gmail.com : password_in_plaintext_here</a></code></pre></div>
+<p><strong>/etc/mdadm.conf</strong></p>
+<pre class="text"><code>MAILADDR destination_email@example.com
+AUTO +imsm +1.x -all
+ARRAY /dev/md/pv00 level=raid5 num-devices=4 UUID=1327a02b:b19f6696:0e3f8ac7:9615591c
+</code></pre>
+<h2 id="growing-raid-size">Growing RAID size</h2>
+<p>This is useful if the RAID array needs to be grown by using up more free space (no added harddrive)</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="fu">umount</span> /dev/sda</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="fu">umount</span> /dev/sdb</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="fu">umount</span> /dev/sdc</a>
+<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="fu">umount</span> /dev/sdd</a>
+<a class="sourceLine" id="cb29-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb29-6" data-line-number="6"><span class="co"># grow RAID array to 500GB (this will take a while)</span></a>
+<a class="sourceLine" id="cb29-7" data-line-number="7"><span class="ex">mdadm</span> -G /dev/md127 -z 500G</a>
+<a class="sourceLine" id="cb29-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="co"># resize physical volume to fit new RAID partition size</span></a>
+<a class="sourceLine" id="cb29-10" data-line-number="10"><span class="ex">pvresize</span> /dev/md127</a></code></pre></div>
+<h2 id="accessing-via-live-cd">Accessing via Live CD</h2>
+<p>If the array gets screwed up somehow, you can try mounting it on a livecd.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="ex">apt</span> install mdadm</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="co"># assemble array from block devices</span></a>
+<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="ex">mdadm</span> --assemble --scan</a>
+<a class="sourceLine" id="cb30-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="co"># mount array (assuming lvm)</span></a>
+<a class="sourceLine" id="cb30-7" data-line-number="7"><span class="ex">apt</span> install lvm2</a>
+<a class="sourceLine" id="cb30-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb30-9" data-line-number="9"><span class="co"># see if lv&#39;s are intact</span></a>
+<a class="sourceLine" id="cb30-10" data-line-number="10"><span class="ex">lvscan</span></a>
+<a class="sourceLine" id="cb30-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb30-12" data-line-number="12"><span class="co"># mount lv</span></a>
+<a class="sourceLine" id="cb30-13" data-line-number="13"><span class="fu">mount</span> /dev/[vgname]/[lvname] /mnt/foo</a></code></pre></div>
+<h2 id="installing-grub-on-a-live-cd-mounted-system">Installing GRUB on a Live CD Mounted System</h2>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="co"># mount root lv</span></a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="fu">mount</span> /dev/[vgname]/root /mnt/root</a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="co"># mount live CD directories inside mounted lv</span></a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="kw">for</span> <span class="ex">i</span> in /dev /dev/pts /proc /sys /run<span class="kw">;</span> <span class="kw">do</span> <span class="fu">sudo</span> mount -B <span class="va">$i</span> /mnt/root<span class="va">$i</span><span class="kw">;</span> <span class="kw">done</span></a>
+<a class="sourceLine" id="cb31-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb31-7" data-line-number="7"><span class="co"># chroot into root lv</span></a>
+<a class="sourceLine" id="cb31-8" data-line-number="8"><span class="fu">chroot</span> /mnt/root</a>
+<a class="sourceLine" id="cb31-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb31-10" data-line-number="10"><span class="co"># install grub to each device in array</span></a>
+<a class="sourceLine" id="cb31-11" data-line-number="11"><span class="ex">grub2-install</span> /dev/sda</a>
+<a class="sourceLine" id="cb31-12" data-line-number="12"><span class="ex">grub2-install</span> /dev/sdb</a>
+<a class="sourceLine" id="cb31-13" data-line-number="13"><span class="ex">grub2-install</span> /dev/sdc</a>
+<a class="sourceLine" id="cb31-14" data-line-number="14"><span class="ex">grub2-install</span> /dev/sdd</a>
+<a class="sourceLine" id="cb31-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb31-16" data-line-number="16"><span class="co"># update grub config</span></a>
+<a class="sourceLine" id="cb31-17" data-line-number="17"><span class="ex">grub2-mkconfig</span> -o /boot/grub2/grub.cfg</a></code></pre></div>
+<h1 id="mounting-images">Mounting Images</h1>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="co"># list the partitions on the image file</span></a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="ex">fdisk</span> -l /tmp/sdcard.img </a></code></pre></div>
+<pre><code>Disk /tmp/sdcard.img: 162 MiB, 169869824 bytes, 331777 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x00000000
+
+Device           Boot Start    End Sectors  Size Id Type
+/tmp/sdcard.img1 *        1  65536   65536   32M  c W95 FAT32 (LBA)
+/tmp/sdcard.img2      65537 331776  266240  130M 83 Linux
+</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co"># use the sector size and the partition start sector to calculate offset (512 * 65537)</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="fu">sudo</span> mount -o loop,offset=33554944 /tmp/sdcard.img /mnt/tmp</a></code></pre></div>
+<h1 id="auto-fs">Auto FS</h1>
+<p>Auto FS + SSHFS allows the system to mount ssh filesystems on access and then automatically unmount after a certain timeout. The necessary tools are <strong>autofs</strong> and <strong>sshfs</strong>.</p>
+<p><strong>/etc/auto.master</strong> or <strong>/etc/auto.master.d/foobar.autofs</strong> or <strong>/etc/autofs/auto.master</strong></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># mounts all the entries listed in /etc/auto.sshfs in /mnt/ with the given options</span></a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="co"># add the --verbose option here to debug mounting issues</span></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="co"># set --timeout to control when sshfs mount is automatically unmounted</span></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="ex">/mnt</span> /etc/auto.sshfs --timeout=180 --ghost</a></code></pre></div>
+<p><strong>/etc/auto.sshfs</strong></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co"># make a mount to be used by auto.master</span></a>
+<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="ex">foobar</span> -fstype=fuse,rw,IdentityFile=/home/evan/.ssh/foobar,port=22,allow_other :sshfs\#foo@example.org\:</a></code></pre></div>
+<p>AutoFS runs as root, so ensure that the host fingerprint has been added to <strong><em>root</em>.ssh/known_hosts</strong>. You can add this easily by attempting to ssh login to foo@example.org from root.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="fu">su</span> -</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="fu">ssh</span> foo@example.org</a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="co"># enter yes</span></a></code></pre></div>
+<h1 id="resizing-luks-encrypted-lvm">Resizing LUKS encrypted LVM</h1>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="co"># expand the block device with fdisk, if necessary</span></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="co"># resize physical volume</span></a>
+<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="ex">pvresize</span> --setphysicalvolumesize 111.8G /dev/sdb2</a>
+<a class="sourceLine" id="cb38-5" data-line-number="5"><span class="co"># be careful about using `-l +100%FREE`.  this broke /home until I manually shrank fedora--vg-home by a few GB</span></a>
+<a class="sourceLine" id="cb38-6" data-line-number="6"><span class="ex">lvextend</span> -l 80G /dev/mapper/fedora--vg-home</a>
+<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="ex">resize2fs</span> /dev/mapper/fedora--vg-home</a></code></pre></div>
+<h1 id="fixing-nodejs">Fixing Nodejs</h1>
+<p><a href="https://bugzilla.redhat.com/show_bug.cgi?id=1125868" class="uri">https://bugzilla.redhat.com/show_bug.cgi?id=1125868</a></p>
+<h1 id="rsync">Rsync</h1>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="co"># Sync permissions only. (useful if you forgot `-p` option in cp)</span></a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="co"># Looks at filesize differences to determine if a copy is needed rather</span></a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="co"># than timestamp (which gets reset when `-p` is left out of cp.</span></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="fu">rsync</span> --archive --size-only /src/foo /dest/bar</a></code></pre></div>
+<h1 id="dns-tunneling-with-iodine">DNS Tunneling with iodine</h1>
+<p>Most of this was taken from <a href="http://dev.kryo.se/iodine/wiki/HowtoSetup" class="uri">http://dev.kryo.se/iodine/wiki/HowtoSetup</a></p>
+<h2 id="domain-setup">Domain Setup</h2>
+<p>On a domain you own (e.g. example.com), create an A record server.example.com pointing to the ip of a server you own and an NS record tunnel.example.com pointing to server.example.com.</p>
+<p>To verify the setup is working, you can do:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="co"># on the server</span></a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="fu">sudo</span> nc -u -l -p 53</a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="co"># on another device</span></a>
+<a class="sourceLine" id="cb40-5" data-line-number="5"><span class="ex">dig</span> +trace tunnel.example.com</a>
+<a class="sourceLine" id="cb40-6" data-line-number="6"><span class="co"># you should see some stuff printed out in the console on the server</span></a></code></pre></div>
+<h2 id="server-setup">Server Setup</h2>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="co"># set iptables rules</span></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="ex">iptables</span> -t nat -A POSTROUTING -o eth0 -j MASQUERADE</a>
+<a class="sourceLine" id="cb41-3" data-line-number="3"><span class="ex">iptables</span> -A FORWARD -i eth0 -o dns0 -m state --state RELATED,ESTABLISHED -j ACCEPT</a>
+<a class="sourceLine" id="cb41-4" data-line-number="4"><span class="ex">iptables</span> -A FORWARD -i dns0 -o eth0 -j ACCEPT</a>
+<a class="sourceLine" id="cb41-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb41-6" data-line-number="6"><span class="co"># enable ip forwarding on the server</span></a>
+<a class="sourceLine" id="cb41-7" data-line-number="7"><span class="co">#  unnecessary if you want to use `ssh -D 1234` for dynamic port forwarding </span></a>
+<a class="sourceLine" id="cb41-8" data-line-number="8"><span class="co">#  on the client (as opposed to setting default routes)</span></a>
+<a class="sourceLine" id="cb41-9" data-line-number="9"><span class="bu">echo</span> 1 <span class="op">&gt;</span> /proc/sys/net/ipv4/ip_forward</a>
+<a class="sourceLine" id="cb41-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb41-11" data-line-number="11"><span class="co"># install iodine</span></a>
+<a class="sourceLine" id="cb41-12" data-line-number="12"><span class="ex">dnf</span> install iodine</a>
+<a class="sourceLine" id="cb41-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb41-14" data-line-number="14"><span class="co"># run iodine (as root in a screen session)</span></a>
+<a class="sourceLine" id="cb41-15" data-line-number="15"><span class="co">#  `password` is the password to use the tunnel</span></a>
+<a class="sourceLine" id="cb41-16" data-line-number="16"><span class="co">#  `192.168.99.1` is the ip of the server on the tunnel network</span></a>
+<a class="sourceLine" id="cb41-17" data-line-number="17"><span class="ex">iodined</span> -c -P password -f 192.168.99.1 tunnel.example.com</a>
+<a class="sourceLine" id="cb41-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb41-19" data-line-number="19"><span class="co"># note that if iodined is behind a NAT, you&#39;ll need to port forward UDP 53 and</span></a>
+<a class="sourceLine" id="cb41-20" data-line-number="20"><span class="co">#   use the `-p` option to tell iodined the server&#39;s external ip</span></a>
+<a class="sourceLine" id="cb41-21" data-line-number="21"><span class="co"># iodined -c -P password -f 192.168.99.1 tunnel.example.com -p [server.example.com ip]</span></a>
+<a class="sourceLine" id="cb41-22" data-line-number="22"></a></code></pre></div>
+<h2 id="client-setup">Client Setup</h2>
+<p>Alternatively, you can download a script that does this part from <a href="http://www.doeshosting.com/code/NStun.sh" class="uri">http://www.doeshosting.com/code/NStun.sh</a>.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="co"># launch iodine client and wait for a &#39;Connection setup complete&#39; message</span></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="fu">sudo</span> iodine -f tunnel.example.com</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="co"># either use SSH for dynamic forwarding (one application at a time)  or set up routes</span></a>
+<a class="sourceLine" id="cb42-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb42-6" data-line-number="6"><span class="co"># ssh</span></a>
+<a class="sourceLine" id="cb42-7" data-line-number="7"><span class="fu">ssh</span> -D 1234 tunnel.example.com</a>
+<a class="sourceLine" id="cb42-8" data-line-number="8"><span class="co"># set Firefox to use socks proxy localhost on port 1234</span></a>
+<a class="sourceLine" id="cb42-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb42-10" data-line-number="10"><span class="co"># set up routes</span></a>
+<a class="sourceLine" id="cb42-11" data-line-number="11"><span class="co"># get the current gateway ip</span></a>
+<a class="sourceLine" id="cb42-12" data-line-number="12"><span class="ex">ip</span> route</a>
+<a class="sourceLine" id="cb42-13" data-line-number="13"><span class="co"># get the tunnel server ip</span></a>
+<a class="sourceLine" id="cb42-14" data-line-number="14"><span class="ex">host</span> server.example.com</a>
+<a class="sourceLine" id="cb42-15" data-line-number="15"><span class="co"># add a route for iodine to communicate with the outside world</span></a>
+<a class="sourceLine" id="cb42-16" data-line-number="16"><span class="fu">sudo</span> ip route add [server.example.com IP] via [current gateway IP]</a>
+<a class="sourceLine" id="cb42-17" data-line-number="17"><span class="co"># delete the default route for traffic</span></a>
+<a class="sourceLine" id="cb42-18" data-line-number="18"><span class="fu">sudo</span> ip route delete default</a>
+<a class="sourceLine" id="cb42-19" data-line-number="19"><span class="co"># add a default route so that all traffic is tunneled</span></a>
+<a class="sourceLine" id="cb42-20" data-line-number="20"><span class="fu">sudo</span> ip route add default via 192.168.99.1</a>
+<a class="sourceLine" id="cb42-21" data-line-number="21"><span class="co"># also DNS may not work, so you might have to manually set it to something reasonable</span></a>
+<a class="sourceLine" id="cb42-22" data-line-number="22"><span class="fu">sudo</span> sh -c <span class="st">&quot;echo nameserver 8.8.4.4 &gt; /etc/resolv.conf&quot;</span></a></code></pre></div>
+<h1 id="rdns">rDNS</h1>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="co"># lookup the hostname or domain name associated with ip address</span></a>
+<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="co"># also works for local machines in the search domain</span></a>
+<a class="sourceLine" id="cb43-3" data-line-number="3"><span class="ex">dig</span> -x 1.2.3.4</a></code></pre></div>
+<h1 id="booting">Booting</h1>
+<div class="definitions">
+<p><strong>block</strong> - smallest addressable unit of storage</p>
+<p>Block size is defined in the hardware of a hard drive, but the OS can define a virtual block size which chains multiple blocks together.</p>
+</div>
+<p>There are three primary boot options involving UEFI and BIOS firmwares</p>
+<ul>
+<li>UEFI-GPT
+<ul>
+<li>required if dualbooting windows</li>
+</ul></li>
+<li>BIOS-GPT</li>
+<li>BIOS-MBR
+<ul>
+<li>max addressable disk space is 2^32 * 512 = 2 TiB on a system with 512 byte blocks.</li>
+</ul></li>
+</ul>
+<h2 id="gpt---guid-partition-table">GPT - GUID Partition Table</h2>
+<div class="definitions">
+<p><strong>protective mbr</strong> - a small partition at the beginning of the GPT disk (where the MBR would normally be) that prevents older MBR tools from damaging the GPT formatting</p>
+<p>This partition contains a fake partition record which spans the entirety of the disk. MBR programs will see that there is a partition of unknown type that spans the entire disk and will refuse to operate.</p>
+</div>
+<p>A GPT disk is formatted like so:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td>Protective MBR</td>
+<td>512B</td>
+</tr>
+<tr class="even">
+<td>GPT Header</td>
+<td>512B</td>
+</tr>
+<tr class="odd">
+<td>GPT Partition Table</td>
+<td>16KB</td>
+</tr>
+<tr class="even">
+<td><strong>*</strong> Partitions <strong>*</strong></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Backup Partition Table</td>
+<td>16KB</td>
+</tr>
+<tr class="even">
+<td>Backup Header</td>
+<td>512B</td>
+</tr>
+</tbody>
+</table>
+<p>So there should be 17KB and 16.5KB of free space at the beginning and end of a GPT disk.</p>
+<h2 id="random-facts">Random facts</h2>
+<ul>
+<li>grub2-install invokes efibootmgr to install (aka register) entries in the nvram</li>
+<li>these nvram entries point to .efi executables on the ESP</li>
+<li>the harddrive UEFI menu entries are for legacy booting these devices</li>
+<li>efi/boot/bootx64.efi is the .efi executable location for removable devices and doesn't require any nvram registration</li>
+<li></li>
+</ul>
+<h1 id="smart-status">SMART Status</h1>
+<div class="definitions">
+<p>smartctl -a /dev/sdX</p>
+<p>smartctl -t short /dev/sdX</p>
+</div>
+<h1 id="network-interfaces-and-bridging">Network interfaces and bridging</h1>
+<h2 id="simulating-network-disconnect">Simulating network disconnect</h2>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="co"># add network namespaces (for network isolation)</span></a>
+<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="fu">sudo</span> ip netns add client-ns</a>
+<a class="sourceLine" id="cb44-3" data-line-number="3"><span class="fu">sudo</span> ip netns add server-ns</a>
+<a class="sourceLine" id="cb44-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb44-5" data-line-number="5"><span class="co"># create pairs of virtual interfaces</span></a>
+<a class="sourceLine" id="cb44-6" data-line-number="6"><span class="fu">sudo</span> ip link add client type veth peer name client-bridge</a>
+<a class="sourceLine" id="cb44-7" data-line-number="7"><span class="fu">sudo</span> ip link add server type veth peer name server-bridge</a>
+<a class="sourceLine" id="cb44-8" data-line-number="8"><span class="co"># add virtual interfaces to namespace</span></a>
+<a class="sourceLine" id="cb44-9" data-line-number="9"><span class="fu">sudo</span> ip link set client netns client-ns</a>
+<a class="sourceLine" id="cb44-10" data-line-number="10"><span class="fu">sudo</span> ip link set server netns server-ns</a>
+<a class="sourceLine" id="cb44-11" data-line-number="11"><span class="co"># give addresses to each virtual interface</span></a>
+<a class="sourceLine" id="cb44-12" data-line-number="12"><span class="fu">sudo</span> ip netns exec client-ns ip addr add 10.0.0.2/24 dev client</a>
+<a class="sourceLine" id="cb44-13" data-line-number="13"><span class="fu">sudo</span> ip netns exec server-ns ip addr add 10.0.0.1/24 dev server</a>
+<a class="sourceLine" id="cb44-14" data-line-number="14"><span class="co"># set virtual interfaces up</span></a>
+<a class="sourceLine" id="cb44-15" data-line-number="15"><span class="fu">sudo</span> ip netns exec client-ns ip link set client up</a>
+<a class="sourceLine" id="cb44-16" data-line-number="16"><span class="fu">sudo</span> ip netns exec server-ns ip link set server up</a>
+<a class="sourceLine" id="cb44-17" data-line-number="17"><span class="fu">sudo</span> ip link set client-bridge up</a>
+<a class="sourceLine" id="cb44-18" data-line-number="18"><span class="fu">sudo</span> ip link set server-bridge up</a>
+<a class="sourceLine" id="cb44-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb44-20" data-line-number="20"><span class="co"># add bridge interface</span></a>
+<a class="sourceLine" id="cb44-21" data-line-number="21"><span class="fu">sudo</span> brctl addbr bridge0</a>
+<a class="sourceLine" id="cb44-22" data-line-number="22"><span class="co"># link virtual interfaces to bridge</span></a>
+<a class="sourceLine" id="cb44-23" data-line-number="23"><span class="fu">sudo</span> brctl add if bridge0 client-bridge</a>
+<a class="sourceLine" id="cb44-24" data-line-number="24"><span class="fu">sudo</span> brctl add if bridge0 server-bridge</a>
+<a class="sourceLine" id="cb44-25" data-line-number="25"><span class="co"># set bridge up</span></a>
+<a class="sourceLine" id="cb44-26" data-line-number="26"><span class="fu">sudo</span> ip link set bridge0 up</a>
+<a class="sourceLine" id="cb44-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb44-28" data-line-number="28"><span class="co"># (in a new terminal) do stuff on the virtual interface</span></a>
+<a class="sourceLine" id="cb44-29" data-line-number="29"><span class="fu">sudo</span> ip netns exec client-ns ping 10.0.0.1</a>
+<a class="sourceLine" id="cb44-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb44-31" data-line-number="31"><span class="co"># set bridge down (simulate network offline)</span></a>
+<a class="sourceLine" id="cb44-32" data-line-number="32"><span class="fu">sudo</span> ip link set bridge0 down</a>
+<a class="sourceLine" id="cb44-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb44-34" data-line-number="34"><span class="co"># sometimes you might need to use the loopback interface</span></a>
+<a class="sourceLine" id="cb44-35" data-line-number="35"><span class="fu">sudo</span> ip netns exec client-ns ip link set lo up</a>
+<a class="sourceLine" id="cb44-36" data-line-number="36"><span class="fu">sudo</span> ip netns exec server-ns ip link set lo up</a></code></pre></div>
+<h1 id="ubuntu-vnc-server">Ubuntu VNC Server</h1>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="co"># install x11vnc</span></a>
+<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="fu">sudo</span> apt install x11vnc</a>
+<a class="sourceLine" id="cb45-3" data-line-number="3"><span class="co"># create a password</span></a>
+<a class="sourceLine" id="cb45-4" data-line-number="4"><span class="ex">x11vnc</span> -storepasswd</a>
+<a class="sourceLine" id="cb45-5" data-line-number="5"><span class="co"># start the server</span></a></code></pre></div>
+<p>To automatically run the server at login, add a startup script:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="ex">gnome-session-properties</span></a></code></pre></div>
+<p>Add a new item called &quot;VNC&quot; with the command field set to</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="ex">x11-vnc</span> -forever -loop -noxdamage -repeat -rfbport 5900 -shared -usepw</a></code></pre></div>
+<p>Remember to set the machine to never suspend in the system power settings.</p>
+<h1 id="buildroot">Buildroot</h1>
+<h2 id="useful-options">Useful options</h2>
+<ul>
+<li>toolchain &gt; enable wchar support</li>
+<li>bootloaders &gt; grub2</li>
+<li>toolchain &gt; C library</li>
+<li>filesystem images &gt; iso image</li>
+</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

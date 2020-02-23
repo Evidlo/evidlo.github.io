@@ -1,0 +1,117 @@
+@font-face {
+    font-family: Terminus;
+    src: url(/Terminus.ttf);
+}
+
+html,body {
+	height: 100%;
+	margin:0;
+  font-family:Terminus;
+  background-color:#222222;
+}
+
+h1 {
+  color:white;
+  font-weight:unset;
+}
+
+hr {
+  margin:0;
+  border: 0 none;
+  border-top: 3px dashed white;
+  background: none;
+  height:0;
+}
+
+/* create flexbox column */
+.v {
+	display:flex;
+	flex-direction: column;
+}
+
+/* create flexbox row */
+.h {
+	display: flex;
+}
+
+/* center content of column or row */
+.hc {
+	justify-content: center;
+	width: 100%;
+}
+.vc {
+	justify-content: center;
+}
+
+/* minimalist box design */
+
+.simplebox {
+	margin: 10px;
+}
+
+.simplebox .title {
+  color:white;
+	font-size: 25px;
+}
+
+.nolink {
+	text-decoration: none !important;
+	color: black;
+}
+
+.simplebox .body {
+	border: 1px solid;
+	border-radius: 20px;
+	padding: 20px;
+	display: block;
+  max-width:600px;
+  transition: background-color 0.3s ease;
+	background-color:#DDDDDD;
+}
+
+.simplebox a:hover .body{
+  background-color:white;
+}
+
+/* preview page */
+
+.preview {
+  width: 300px;
+}
+
+/* center pane content on preview page */
+.preview .body {
+	display:flex;
+	justify-content:center;
+}
+
+/* front page icon */
+
+.icon {
+	height: 200px;
+  max-width: 100%;
+}
+
+/* image annotations */
+.annotate {
+  margin:  15px auto 15px auto;
+  text-align:center;
+}
+
+.annotate img{
+    max-width:550px;
+} 
+
+/* Project Header */
+.project_head img {
+    height:60px;
+    width:60px;
+    margin:5px 10px 5px 5px;
+}
+
+.project_head a{
+    text-decoration: none;
+}
+.project_head {
+    font-size: 20px;
+}
