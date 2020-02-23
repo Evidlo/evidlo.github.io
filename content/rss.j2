@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>Evan Widloski</title>
+        <link>http://evanw.org/</link>
+        <description>Evan's projects</description>
+{% for page in path('software/*.md') %}
+        <item>
+            <title>{{ page.title }}</title>
+            <link>{{ page.link }}</link>
+        </item>
+{% endfor %}
+{% for page in path('projects/**/*.md') %}
+        <item>
+            <title>{{ page.title }}</title>
+            <link>{% if 'link' in project %}{{ page.link }}{% else %}{{ page.path }}{% endif %}</link>
+        </item>
+{% endfor %}
+    </channel>
+</rss>
