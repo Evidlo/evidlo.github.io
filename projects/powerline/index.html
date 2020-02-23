@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+    <title>Powerline Transmission Prototype</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="/styles.css" /> 
+    <link rel="stylesheet" type="text/css" href="/codehilite.css" /> 
+    <link rel="alternate" type="application/rss+xml" href="/rss.html" title="RSS feed">
+</head>
+<body>
+    <main>
+        <article>
+        <header>
+            <h1>Powerline Transmission Prototype</h1>
+            <time datetime="2014-10-24">2014-10-24</time>
+        </header>
+        <p><a href="http://github.com/evidlo/transmission">Project files</a></p>
+        <p><img alt="" src="receiver_board.png" />
+        <figure><img src="transmitter_board.png" /><figcaption>Transmitter and receiver prototypes</figcaption>
+        </figure>
+        </p>
+        <p>Above are some prototype PCBs for a powerline transmission scheme I was helping develop on the Purdue IEEE ROV team.  A common problem on ROVs is the drag caused by pulling the tether through the water.  This tether contains channels for powering and communicating with the vehicle, and when systems like pneumatics or hydraulics are needed it begins to resemble an umbilical cord rather than a sleek cable.</p>
+        <p>One solution to this problem is to reduce the electrical cable thickness by reducing the number of channels.  This can be achieved by using <a href="https://en.wikipedia.org/wiki/Power-line_communication">powerline transmission</a>.  The basic idea is to take all your data channels and shift them to non-overlapping frequencies, add them together and inject them into the power cable.  On the receiving end, the data is separated from the power and split into its original components through the use of various filters.</p>
+        <p>
+        <figure><img src="modulator.png" /><figcaption>Data modulated.  Shifts data to a different frequency</figcaption>
+        </figure>
+        <figure><img src="transmitter.png" /><figcaption>Combines video and data streams and injects into the powerline</figcaption>
+        </figure>
+        </p>
+        <p>The boards utilize a communication scheme called <a href="" title="https://en.wikipedia.org/wiki/Amplitude-shift_keying">amplitude shift keying</a> (ASK) wherein a digital signal is modulated with a high frequency sine wave for the purpose of transmission.  Below is a SPICE simulation of what the data looks like after leaving the summing amplifier.</p>
+        <p><img alt="" src="Transmission simulation" /></p>
+        <p>The next step is to receive the data and return it to a usable form.  For this we use a series of filters to eliminate unwanted signals and leave only the desired pngput.  Below, you can see circuit to extract the data stream and also some photos of the results. Don't pay too much attention to the schematic component values.</p>
+        <p>
+        <figure><img src="receiver.png" /><figcaption>Receiving filter.  In order: input buffer, two 2nd-order lowpass filters, half wave rectifier (super diode), pngput comparator.</figcaption>
+        </figure>
+        </p>
+        <p>
+        <figure><img src="video.png" /><figcaption>Video being transmitted over powerline.  A bit grainy</figcaption>
+        </figure>
+        </p>
+        <p>
+        <figure><img src="scope.png" /><figcaption>Receiving the datastream at 400kbit/s'</figcaption>
+        </figure>
+        </p>
+        <p>Overall, the prototype was a success and we were able to transmit and recover both streams over the powerline.  However, this system needs more fine tuning before it can be usable in the field.</p>
+        </article>
+    </main>
+<footer>
+    <p>Evan Widloski</p>
+</footer>
+</body>
+</html>
