@@ -1,0 +1,55 @@
+{% extends "base.j2" %}
+
+{% block main %}
+{% macro project_entry(project) %}
+<li>
+    <a href="{% if 'link' in project %}{{ project.link }}{% else %}{{ project.path }}{% endif %}">
+        <code>{{ project.title }}</code>
+    </a> {% if project.description or project.date %}-{% endif %} {{ project.description }}
+    {% if project.date %}<time datetime="{{ project.date }}"> ({{ project.date.split('-')[0] }})</time>{% endif %}
+</li>
+{% endmacro %}
+
+<h1>Evan Widloski</h1>
+
+<img style="margin: auto;display: block;max-width: 20ch" src="/man.svg">
+
+<div class="links">
+    <span><a href="http://github.com/evidlo">github.com/evidlo</a></span>
+    <span><a href="resume.pdf">CV</a></span>
+    <span><a href="rss.html">RSS</a></span>
+</div>
+
+<h2>Software Projects</h2>
+<ul>
+{% for project in path('software/*.md')|selectattr('date')|sort(attribute='date', reverse=true) %}
+    {{ project_entry(project) }}
+{% endfor %}
+</ul>
+
+<h2>Hardware Projects</h2>
+<ul>
+{% for project in path('projects/**/*.md')|selectattr('date')|sort(attribute='date', reverse=true) %}
+    {{ project_entry(project) }}
+{% endfor %}
+{% for project in path('projects/**/*.md')|rejectattr('date') %}
+    {{ project_entry(project) }}
+{% endfor %}
+</ul>
+
+<h2>Notes</h2>
+<ul>
+{% for notes in path('notes/**/*.md') %}
+    {{ project_entry(notes) }}
+{% endfor %}
+    <li>
+        <a href="notes/ece321"><code>ECE321</code></a> - Electromechanical Devices
+    </li>
+    <li>
+        <a href="notes/ma279"><code>MA279</code></a> - Real Analysis
+    </li>
+    <li>
+        <a href="notes/attiny"><code>ATTiny</code></a> - ATTiny85 Examples
+    </li>
+</ul>
+{% endblock %}
