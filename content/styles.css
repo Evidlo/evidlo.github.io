@@ -45,6 +45,13 @@ a:hover {
     display: inline-block;
     margin: 2rem auto;
 }
+
+.links {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 1ch;
+}
+
 iframe, table {
   border-collapse: collapse;
   margin: auto;

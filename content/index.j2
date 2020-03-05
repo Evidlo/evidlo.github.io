@@ -1,10 +1,6 @@
 {% extends "base.j2" %}
 
 {% block main %}
-<h1>Evan Widloski</h1>
-
-<img style="margin: auto;display: block;max-width: 20ch" src="/man.svg">
-
 {% macro project_entry(project) %}
 <li>
     <a href="{% if 'link' in project %}{{ project.link }}{% else %}{{ project.path }}{% endif %}">
@@ -13,6 +9,16 @@
     {% if project.date %}<time datetime="{{ project.date }}"> ({{ project.date.split('-')[0] }})</time>{% endif %}
 </li>
 {% endmacro %}
+
+<h1>Evan Widloski</h1>
+
+<img style="margin: auto;display: block;max-width: 20ch" src="/man.svg">
+
+<div class="links">
+    <span><a href="http://github.com/evidlo">github.com/evidlo</a></span>
+    <span><a href="resume.pdf">CV</a></span>
+    <span><a href="rss.html">RSS</a></span>
+</div>
 
 <h2>Software Projects</h2>
 <ul>
@@ -37,13 +43,13 @@
     {{ project_entry(notes) }}
 {% endfor %}
     <li>
-        <a href="ece321"><code>ECE321</code></a> - Electromechanical Devices
+        <a href="notes/ece321"><code>ECE321</code></a> - Electromechanical Devices
     </li>
     <li>
-        <a href="ma279"><code>MA279</code></a> - Real Analysis
+        <a href="notes/ma279"><code>MA279</code></a> - Real Analysis
     </li>
     <li>
-        <a href="attiny"><code>ATTiny</code></a> - ATTiny85 Examples
+        <a href="notes/attiny"><code>ATTiny</code></a> - ATTiny85 Examples
     </li>
 </ul>
 {% endblock %}

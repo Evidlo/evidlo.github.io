@@ -8,12 +8,19 @@
         <item>
             <title>{{ page.title }}</title>
             <link>{{ page.link }}</link>
+            {% if 'description' in page %}
+            <description>{{ page.description }}</description>
+            {% endif %}
         </item>
 {% endfor %}
 {% for page in path('projects/**/*.md') %}
         <item>
             <title>{{ page.title }}</title>
+            {# handle markdown files and external links #}
             <link>{% if 'link' in project %}{{ page.link }}{% else %}{{ page.path }}{% endif %}</link>
+            {% if 'description' in page %}
+            <description>{{ page.description }}</description>
+            {% endif %}
         </item>
 {% endfor %}
     </channel>
