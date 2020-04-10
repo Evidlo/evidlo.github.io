@@ -861,3 +861,19 @@ Useful options
 -   bootloaders \> grub2
 -   toolchain \> C library
 -   filesystem images \> iso image
+
+Fedora
+=======
+
+List copr repos
+
+    dnf copr list
+
+Removing copr repos
+
+    sudo dnf copr remove foo/bar
+
+Broken TTY
+==========
+
+sudo DISPLAY=:0 loadkeys us
