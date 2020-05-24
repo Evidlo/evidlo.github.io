@@ -11,7 +11,8 @@ devserver: output
 	trap "exit" INT TERM
 	trap "kill 0" EXIT
 	# serve content
-	httpwatcher --root output --watch content,templates --port 8000 --reload-delay 2 &
+	# httpwatcher --root output --watch content,templates --port 8000 --reload-delay 2 &
+	httpwatcher --root output --watch content,templates --port 8000 &
 	# wait for change and rebuild
 	legoman build
 	while :; do
