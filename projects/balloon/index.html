@@ -30,7 +30,7 @@
         <p>Since this radio module is for handheld units that transmit audio, I needed some sort of modem for converting data to an analog format and vice-versa.  One of the methods of modulation I investigated was DTMF, which is used commonly in amateur radio and is built in to many consumer units.  However, DTMF modems tend to be rather large pin-wise and aren't compatible with most digipeaters, so I decided to build one from scratch using my favorite microcontroller, the ATTiny85.  For starters, I need to modulate and demodulate incoming data (known as <code>symbols</code> in communications) so they can be transmitted over the air.  In this case, most digipeaters use a standard known as <code>Bell-202</code> (also known as AFSK-1200), which is a simple modulation scheme where a logic 1 (mark) is represented by a 1200 Hz tone and a logic 0 (space) is represented by a 2200 Hz tone.  I accomplished this by calculating an 8-point DTFT at 1200 Hz and 2200 Hz at a sample rate of 9600 Hz (determined through testing).  I didn't use the FFT here because I'm only interested in the spectral power at two points.</p>
         <p>Once I generated my DTFT coefficients, I used the <a href="https://en.wikipedia.org/wiki/Q_%28number_format%29">Q number format</a>, which is a method of handling signed fractional numbers within fixed point datatypes.  I wrote a bit of code to do the conversion.</p>
         <h4 id="calculating-coefficients">Calculating coefficients</h4>
-        <div class="codehilite"><pre><span></span><span class="c">#!/bin/octave</span>
+        <div class="codehilite"><pre><span></span><code><span class="c">#!/bin/octave</span>
         <span class="c">## Evan Widloski - 2016-10-15</span>
         <span class="c">## calculate DTFT coefficients and express as binary fractions</span>
 
@@ -67,13 +67,13 @@
         <span class="nb">arrayfun</span><span class="p">(@(</span><span class="n">x</span><span class="p">)</span> <span class="n">dec2binfrac</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="nb">imag</span><span class="p">(</span><span class="n">Xd1</span><span class="p">))</span>
         <span class="nb">arrayfun</span><span class="p">(@(</span><span class="n">x</span><span class="p">)</span> <span class="n">dec2binfrac</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="nb">real</span><span class="p">(</span><span class="n">Xd2</span><span class="p">))</span>
         <span class="nb">arrayfun</span><span class="p">(@(</span><span class="n">x</span><span class="p">)</span> <span class="n">dec2binfrac</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="nb">imag</span><span class="p">(</span><span class="n">Xd2</span><span class="p">))</span>
-        </pre></div>
+        </code></pre></div>
 
 
         <p>This yielded 4 arrays which would calculate the DFT at 1200 and 2200 Hz with a 9600 Hz sample rate.</p>
         <h3 id="simulation">Simulation</h3>
         <p>Before implementing my code on the ATTiny, I wanted to do some verification and evaluate performance.  Fortunately, Octave has a <a href="https://www.gnu.org/software/octave/doc/v4.0.1/Getting-Started-with-Oct_002dFiles.html">C/C++ api</a> which allowed me to test my code with the same bit-precision as I would have on the microcontroller.  Below you can see the 4 arrays of DTFT coefficients (generated previously) in Q.7 number format (1 sign bit, 7 data bits).</p>
-        <div class="codehilite"><pre><span></span><span class="c1">// Evan Widloski - FSK Computation</span>
+        <div class="codehilite"><pre><span></span><code><span class="c1">// Evan Widloski - FSK Computation</span>
         <span class="c1">// Intended to be called from Octave</span>
         <span class="cp">#include</span> <span class="cpf">&lt;octave/oct.h&gt;</span><span class="cp"></span>
         <span class="cp">#include</span> <span class="cpf">&lt;stdint.h&gt;</span><span class="cp"></span>
@@ -118,7 +118,7 @@
         <span class="k">return</span> <span class="nf">octave_value</span><span class="p">(</span><span class="n">dtft_2200</span> <span class="o">-</span> <span class="n">dtft_1200</span><span class="p">);</span>
         <span class="k">return</span> <span class="nf">octave_value</span><span class="p">(</span><span class="n">dtft_2200</span><span class="p">);</span>
               <span class="p">}</span>
-        </pre></div>
+        </code></pre></div>
 
 
         <p>Initially, I generated my test signals incoherently, meaning that the phase resets each time the signal transitions from a mark to a space and vice versa.  This creates discontinuities and adds noise to the spectrum in the transition regions.  From the results below, it was clear that my implementation really needed to be coherent.</p>
@@ -131,12 +131,12 @@
         <figure><img src="bit_clock.png" /><figcaption>Input signal and bit synchronized output.  Input signal is resampled (green dots) to create output with clean timing</figcaption>
         </figure>
         </p>
-        <div class="codehilite"><pre><span></span><span class="ch">#!/bin/python</span>
+        <div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/python</span>
         <span class="c1">## Evan Widloski - 2016-11-27</span>
         <span class="c1">## Test bit synchronization algorithm</span>
         <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">cycle</span>
-        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-        <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
         <span class="c1">## inputs generated from simulation.m</span>
         <span class="c1">## noisy input</span>
@@ -188,7 +188,7 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Final output&#39;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="o">-.</span><span class="mi">2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">])</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-        </pre></div>
+        </code></pre></div>
 
 
         <p>The algorithm waits for a quiet period (no data being transmitted), then synchronizes on the first bit edge it sees.  So long as there are breaks between transmitted packets, the algorithm works well enough to clean up the incoming bit stream.</p>
@@ -209,9 +209,9 @@
         </p>
         <p>However, there was one more problem.  The ATTiny85 is a fairly underpowered device, and with all the multiplications I was doing, I was using up most of the sample period performing computations.  With the sample period now cut in half, there wasn't enough time to finish the DFT calculation before the next sample came in.  My first thought to a solution was to simply use an external 16 MHz crystal rather than the built in 8 MHz oscillator.</p>
         <p>After some research, I learned I could use the ATTiny's PLL as a clock source to double the frequency of the built in oscillator and achieve the desired 16 MHz.  This was just a new target in my makefile:</p>
-        <div class="codehilite"><pre><span></span><span class="nf">16mhz-pll</span><span class="o">:</span>
+        <div class="codehilite"><pre><span></span><code><span class="nf">16mhz-pll</span><span class="o">:</span>
           avrdude -v -p <span class="k">$(</span>DEVICE<span class="k">)</span> -c <span class="k">$(</span>PROGRAMMER<span class="k">)</span> -P <span class="k">$(</span>PORT<span class="k">)</span> -U lfuse:w:0xf1:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
-        </pre></div>
+        </code></pre></div>
 
 
         <h2 id="packetized-data">Packetized Data</h2>
