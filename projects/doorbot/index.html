@@ -10,41 +10,41 @@
 </head>
 <body>
     <main>
-          <article>
-            <header>
-              <h1>DAS</h1>
-              <time datetime="2013-11-11">2013-11-11</time>
-            </header>
-            <p><a href="http://github.com/evidlo/DAS">Project files</a></p>
-        <p>
-        <figure><img src="mhacks.png" /><figcaption>M-Hacks 2013</figcaption>
-        </figure>
-        <figure><img src="demo.png" /><figcaption>Hackathon demonstration board</figcaption>
-        </figure>
-        </p>
-        <p>This is a dorm automation system (DAS) I built at a hackathon with my freshman year roommate.  It features a remotely controllable door unlocker and relays for controlling lights.  We built a web interface for controlling the DAS remotely and viewing the state of the door while we're away.  The system also featured a piezoelectric sensor which would listen for a secret knock to open the door.  In the code, we normalized the knock based on the length of the first pulse so that the secret knock can be recognized regardless of the speed.
-          Later on, I moved the boards into a gutted DSL modem.  I left the ports intact and soldered my boards to them.</p>
-        <div class="annotate">
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/Y7vDsM4oP3w" frameborder="0" allowfullscreen></iframe>
-        </div>
+  <article>
+    <header>
+      <h1>DAS</h1>
+      <time datetime="2013-11-11">2013-11-11</time>
+    </header>
+    <p><a href="http://github.com/evidlo/DAS">Project files</a></p>
+<p>
+<figure><img src="mhacks.png" /><figcaption>M-Hacks 2013</figcaption>
+</figure>
+<figure><img src="demo.png" /><figcaption>Hackathon demonstration board</figcaption>
+</figure>
+</p>
+<p>This is a dorm automation system (DAS) I built at a hackathon with my freshman year roommate.  It features a remotely controllable door unlocker and relays for controlling lights.  We built a web interface for controlling the DAS remotely and viewing the state of the door while we're away.  The system also featured a piezoelectric sensor which would listen for a secret knock to open the door.  In the code, we normalized the knock based on the length of the first pulse so that the secret knock can be recognized regardless of the speed.
+  Later on, I moved the boards into a gutted DSL modem.  I left the ports intact and soldered my boards to them.</p>
+<div class="annotate">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/Y7vDsM4oP3w" frameborder="0" allowfullscreen></iframe>
+</div>
 
-        <p>
-        <figure><img src="door.jpg" /><figcaption>The door unlocked</figcaption>
-        </figure>
-        </p>
-        <p>The door unlocker consists of a servo mounted over the deadbolt of the door and a sensing switch to detect when the door opens or closes.  Initially I was having issues with the long wire that connected the servo to the control circuitry.  The servo would pull lots of current and the voltage would plummet due to the impedance of the wire (a few ohms).  I remedied this by stepping up the voltage to 12V on the wire and then regulating it back down to 5V near the servo.  This is the same reason powerlines are usually at several kV which is then stepped down to the residential 110VAC.</p>
-        <p><img alt="" src="modem1.jpg" />
-        <figure><img src="modem2.jpg" /><figcaption>Repurposed DSL model</figcaption>
-        </figure>
-        </p>
-        <p><img alt="" src="interface.png" />
-        <figure><img src="log.png" /><figcaption>The control and log interfaces</figcaption>
-        </figure>
-        </p>
-        <p>
-        <figure class="inline" style="width:31%"><img src="a.png" /><figcaption>close detector</figcaption></figure>
-        </p>
-          </article>
+<p>
+<figure><img src="door.jpg" /><figcaption>The door unlocked</figcaption>
+</figure>
+</p>
+<p>The door unlocker consists of a servo mounted over the deadbolt of the door and a sensing switch to detect when the door opens or closes.  Initially I was having issues with the long wire that connected the servo to the control circuitry.  The servo would pull lots of current and the voltage would plummet due to the impedance of the wire (a few ohms).  I remedied this by stepping up the voltage to 12V on the wire and then regulating it back down to 5V near the servo.  This is the same reason powerlines are usually at several kV which is then stepped down to the residential 110VAC.</p>
+<p><img alt="" src="modem1.jpg" />
+<figure><img src="modem2.jpg" /><figcaption>Repurposed DSL model</figcaption>
+</figure>
+</p>
+<p><img alt="" src="interface.png" />
+<figure><img src="log.png" /><figcaption>The control and log interfaces</figcaption>
+</figure>
+</p>
+<p>
+<figure class="inline" style="width:31%"><img src="a.png" /><figcaption>close detector</figcaption></figure>
+</p>
+  </article>
     </main>
 <footer>
     <p>Evan Widloski</p>
