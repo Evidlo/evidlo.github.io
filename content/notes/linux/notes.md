@@ -35,7 +35,8 @@ A simple service unit
 
 **foobar.service**
 
-``` {.text}
+
+```
 [Unit]
 Description=example service
 

@@ -37,6 +37,16 @@
 {% endfor %}
 </ul>
 
+<h2>Publications</h2>
+<ul>
+{% for project in path('pubs/**/*.md')|selectattr('date')|sort(attribute='date', reverse=true) %}
+    {{ project_entry(project) }}
+{% endfor %}
+{% for project in path('pubs/**/*.md')|rejectattr('date') %}
+    {{ project_entry(project) }}
+{% endfor %}
+</ul>
+
 <h2>Notes</h2>
 <ul>
 {% for notes in path('notes/**/*.md') %}
