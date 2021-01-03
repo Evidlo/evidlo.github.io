@@ -1,7 +1,7 @@
 {% extends "base.j2" %}
 
 {% block main %}
-{% macro project_entry(project) %}
+{% macro entry(project) %}
 <li>
     <a href="{% if 'link' in project %}{{ project.link }}{% else %}{{ project.path }}{% endif %}">
         <code>{{ project.title }}</code>
@@ -23,34 +23,36 @@
 <h2>Software Projects</h2>
 <ul>
 {% for project in path('software/*.md')|selectattr('date')|sort(attribute='date', reverse=true) %}
-    {{ project_entry(project) }}
+    {{ entry(project) }}
 {% endfor %}
 </ul>
 
 <h2>Hardware Projects</h2>
 <ul>
 {% for project in path('projects/**/*.md')|selectattr('date')|sort(attribute='date', reverse=true) %}
-    {{ project_entry(project) }}
+    {{ entry(project) }}
 {% endfor %}
 {% for project in path('projects/**/*.md')|rejectattr('date') %}
-    {{ project_entry(project) }}
+    {{ entry(project) }}
 {% endfor %}
 </ul>
 
 <h2>Publications</h2>
 <ul>
 {% for project in path('pubs/**/*.md')|selectattr('date')|sort(attribute='date', reverse=true) %}
-    {{ project_entry(project) }}
+    {{ entry(project) }}
 {% endfor %}
 {% for project in path('pubs/**/*.md')|rejectattr('date') %}
-    {{ project_entry(project) }}
+    {{ entry(project) }}
+{% endfor %}
+</ul>
 {% endfor %}
 </ul>
 
 <h2>Notes</h2>
 <ul>
 {% for notes in path('notes/**/*.md') %}
-    {{ project_entry(notes) }}
+    {{ entry(notes) }}
 {% endfor %}
     <li>
         <a href="notes/ece321"><code>ECE321</code></a> - Electromechanical Devices
