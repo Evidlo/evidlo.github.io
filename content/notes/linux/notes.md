@@ -6,14 +6,12 @@ author: Evan Widloski
 
 [TOC]
 
-systemd
-=======
+## systemd
 
 **/etc/systemd/system** - default location for system units
 **\~/.config/systemd/user** - default location for user units
 
-Commands
---------
+### Commands
 
 ``` .bash
 # reload units and timers
@@ -28,8 +26,7 @@ systemctl [--user] list-units -a
 journalctl --unit foo
 ```
 
-Examples
---------
+### Examples
 
 A simple service unit
 
@@ -65,8 +62,9 @@ Persistent=true
 WantedBy=timers.target
 ```
 
-Basic Arch Install
-==================
+More examples [here](http://github.com/evidlo/examples/tree/master/systemd).
+
+## Basic Arch Install
 
 ``` {.bash}
 dhcpcd
@@ -123,8 +121,7 @@ pacman -S vim htop git openssh wget
 pacman -S xorg-server xf86-video-ati xorg-xinit
 ```
 
-Generic Linux Install
-=====================
+## Generic Linux Install
 
 ``` {.bash}
 # list all available block devices
@@ -134,8 +131,7 @@ lsblk
 sudo dd if=foobar.iso of=/dev/sdX status=progress && sync
 ```
 
-udev
-====
+## udev
 
 ``` {.bash}
 # show device connect/disconnects and fired rules
@@ -150,11 +146,9 @@ udevadm info --attribute-walk --path=/devices/...
 SUBSYSTEMS=="usb", ATTRS{idProduct}=="3300", ATTRS{idVendor}=="1e10", MODE="0666", SYMLINK+="foobar"
 ```
 
-iptables
-========
+## iptables
 
-Commands
---------
+### Commands
 
 ``` {.bash}
 # list all tables
@@ -163,8 +157,7 @@ iptables -L -n -v
 iptables-save > /etc/sysconfig/iptables
 ```
 
-Examples
---------
+### Examples
 
 ``` {.bash}
 # allow ssh
@@ -192,26 +185,22 @@ iptables -t nat -F
 iptables -t nat -X
 ```
 
-LVM
-===
+## LVM
 
-Adding
-------
+### Adding
 
 ``` {.bash}
 # create new lv `foo` in group `foo_group`
 lvcreate -L 10G foo_group -n foo
 ```
 
-Deleting
---------
+## Deleting
 
 ``` {.bash}
 lvremove /dev/[vgname]/[lvname]
 ```
 
-BTRFS
-=====
+### BTRFS
 
 ``` {.bash}
 # add all devices to filesystem
@@ -224,13 +213,11 @@ btrfs balance status /
 btrfs balance start -dconvert=raid10,soft -mconvert=raid10,soft  /mount
 ```
 
-LXC
-===
+## LXC
 
 <https://www.flockport.com/enable-lxc-networking-in-debian-jessie-fedora-and-others/>
 
-Config examples
----------------
+### Config examples
 
 **/etc/lxc/lxc.conf** - set path for containers to be stored (default
 /var/lib/lxc)
@@ -338,8 +325,7 @@ iptables -A FORWARD -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
 iptables -t nat -A PREROUTING -p tcp --dport 20022 -j DNAT --to-destination 192.168.1.102:22
 ```
 
-Commands
---------
+### Commands
 
 ``` {.bash}
 # list container statuses and ip addresses (fancy mode)
@@ -353,13 +339,12 @@ brctl addbr virbr0
 ip link set virbr0 down
 ```
 
-New Container Setup
--------------------
+### New Container Setup
 
 New LXC containers are very barebones and need a bit of setup to be
 useful. Here is an overview of steps for various distros.
 
-### Debian
+#### Debian
 
 Setup PATH
 
@@ -378,7 +363,7 @@ apt-get install apt-utils vim man tar less iputils-ping
 apt-get install git zip autojump wget htop ncdu nload
 ```
 
-### Fedora
+#### Fedora
 
 Install packages
 
@@ -390,19 +375,16 @@ dnf install vim man
 dnf install git zip autojump wget htop ncdu nload
 ```
 
-Weechat
-=======
+## Weechat
 
 ``` {.bash}
 # enable notifications for any messages in buffer (works for Android client, too)
 /buffer set highlight_regex .\ast{}.*
 ```
 
-MDADM
-=====
+## MDADM
 
-Checking state and simulating failure
--------------------------------------
+### Checking state and simulating failure
 
 ``` {.bash}
 # check RAID state
@@ -416,8 +398,7 @@ mdadm --remove /dev/md/pv00 /dev/sda1
 mdadm --add /dev/md/pv00 /dev/sda1
 ```
 
-Replacing a failed drive (sdc)
-------------------------------
+### Replacing a failed drive (sdc)
 
 ``` {.bash}
 # set hard drive as failed
@@ -440,8 +421,7 @@ mdadm --manage /dev/md127 --add /dev/sdc1
 cat /proc/mdstat
 ```
 
-Notifying on harddrive failure (gmail)
---------------------------------------
+### Notifying on harddrive failure (gmail)
 
 **/etc/exim/exim.conf**
 
@@ -473,8 +453,7 @@ AUTO +imsm +1.x -all
 ARRAY /dev/md/pv00 level=raid5 num-devices=4 UUID=1327a02b:b19f6696:0e3f8ac7:9615591c
 ```
 
-Growing RAID size
------------------
+### Growing RAID size
 
 This is useful if the RAID array needs to be grown by using up more free
 space (no added harddrive)
@@ -492,8 +471,7 @@ mdadm -G /dev/md127 -z 500G
 pvresize /dev/md127
 ```
 
-Accessing via Live CD
----------------------
+### Accessing via Live CD
 
 If the array gets screwed up somehow, you can try mounting it on a
 livecd.
@@ -514,8 +492,7 @@ lvscan
 mount /dev/[vgname]/[lvname] /mnt/foo
 ```
 
-Installing GRUB on a Live CD Mounted System
--------------------------------------------
+## Installing GRUB on a Live CD Mounted System
 
 ``` {.bash}
 # mount root lv
@@ -537,8 +514,7 @@ grub2-install /dev/sdd
 grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
-Mounting Images
-===============
+## Mounting Images
 
 ``` {.bash}
 # list the partitions on the image file
@@ -561,8 +537,7 @@ fdisk -l /tmp/sdcard.img
 sudo mount -o loop,offset=33554944 /tmp/sdcard.img /mnt/tmp
 ```
 
-Auto FS
-=======
+## Auto FS
 
 Auto FS + SSHFS allows the system to mount ssh filesystems on access and
 then automatically unmount after a certain timeout. The necessary tools
@@ -595,8 +570,7 @@ ssh foo@example.org
 # enter yes
 ```
 
-Resizing LUKS encrypted LVM
-===========================
+## Resizing LUKS encrypted LVM
 
 ``` {.bash}
 # expand the block device with fdisk, if necessary
@@ -608,13 +582,11 @@ lvextend -l 80G /dev/mapper/fedora--vg-home
 resize2fs /dev/mapper/fedora--vg-home
 ```
 
-Fixing Nodejs
-=============
+## Fixing Nodejs
 
 <https://bugzilla.redhat.com/show_bug.cgi?id=1125868>
 
-Rsync
-=====
+## Rsync
 
 ``` {.bash}
 # Sync permissions only. (useful if you forgot `-p` option in cp)
@@ -623,13 +595,11 @@ Rsync
 rsync --archive --size-only /src/foo /dest/bar
 ```
 
-DNS Tunneling with iodine
-=========================
+## DNS Tunneling with iodine
 
 Most of this was taken from <http://dev.kryo.se/iodine/wiki/HowtoSetup>
 
-Domain Setup
-------------
+### Domain Setup
 
 On a domain you own (e.g. example.com), create an A record
 server.example.com pointing to the ip of a server you own and an NS
@@ -646,8 +616,7 @@ dig +trace tunnel.example.com
 # you should see some stuff printed out in the console on the server
 ```
 
-Server Setup
-------------
+### Server Setup
 
 ``` {.bash}
 # set iptables rules
@@ -674,8 +643,7 @@ iodined -c -P password -f 192.168.99.1 tunnel.example.com
 
 ```
 
-Client Setup
-------------
+### Client Setup
 
 Alternatively, you can download a script that does this part from
 <http://www.doeshosting.com/code/NStun.sh>.
@@ -705,8 +673,7 @@ sudo ip route add default via 192.168.99.1
 sudo sh -c "echo nameserver 8.8.4.4 > /etc/resolv.conf"
 ```
 
-rDNS
-====
+## DNS
 
 ``` {.bash}
 # lookup the hostname or domain name associated with ip address
@@ -714,8 +681,7 @@ rDNS
 dig -x 1.2.3.4
 ```
 
-Booting
-=======
+## Booting
 
 **block** - smallest addressable unit of storage
 
@@ -731,8 +697,7 @@ There are three primary boot options involving UEFI and BIOS firmwares
     -   max addressable disk space is 2\^32 \* 512 = 2 TiB on a system
         with 512 byte blocks.
 
-GPT - GUID Partition Table
---------------------------
+## GPT - GUID Partition Table
 
 **protective mbr** - `a small partition at the beginning of the GPT disk
 (where the MBR would normally be) that prevents older MBR tools from
@@ -746,23 +711,18 @@ A GPT disk is formatted like so:
 
 <table>
 <tr><td>Protective MBR</td><td>512B</td></tr>
+<tr><td>GPT Header</td><td>512B</td></tr>
+<tr><td>GPT Partition Table</td><td>16KB</td></tr>
+<tr><td><b>Partitions</b></td><td>XXX</td></tr>
+<tr><td>Backup Partition Table</td><td>16KB</td></tr>
+<tr><td>Backup Header</td><td>512B</td></tr>
 </table>
-
-|------------------------|------|
-| Protect MBR            | 512B |
-| GPT Header             | 512B |
-| GPT Partition TAble    | 16KB |
-| *Partitions*           | XXX  |
-| Backup Partition Table | 16KB |
-| Backup Header          | 512B |
-|------------------------+------|
 
 
 So there should be 17KB and 16.5KB of free space at the beginning and
 end of a GPT disk.
 
-Random facts
-------------
+## Random facts
 
 -   grub2-install invokes efibootmgr to install (aka register) entries
     in the nvram
@@ -772,20 +732,14 @@ Random facts
     devices and doesn\'t require any nvram registration
 -   
 
-SMART Status
-============
+## SMART Status
 
-::: {.definitions}
-smartctl -a /dev/sdX
+    smartctl -a /dev/sdX
+    smartctl -t short /dev/sdX
 
-smartctl -t short /dev/sdX
-:::
+## Network interfaces and bridging
 
-Network interfaces and bridging
-===============================
-
-Simulating network disconnect
------------------------------
+### Simulating network disconnect
 
 ``` {.bash}
 # add network namespaces (for network isolation)
@@ -826,8 +780,7 @@ sudo ip netns exec client-ns ip link set lo up
 sudo ip netns exec server-ns ip link set lo up
 ```
 
-Ubuntu VNC Server
-=================
+## Ubuntu VNC Server
 
 ``` {.bash}
 # install x11vnc
@@ -852,29 +805,35 @@ x11-vnc -forever -loop -noxdamage -repeat -rfbport 5900 -shared -usepw
 Remember to set the machine to never suspend in the system power
 settings.
 
-Buildroot
-=========
+## Buildroot
 
-Useful options
---------------
+### Useful options
 
--   toolchain \> enable wchar support
--   bootloaders \> grub2
--   toolchain \> C library
--   filesystem images \> iso image
+-   toolchain > enable wchar support
+-   bootloaders > grub2
+-   toolchain > C library
+-   filesystem images > iso image
 
-Fedora
-=======
+## Fedora COPR
 
 List copr repos
 
     dnf copr list
 
+List copr repos
+
+    dnf copr list
+
+List copr repos
+
+```
+dnf copr list
+```
+
 Removing copr repos
 
     sudo dnf copr remove foo/bar
 
-Broken TTY
-==========
+## Broken TTY
 
-sudo DISPLAY=:0 loadkeys us
+    sudo DISPLAY=:0 loadkeys us
