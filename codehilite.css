@@ -1,8 +1,8 @@
-.codehilite { overflow: auto }
+.codehilite { overflow: auto; padding-left: 1em; }
 .codehilite .hll { background-color: #ffffcc }
-.codehilite  { background: #f8f8f8; }
+.codehilite  { background: cornsilk; }
 .codehilite .c { color: #408080; font-style: italic } /* Comment */
-.codehilite .err { border: 1px solid #FF0000 } /* Error */
+.codehilite .err { color: black; } /* Error */
 .codehilite .k { color: #008000; font-weight: bold } /* Keyword */
 .codehilite .o { color: #666666 } /* Operator */
 .codehilite .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
