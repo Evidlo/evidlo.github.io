@@ -595,6 +595,14 @@ resize2fs /dev/mapper/fedora--vg-home
 rsync --archive --size-only /src/foo /dest/bar
 ```
 
+``` bash
+# -a : archive, preserve permissions, creation dates, etc
+# -v : verbose
+# -h : human readable file sizes
+
+rsync -avh src dest
+```
+
 ## DNS Tunneling with iodine
 
 Most of this was taken from <http://dev.kryo.se/iodine/wiki/HowtoSetup>
