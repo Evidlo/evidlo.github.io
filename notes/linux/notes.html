@@ -582,6 +582,13 @@ resize2fs /dev/mapper/fedora--vg-home
 rsync --archive --size-only /src/foo /dest/bar
 </code></pre></div>
 
+<div class="codehilite"><pre><span></span><code><span class="c1"># -a : archive, preserve permissions, creation dates, etc</span>
+<span class="c1"># -v : verbose</span>
+<span class="c1"># -h : human readable file sizes</span>
+
+rsync -avh src dest
+</code></pre></div>
+
 <h2 id="dns-tunneling-with-iodine">DNS Tunneling with iodine</h2>
 <p>Most of this was taken from <a href="http://dev.kryo.se/iodine/wiki/HowtoSetup">http://dev.kryo.se/iodine/wiki/HowtoSetup</a></p>
 <h3 id="domain-setup">Domain Setup</h3>
@@ -794,7 +801,7 @@ settings.</p>
 <div class="codehilite"><pre><span></span><code><span class="n">sudo</span> <span class="n">DISPLAY</span><span class="o">=</span><span class="p">:</span><span class="mi">0</span> <span class="n">loadkeys</span> <span class="n">us</span>
 </code></pre></div>
 </article>
-    </main>
+</main>
 <footer>
     <p>Evan Widloski</p>
 </footer>
