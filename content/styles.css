@@ -46,7 +46,7 @@ a:hover {
     margin: 2rem auto;
 }
 
-.links {
+nav {
     display: flex;
     justify-content: space-evenly;
     margin: 1ch;
