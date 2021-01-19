@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="template.xsl"?>
+<index>
+    <title>My Website</title>
+
+    <section>
+        <title>Projects</title>
+        <entry>
+            <title>Project 1</title>
+            <link>http://example.com</link>
+            <desc>A cool project</desc>
+        </entry>
+        <entry>
+            <title>Project 2</title>
+            <link>http://example.com</link>
+            <desc>A cool project</desc>
+        </entry>
+        <entry>
+            <title>Project 3</title>
+            <link>http://example.com</link>
+            <desc>A cool project</desc>
+        </entry>
+    </section>
+
+    <section>
+        <title>Papers</title>
+        <entry>
+            <title>Paper 1</title>
+            <link>http://example.com</link>
+            <desc>A cool paper</desc>
+        </entry>
+        <entry>
+            <title>Paper 2</title>
+            <link>http://example.com</link>
+            <desc>A cool paper</desc>
+        </entry>
+        <entry>
+            <title>Paper 3</title>
+            <link>http://example.com</link>
+            <desc>A cool paper</desc>
+        </entry>
+    </section>
+</index>

@@ -1,0 +1,87 @@
+/* source: https://jrl.ninja/etc/1/ */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #fffaf7;
+    line-height: 1.3;
+}
+main {
+    max-width: 65ch;
+    padding: 1ch;
+    margin: auto;
+}
+header {
+    margin-bottom: 1ch;
+}
+h1 {
+    margin-bottom: 1ch;
+}
+time {
+    color: #888;
+}
+hr {
+    border: none;
+    height: 2px;
+    background-color: #ddd;
+    margin: 2rem auto;
+}
+footer {
+    color: #888;
+    margin-top: 2rem;
+    text-align: center;
+}
+a {
+    color: #ff3c3c;
+    text-decoration: none;
+    outline: 0;
+}
+a:hover {
+    text-decoration: underline;
+}
+::selection {
+    background-color: #fff888;
+}
+
+.inline {
+    display: inline-block;
+    margin: 2rem auto;
+}
+
+.links {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 1ch;
+}
+
+iframe, table {
+  border-collapse: collapse;
+  margin: auto;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+iframe {
+    border: 0;
+}
+
+img {
+    max-width: 70%;
+    display: block;
+    margin: auto;
+}
+
+figure {
+    max-width: 70%;
+    margin: 1ch auto 1ch auto;
+    border: 1px solid gray;
+    background-color: seashell;
+}
+
+figure img {
+    max-width: 100%;
+}
+
+figcaption {
+    font-style: italic;
+    text-align: center;
+}

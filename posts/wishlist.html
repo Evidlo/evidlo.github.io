@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+    <title>Technology Wishlist</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="/styles.css" /> 
+    <link rel="stylesheet" type="text/css" href="/codehilite.css" /> 
+    <link rel="alternate" type="application/rss+xml" href="/rss.html" title="RSS feed">
+</head>
+<body>
+    <main>
+        
+  <article>
+    <header>
+      <h1>Technology Wishlist</h1>
+      <time datetime="2021-01-18">2021-01-18</time>
+    </header>
+    <h1 id="better-name-resolution-on-home-networks">Better name resolution on home networks</h1>
+<p>Home routers suck.  I want to be able to connect from one device to another on my network without manually looking up its IP address or having the address change when the device reboots.</p>
+<p>If you Google "local hostname resolution on home router", you usually get these two suggestions:</p>
+<ol>
+<li>
+<p>Add the ip addresses to your computer's /etc/hosts file.</p>
+</li>
+<li>
+<p>Use mdns/avahi/bonjour.</p>
+</li>
+</ol>
+<h1 id="1-is-a-non-answer-really-it-still-requires-you-to-look-up-the-address-manually-initially-and-if-the-ip-address-changes-you-have-to-go-back-and-manually-update-this-file-also-you-have-to-do-this-on-each-device-on-your-network">1 is a non-answer, really.  It still requires you to look up the address manually initially, and if the ip address changes you have to go back and manually update this file.  Also you have to do this on each device on your network.</h1>
+<h1 id="2-mdns-multicast-dns-works-by-sending-out-a-broadcast-to-all-devices-on-the-local-network-which-then-respond-with-their-addresshostname-and-a-list-of-services-they-support-this-seems-great-in-principle-except-that-it-requires-all-clients-to-a-program-which-listens-and-responds-to-these-requests-while-even-the-most-basic-iot-doodad-will-support-regular-dns-name-resolution-they-almost-surely-wont-support-mdns-its-not-even-supported-on-android">2 mDNS (multicast DNS) works by sending out a broadcast to all devices on the local network, which then respond with their address/hostname and a list of services they support.  This seems great in principle, except that it requires all clients to a program which listens and responds to these requests.  While even the most basic IoT doodad will support regular DNS name resolution, they almost surely won't support mDNS.  It's not even supported on Android.</h1>
+<p>In my opinion, the idiomatic solution is for home routers to run a local DNS server with new entries added and removed as IP address are granted and revoked to devices on the network.</p>
+<p>This is actually what ddwrt-flashed routers do by default.</p>
+<h1 id="browser-support-for-srv-records">Browser support for SRV records</h1>
+<h1 id="csv-derivative-with-metadata-support">CSV derivative with metadata support</h1>
+  </article>
+
+    </main>
+<footer>
+    <p>Evan Widloski - Rendered with <a href="https://github.com/evidlo/legoman">Legoman</a></p>
+</footer>
+</body>
+</html>
