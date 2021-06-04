@@ -27,12 +27,73 @@
 <p>Use mdns/avahi/bonjour.</p>
 </li>
 </ol>
-<h1 id="1-is-a-non-answer-really-it-still-requires-you-to-look-up-the-address-manually-initially-and-if-the-ip-address-changes-you-have-to-go-back-and-manually-update-this-file-also-you-have-to-do-this-on-each-device-on-your-network">1 is a non-answer, really.  It still requires you to look up the address manually initially, and if the ip address changes you have to go back and manually update this file.  Also you have to do this on each device on your network.</h1>
-<h1 id="2-mdns-multicast-dns-works-by-sending-out-a-broadcast-to-all-devices-on-the-local-network-which-then-respond-with-their-addresshostname-and-a-list-of-services-they-support-this-seems-great-in-principle-except-that-it-requires-all-clients-to-a-program-which-listens-and-responds-to-these-requests-while-even-the-most-basic-iot-doodad-will-support-regular-dns-name-resolution-they-almost-surely-wont-support-mdns-its-not-even-supported-on-android">2 mDNS (multicast DNS) works by sending out a broadcast to all devices on the local network, which then respond with their address/hostname and a list of services they support.  This seems great in principle, except that it requires all clients to a program which listens and responds to these requests.  While even the most basic IoT doodad will support regular DNS name resolution, they almost surely won't support mDNS.  It's not even supported on Android.</h1>
-<p>In my opinion, the idiomatic solution is for home routers to run a local DNS server with new entries added and removed as IP address are granted and revoked to devices on the network.</p>
+<h1 id="1-is-a-non-answer-really-it-still-requires-you-to-look-up-the-address-manually-initially-and-if-the-ip-address-changes-you-have-to-go-back-and-manually-update-this-file-also-you-have-to-do-this-on-each-device-on-your-network-for-each-remote-service-you-want-to-connect-to-no-good">1 is a non-answer, really.  It still requires you to look up the address manually initially, and if the ip address changes you have to go back and manually update this file.  Also you have to do this on each device on your network for each remote service you want to connect to.  No good.</h1>
+<h1 id="2-mdns-multicast-dns-works-by-sending-out-a-broadcast-to-all-devices-on-the-local-network-which-then-respond-with-their-addresshostname-and-a-list-of-services-they-support-this-seems-great-in-principle-except-that-it-requires-all-clients-to-a-program-which-listens-and-responds-to-these-requests-while-even-the-most-basic-iot-doodad-will-support-regular-dns-on-their-network-stack-they-almost-surely-wont-support-mdns-its-not-even-supported-on-android">2 mDNS (multicast DNS) works by sending out a broadcast to all devices on the local network, which then respond with their address/hostname and a list of services they support.  This seems great in principle, except that it requires all clients to a program which listens and responds to these requests.  While even the most basic IoT doodad will support regular DNS on their network stack, they almost surely won't support mDNS.  It's not even supported on Android.</h1>
+<p>In my opinion, the idiomatic solution is for home routers to run a local DNS server with new entries added based on client device hostnames when the client connects to the network.</p>
 <p>This is actually what ddwrt-flashed routers do by default.</p>
-<h1 id="browser-support-for-srv-records">Browser support for SRV records</h1>
 <h1 id="csv-derivative-with-metadata-support">CSV derivative with metadata support</h1>
+<p>When I was working on the <a href="https://rapidalarm.github.io/#!index.md">Rapidalarm</a> project during the first Summer of COVID, I found myself needing to share recordings on ventilator data with a team that included technical and non-technical people.  Some of these people used Matlab while I was using a Python/Numpy pipeline for data processing.  Others with less technical backgrounds also needed to be able to plot/manipulate this data.</p>
+<p>In order of importance, the requirements for this data format would be</p>
+<ul>
+<li>Excel importability</li>
+<li>Embedded metadata support for recording test conditions, sample rate, etc.</li>
+<li>human readabiliity</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Excel importable</th>
+<th>Metadata</th>
+<th>Human readable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CSV</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>HDF5</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>MAT</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>XLS</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>NPY</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p><em>edit</em> I've found <a href="https://csvy.org">CSVY</a> which is CSV with metadata embedded as YAML frontmatter at the top of the file.  It can also support embedding schema information there as well.</p>
+<!--
+# Browser support for SRV records
+# Common theming for static HTML website
+- html imports
+  - requires javascript?
+- XSL (kinda) - github.com/evidlo/xsl-website
+  - requires writing ugly XSLT
+  - requires authoring content in XML
+- client side generation
+  - mdwiki
+  - docsify
+-->
   </article>
 
     </main>

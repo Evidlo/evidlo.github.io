@@ -90,7 +90,7 @@
 </div>
 <h2 id="systemd">systemd</h2>
 <p><strong>/etc/systemd/system</strong> - default location for system units
-<strong>\~/.config/systemd/user</strong> - default location for user units</p>
+<strong>~/.config/systemd/user</strong> - default location for user units</p>
 <h3 id="commands">Commands</h3>
 <div class="codehilite"><pre><span></span><code><span class="c1"># reload units and timers</span>
 systemctl <span class="o">[</span>--user<span class="o">]</span> daemon-reload
@@ -292,7 +292,7 @@ lxc.cgroup.memory.memsw.limit_in_bytes <span class="o">=</span> 1G
 
 <p><strong>/etc/default/lxc-net</strong> - it may be necessary to add
 /etc/lxc/dnsasq.conf to the apparmor profile
-(/etc/apparmor.d/*dnsmasq*) with read privileges</p>
+(/etc/apparmor.d/<em>dnsmasq</em>) with read privileges</p>
 <div class="codehilite"><pre><span></span><code><span class="nv">USE_LXC_BRIDGE</span><span class="o">=</span><span class="s2">&quot;true&quot;</span>
 <span class="nv">LXC_BRIDGE</span><span class="o">=</span><span class="s2">&quot;lxcbr0&quot;</span>
 <span class="nv">LXC_ADDR</span><span class="o">=</span><span class="s2">&quot;192.168.1.1&quot;</span>
@@ -553,12 +553,12 @@ are <strong>autofs</strong> and <strong>sshfs</strong>.</p>
 
 <p><strong>/etc/auto.sshfs</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># make a mount to be used by auto.master</span>
-foobar -fstype<span class="o">=</span>fuse,rw,IdentityFile<span class="o">=</span>/home/evan/.ssh/foobar,port<span class="o">=</span><span class="m">22</span>,allow_other :sshfs<span class="se">\#</span>foo@example.org<span class="se">\:</span>
+foobar -fstype<span class="o">=</span>fuse,rw,IdentityFile<span class="o">=</span>/home/evan/.ssh/foobar,port<span class="o">=</span><span class="m">22</span>,allow_other :sshfs#foo@example.org:
 </code></pre></div>
 
 <p>AutoFS runs as root, so ensure that the host fingerprint has been added
 to <strong><em>root</em>.ssh/known_hosts</strong>. You can add this easily by attempting to
-ssh login to foo\@example.org from root.</p>
+ssh login to foo@example.org from root.</p>
 <div class="codehilite"><pre><span></span><code>su -
 ssh foo@example.org
 <span class="c1"># enter yes</span>
@@ -676,7 +676,7 @@ dig -x <span class="m">1</span>.2.3.4
 </li>
 <li>BIOS-GPT</li>
 <li>BIOS-MBR<ul>
-<li>max addressable disk space is 2\^32 * 512 = 2 TiB on a system
+<li>max addressable disk space is 2^32 * 512 = 2 TiB on a system
     with 512 byte blocks.</li>
 </ul>
 </li>
@@ -707,7 +707,7 @@ end of a GPT disk.</p>
 <li>these nvram entries point to .efi executables on the ESP</li>
 <li>the harddrive UEFI menu entries are for legacy booting these devices</li>
 <li>efi/boot/bootx64.efi is the .efi executable location for removable
-    devices and doesn\'t require any nvram registration</li>
+    devices and doesn't require any nvram registration</li>
 <li></li>
 </ul>
 <h2 id="smart-status">SMART Status</h2>
@@ -767,7 +767,7 @@ x11vnc -storepasswd
 <div class="codehilite"><pre><span></span><code>gnome-session-properties
 </code></pre></div>
 
-<p>Add a new item called \"VNC\" with the command field set to</p>
+<p>Add a new item called "VNC" with the command field set to</p>
 <div class="codehilite"><pre><span></span><code>x11-vnc -forever -loop -noxdamage -repeat -rfbport <span class="m">5900</span> -shared -usepw
 </code></pre></div>
 

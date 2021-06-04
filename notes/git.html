@@ -17,10 +17,10 @@
       <time datetime="2020">2020</time>
     </header>
     <h2 id="modifying-a-pull-request">Modifying a pull request</h2>
-<div class="codehilite"><pre><span></span><code><span class="n">git</span><span class="w"> </span><span class="n">remote</span><span class="w"> </span><span class="k">add</span><span class="w"> </span><span class="o">[</span><span class="n">pr_username</span><span class="o">]</span><span class="w"> </span><span class="n">git</span><span class="nv">@github</span><span class="p">.</span><span class="nl">com</span><span class="p">:</span><span class="o">[</span><span class="n">pr_username</span><span class="o">]/[</span><span class="n">reponame</span><span class="o">]</span><span class="w"></span>
-<span class="n">git</span><span class="w"> </span><span class="k">fetch</span><span class="w"> </span><span class="o">[</span><span class="n">pr_username</span><span class="o">]</span><span class="w"></span>
-<span class="err">#</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="n">commits</span><span class="w"></span>
-<span class="n">git</span><span class="w"> </span><span class="n">push</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code>git remote add <span class="o">[</span>pr_username<span class="o">]</span> git@github.com:<span class="o">[</span>pr_username<span class="o">]</span>/<span class="o">[</span>reponame<span class="o">]</span>
+git fetch <span class="o">[</span>pr_username<span class="o">]</span>
+<span class="c1"># make your commits</span>
+git push
 </code></pre></div>
   </article>
 
