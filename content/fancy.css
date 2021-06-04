@@ -4,8 +4,8 @@
 }
 
 html,body {
-	height: 100%;
-	margin:0;
+  height: 100%;
+  margin:0;
   font-family:Terminus;
   background-color:#222222;
 }
@@ -25,48 +25,48 @@ hr {
 
 /* create flexbox column */
 .v {
-	display:flex;
-	flex-direction: column;
+  display:flex;
+  flex-direction: column;
 }
 
 /* create flexbox row */
 .h {
-	display: flex;
+  display: flex;
 }
 
 /* center content of column or row */
 .hc {
-	justify-content: center;
-	width: 100%;
+  justify-content: center;
+  width: 100%;
 }
 .vc {
-	justify-content: center;
+  justify-content: center;
 }
 
 /* minimalist box design */
 
 .simplebox {
-	margin: 10px;
+  margin: 10px;
 }
 
 .simplebox .title {
   color:white;
-	font-size: 25px;
+  font-size: 25px;
 }
 
 .nolink {
-	text-decoration: none !important;
-	color: black;
+  text-decoration: none !important;
+  color: black;
 }
 
 .simplebox .body {
-	border: 1px solid;
-	border-radius: 20px;
-	padding: 20px;
-	display: block;
+  border: 1px solid;
+  border-radius: 20px;
+  padding: 20px;
+  display: block;
   max-width:600px;
   transition: background-color 0.3s ease;
-	background-color:#DDDDDD;
+  background-color:#DDDDDD;
 }
 
 .simplebox a:hover .body{
@@ -81,14 +81,14 @@ hr {
 
 /* center pane content on preview page */
 .preview .body {
-	display:flex;
-	justify-content:center;
+  display:flex;
+  justify-content:center;
 }
 
 /* front page icon */
 
 .icon {
-	height: 200px;
+  height: 200px;
   max-width: 100%;
 }
 

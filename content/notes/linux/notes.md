@@ -9,7 +9,7 @@ author: Evan Widloski
 ## systemd
 
 **/etc/systemd/system** - default location for system units
-**\~/.config/systemd/user** - default location for user units
+**~/.config/systemd/user** - default location for user units
 
 ### Commands
 
@@ -249,7 +249,7 @@ lxc.cgroup.memory.memsw.limit_in_bytes = 1G
 
 **/etc/default/lxc-net** - it may be necessary to add
 /etc/lxc/dnsasq.conf to the apparmor profile
-(/etc/apparmor.d/\*dnsmasq\*) with read privileges
+(/etc/apparmor.d/*dnsmasq*) with read privileges
 
 ``` {.bash}
 USE_LXC_BRIDGE="true"
@@ -557,12 +557,12 @@ are **autofs** and **sshfs**.
 
 ``` {.bash}
 # make a mount to be used by auto.master
-foobar -fstype=fuse,rw,IdentityFile=/home/evan/.ssh/foobar,port=22,allow_other :sshfs\#foo@example.org\:
+foobar -fstype=fuse,rw,IdentityFile=/home/evan/.ssh/foobar,port=22,allow_other :sshfs#foo@example.org:
 ```
 
 AutoFS runs as root, so ensure that the host fingerprint has been added
-to ***root*.ssh/known\_hosts**. You can add this easily by attempting to
-ssh login to foo\@example.org from root.
+to ***root*.ssh/known_hosts**. You can add this easily by attempting to
+ssh login to foo@example.org from root.
 
 ``` {.bash}
 su -
@@ -702,7 +702,7 @@ There are three primary boot options involving UEFI and BIOS firmwares
     -   required if dualbooting windows
 -   BIOS-GPT
 -   BIOS-MBR
-    -   max addressable disk space is 2\^32 \* 512 = 2 TiB on a system
+    -   max addressable disk space is 2^32 * 512 = 2 TiB on a system
         with 512 byte blocks.
 
 ## GPT - GUID Partition Table
@@ -737,7 +737,7 @@ end of a GPT disk.
 -   these nvram entries point to .efi executables on the ESP
 -   the harddrive UEFI menu entries are for legacy booting these devices
 -   efi/boot/bootx64.efi is the .efi executable location for removable
-    devices and doesn\'t require any nvram registration
+    devices and doesn't require any nvram registration
 -   
 
 ## SMART Status
@@ -804,7 +804,7 @@ To automatically run the server at login, add a startup script:
 gnome-session-properties
 ```
 
-Add a new item called \"VNC\" with the command field set to
+Add a new item called "VNC" with the command field set to
 
 ``` {.bash}
 x11-vnc -forever -loop -noxdamage -repeat -rfbport 5900 -shared -usepw
