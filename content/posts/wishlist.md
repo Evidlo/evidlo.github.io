@@ -51,6 +51,7 @@ In order of importance, the requirements for this data format would be
   - requires writing ugly XSLT
   - requires authoring content in XML
 - client side generation
-  - mdwiki
-  - docsify
+  - relative links break when using plain html
+  - ugly links - files encoded in fragment part of URI
+  - mdwiki, docsify
 -->
