@@ -845,3 +845,7 @@ Removing copr repos
 ## Broken TTY
 
     sudo DISPLAY=:0 loadkeys us
+    
+## QEMU
+
+    qemu-system-x86_64 -cdrom image.iso -boot d -net nic -net user -m 256 -rtc base=localtime -icount 1,sleep=off -rtc clock=vm
