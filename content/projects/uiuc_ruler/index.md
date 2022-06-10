@@ -2,9 +2,8 @@
 title: PCB Ruler
 date: 2021-06-05
 author: Evan
+description: PCB ruler for UIUC students
 ---
-
-# PCB Ruler
 
 [Project files](http://github.com/evidlo/uiuc_ruler)
 
