@@ -8,12 +8,16 @@ date: 2020
 ``` bash
 git remote add [pr_username] git@github.com:[pr_username]/[reponame]
 git fetch [pr_username]
+git checkout -b [new_branch_name] [pr_username]/master
 # make your commits
-git push
+git push [pr_username] HEAD:master
 ```
 
 ## Pushing to multiple remotes
 
+```
 git remote add origin https://user@gitlab.com/myrepo 
 git remote set-url --push --add origin https://user@github.com/myrepo 
 git remote set-url --push --add origin https://user@gitlab.com/myrepo
+
+```
