@@ -2,7 +2,7 @@
 <html lang=en>
 
 <head>
-    <title></title>
+    <title>Python Notes</title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" href="/styles.css" /> 
     <link rel="stylesheet" type="text/css" href="/codehilite.css" /> 
@@ -13,28 +13,28 @@
         
   <article>
     <header>
-      <h1></h1>
-      <time datetime=""></time>
+      <h1>Python Notes</h1>
+      <time datetime="2020">2020</time>
     </header>
     <h1 id="python">Python</h1>
 <p>Simple guide on creating Python packages.</p>
 <h2 id="creating-a-package">Creating a Package</h2>
 <p>For a package called <code>foobar</code>, create the following file structure:</p>
-<div class="codehilite"><pre><span></span><code><span class="err">foobar/</span>
-<span class="err">├── setup.py</span>
-<span class="err">├── README.md</span>
-<span class="err">└── foobar/</span>
-<span class="err">    ├── __init__.py</span>
-<span class="err">    ├── version.py</span>
-<span class="err">    └── foobar.py</span>
+<div class="codehilite"><pre><span></span><code>foobar/
+├── setup.py
+├── README.md
+└── foobar/
+    ├── __init__.py
+    ├── version.py
+    └── foobar.py
 </code></pre></div>
 
 <p><strong>init</strong>.py</p>
-<div class="codehilite"><pre><span></span><code><span class="err">Empty file</span>
+<div class="codehilite"><pre><span></span><code>Empty file
 </code></pre></div>
 
 <p>version.py</p>
-<div class="codehilite"><pre><span></span><code><span class="err">__version__=&quot;0.0.1&quot;</span>
+<div class="codehilite"><pre><span></span><code>__version__=&quot;0.0.1&quot;
 </code></pre></div>
 
 <p>setup.py</p>
@@ -84,7 +84,7 @@
 </code></pre></div>
 
 <p>Install your package using pip (inside the package directory):</p>
-<div class="codehilite"><pre><span></span><code><span class="err">pip install -e .</span>
+<div class="codehilite"><pre><span></span><code>pip install -e .
 </code></pre></div>
 
 <p>If you install with the "editable" option <code>-e</code>, you can make changes to <code>foobar.py</code> without reinstalling the package.</p>
@@ -113,6 +113,22 @@ hello
 <p>twine upload/dist*</p>
 </li>
 </ol>
+<p>Or use this Makefile:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Evan Widloski - 2019-03-04</span><span class="w"></span>
+<span class="c1"># makefile for building Python projects</span><span class="w"></span>
+
+<span class="o">.</span><span class="n">PHONY</span><span class="p">:</span><span class="w"> </span><span class="n">dist</span><span class="w"></span>
+<span class="n">dist</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">python</span><span class="w"> </span><span class="n">setup</span><span class="o">.</span><span class="n">py</span><span class="w"> </span><span class="n">sdist</span><span class="w"> </span><span class="n">bdist_wheel</span><span class="w"></span>
+
+<span class="o">.</span><span class="n">PHONY</span><span class="p">:</span><span class="w"> </span><span class="n">pypi</span><span class="w"></span>
+<span class="n">pypi</span><span class="p">:</span><span class="w"> </span><span class="n">dist</span><span class="w"></span>
+<span class="w">    </span><span class="n">twine</span><span class="w"> </span><span class="n">upload</span><span class="w"> </span><span class="n">dist</span><span class="o">/*</span><span class="w"></span>
+
+<span class="o">.</span><span class="n">PHONY</span><span class="p">:</span><span class="w"> </span><span class="n">clean</span><span class="w"></span>
+<span class="n">clean</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">rm</span><span class="w"> </span><span class="n">dist</span><span class="o">/*</span><span class="w"></span>
+</code></pre></div>
   </article>
 
     </main>

@@ -108,16 +108,16 @@ journalctl --unit foo
 <h3 id="examples">Examples</h3>
 <p>A simple service unit</p>
 <p><strong>foobar.service</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="k">[Unit]</span>
-<span class="na">Description</span><span class="o">=</span><span class="s">example service</span>
+<div class="codehilite"><pre><span></span><code><span class="k">[Unit]</span><span class="w"></span>
+<span class="na">Description</span><span class="o">=</span><span class="s">example service</span><span class="w"></span>
 
-<span class="k">[Service]</span>
-<span class="na">WorkingDirectory</span><span class="o">=</span><span class="s">/path/to/dir</span>
-<span class="na">Environment</span><span class="o">=</span><span class="s">&quot;FOOBAR=foo&quot;</span>
-<span class="na">ExecStart</span><span class="o">=</span><span class="s">foobar.sh</span>
+<span class="k">[Service]</span><span class="w"></span>
+<span class="na">WorkingDirectory</span><span class="o">=</span><span class="s">/path/to/dir</span><span class="w"></span>
+<span class="na">Environment</span><span class="o">=</span><span class="s">&quot;FOOBAR=foo&quot;</span><span class="w"></span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">foobar.sh</span><span class="w"></span>
 
-<span class="k">[Install]</span>
-<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+<span class="k">[Install]</span><span class="w"></span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span><span class="w"></span>
 </code></pre></div>
 
 <p><strong>foobar.timer</strong> A simple timer unit</p>
@@ -504,7 +504,7 @@ mount /dev/<span class="o">[</span>vgname<span class="o">]</span>/<span class="o
 mount /dev/<span class="o">[</span>vgname<span class="o">]</span>/root /mnt/root
 
 <span class="c1"># mount live CD directories inside mounted lv</span>
-<span class="k">for</span> i in /dev /dev/pts /proc /sys /run<span class="p">;</span> <span class="k">do</span> sudo mount -B <span class="nv">$i</span> /mnt/root<span class="nv">$i</span><span class="p">;</span> <span class="k">done</span>
+<span class="k">for</span> i <span class="k">in</span> /dev /dev/pts /proc /sys /run<span class="p">;</span> <span class="k">do</span> sudo mount -B <span class="nv">$i</span> /mnt/root<span class="nv">$i</span><span class="p">;</span> <span class="k">done</span>
 
 <span class="c1"># chroot into root lv</span>
 chroot /mnt/root
@@ -524,16 +524,16 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 fdisk -l /tmp/sdcard.img 
 </code></pre></div>
 
-<div class="codehilite"><pre><span></span><code><span class="n">Disk</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sdcard</span><span class="p">.</span><span class="n">img</span><span class="p">:</span> <span class="mi">162</span> <span class="n">MiB</span><span class="p">,</span> <span class="mi">169869824</span> <span class="n">bytes</span><span class="p">,</span> <span class="mi">331777</span> <span class="n">sectors</span>
-<span class="n">Units</span><span class="p">:</span> <span class="n">sectors</span> <span class="k">of</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">512</span> <span class="o">=</span> <span class="mi">512</span> <span class="n">bytes</span>
-<span class="n">Sector</span> <span class="k">size</span> <span class="p">(</span><span class="n">logical</span><span class="o">/</span><span class="n">physical</span><span class="p">):</span> <span class="mi">512</span> <span class="n">bytes</span> <span class="o">/</span> <span class="mi">512</span> <span class="n">bytes</span>
-<span class="n">I</span><span class="o">/</span><span class="n">O</span> <span class="k">size</span> <span class="p">(</span><span class="n">minimum</span><span class="o">/</span><span class="n">optimal</span><span class="p">):</span> <span class="mi">512</span> <span class="n">bytes</span> <span class="o">/</span> <span class="mi">512</span> <span class="n">bytes</span>
-<span class="n">Disklabel</span> <span class="k">type</span><span class="p">:</span> <span class="n">dos</span>
-<span class="n">Disk</span> <span class="n">identifier</span><span class="p">:</span> <span class="mi">0</span><span class="n">x00000000</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">Disk</span> <span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">sdcard</span>.<span class="nv">img</span>: <span class="mi">162</span> <span class="nv">MiB</span>, <span class="mi">169869824</span> <span class="nv">bytes</span>, <span class="mi">331777</span> <span class="nv">sectors</span>
+<span class="nv">Units</span>: <span class="nv">sectors</span> <span class="nv">of</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">512</span> <span class="o">=</span> <span class="mi">512</span> <span class="nv">bytes</span>
+<span class="nv">Sector</span> <span class="nv">size</span> <span class="ss">(</span><span class="nv">logical</span><span class="o">/</span><span class="nv">physical</span><span class="ss">)</span>: <span class="mi">512</span> <span class="nv">bytes</span> <span class="o">/</span> <span class="mi">512</span> <span class="nv">bytes</span>
+<span class="nv">I</span><span class="o">/</span><span class="nv">O</span> <span class="nv">size</span> <span class="ss">(</span><span class="nv">minimum</span><span class="o">/</span><span class="nv">optimal</span><span class="ss">)</span>: <span class="mi">512</span> <span class="nv">bytes</span> <span class="o">/</span> <span class="mi">512</span> <span class="nv">bytes</span>
+<span class="nv">Disklabel</span> <span class="nv">type</span>: <span class="nv">dos</span>
+<span class="nv">Disk</span> <span class="nv">identifier</span>: <span class="mi">0</span><span class="nv">x00000000</span>
 
-<span class="n">Device</span>           <span class="n">Boot</span> <span class="k">Start</span>    <span class="k">End</span> <span class="n">Sectors</span>  <span class="k">Size</span> <span class="n">Id</span> <span class="k">Type</span>
-<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sdcard</span><span class="p">.</span><span class="n">img1</span> <span class="o">*</span>        <span class="mi">1</span>  <span class="mi">65536</span>   <span class="mi">65536</span>   <span class="mi">32</span><span class="n">M</span>  <span class="k">c</span> <span class="n">W95</span> <span class="n">FAT32</span> <span class="p">(</span><span class="n">LBA</span><span class="p">)</span>
-<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sdcard</span><span class="p">.</span><span class="n">img2</span>      <span class="mi">65537</span> <span class="mi">331776</span>  <span class="mi">266240</span>  <span class="mi">130</span><span class="n">M</span> <span class="mi">83</span> <span class="n">Linux</span>
+<span class="nv">Device</span>           <span class="nv">Boot</span> <span class="nv">Start</span>    <span class="k">End</span> <span class="nv">Sectors</span>  <span class="nv">Size</span> <span class="nv">Id</span> <span class="nv">Type</span>
+<span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">sdcard</span>.<span class="nv">img1</span> <span class="o">*</span>        <span class="mi">1</span>  <span class="mi">65536</span>   <span class="mi">65536</span>   <span class="mi">32</span><span class="nv">M</span>  <span class="nv">c</span> <span class="nv">W95</span> <span class="nv">FAT32</span> <span class="ss">(</span><span class="nv">LBA</span><span class="ss">)</span>
+<span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">sdcard</span>.<span class="nv">img2</span>      <span class="mi">65537</span> <span class="mi">331776</span>  <span class="mi">266240</span>  <span class="mi">130</span><span class="nv">M</span> <span class="mi">83</span> <span class="nv">Linux</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code><span class="c1"># use the sector size and the partition start sector to calculate offset (512 * 65537)</span>
@@ -665,8 +665,8 @@ dig -x <span class="m">1</span>.2.3.4
 
 <h2 id="booting">Booting</h2>
 <p><strong>block</strong> - smallest addressable unit of storage</p>
-<div class="codehilite"><pre><span></span><code><span class="err">Block size is defined in the hardware of a hard drive, but the OS can</span>
-<span class="err">define a virtual block size which chains multiple blocks together.</span>
+<div class="codehilite"><pre><span></span><code>Block size is defined in the hardware of a hard drive, but the OS can
+define a virtual block size which chains multiple blocks together.
 </code></pre></div>
 
 <p>There are three primary boot options involving UEFI and BIOS firmwares</p>
@@ -712,8 +712,8 @@ end of a GPT disk.</p>
 <li></li>
 </ul>
 <h2 id="smart-status">SMART Status</h2>
-<div class="codehilite"><pre><span></span><code><span class="err">smartctl -a /dev/sdX</span>
-<span class="err">smartctl -t short /dev/sdX</span>
+<div class="codehilite"><pre><span></span><code>smartctl -a /dev/sdX
+smartctl -t short /dev/sdX
 </code></pre></div>
 
 <h2 id="network-interfaces-and-bridging">Network interfaces and bridging</h2>
@@ -784,27 +784,27 @@ settings.</p>
 </ul>
 <h2 id="fedora-copr">Fedora COPR</h2>
 <p>List copr repos</p>
-<div class="codehilite"><pre><span></span><code><span class="err">dnf copr list</span>
+<div class="codehilite"><pre><span></span><code>dnf copr list
 </code></pre></div>
 
 <p>List copr repos</p>
-<div class="codehilite"><pre><span></span><code><span class="err">dnf copr list</span>
+<div class="codehilite"><pre><span></span><code>dnf copr list
 </code></pre></div>
 
 <p>List copr repos</p>
-<div class="codehilite"><pre><span></span><code><span class="err">dnf copr list</span>
+<div class="codehilite"><pre><span></span><code>dnf copr list
 </code></pre></div>
 
 <p>Removing copr repos</p>
-<div class="codehilite"><pre><span></span><code><span class="err">sudo dnf copr remove foo/bar</span>
+<div class="codehilite"><pre><span></span><code>sudo dnf copr remove foo/bar
 </code></pre></div>
 
 <h2 id="broken-tty">Broken TTY</h2>
-<div class="codehilite"><pre><span></span><code><span class="n">sudo</span> <span class="n">DISPLAY</span><span class="o">=</span><span class="p">:</span><span class="mi">0</span> <span class="n">loadkeys</span> <span class="n">us</span>
+<div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">DISPLAY</span><span class="o">=</span><span class="p">:</span><span class="mi">0</span><span class="w"> </span><span class="n">loadkeys</span><span class="w"> </span><span class="n">us</span><span class="w"></span>
 </code></pre></div>
 
 <h2 id="qemu">QEMU</h2>
-<div class="codehilite"><pre><span></span><code><span class="err">qemu-system-x86_64 -cdrom image.iso -boot d -net nic -net user -m 256 -rtc base=localtime -icount 1,sleep=off -rtc clock=vm</span>
+<div class="codehilite"><pre><span></span><code>qemu-system-x86_64 -cdrom image.iso -boot d -net nic -net user -m 256 -rtc base=localtime -icount 1,sleep=off -rtc clock=vm
 </code></pre></div>
 </article>
 
