@@ -15,9 +15,8 @@ This is a dorm automation system (DAS) I built at a hackathon with my freshman y
 
 
 <div class="annotate">
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/Y7vDsM4oP3w" frameborder="0" allowfullscreen></iframe>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/q6-vTtaadOA" frameborder="0" allowfullscreen></iframe>
 </div>
-
 
 ![The door unlocked](door.jpg)
 
