@@ -18,6 +18,10 @@ This is a dorm automation system (DAS) I built at a hackathon with my freshman y
       <iframe width="560" height="315" src="https://www.youtube.com/embed/q6-vTtaadOA" frameborder="0" allowfullscreen></iframe>
 </div>
 
+<div class="annotate">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/h97u3B5CRCo" frameborder="0" allowfullscreen></iframe>
+</div>
+
 ![The door unlocked](door.jpg)
 
 The door unlocker consists of a servo mounted over the deadbolt of the door and a sensing switch to detect when the door opens or closes.  Initially I was having issues with the long wire that connected the servo to the control circuitry.  The servo would pull lots of current and the voltage would plummet due to the impedance of the wire (a few ohms).  I remedied this by stepping up the voltage to 12V on the wire and then regulating it back down to 5V near the servo.  This is the same reason powerlines are usually at several kV which is then stepped down to the residential 110VAC.
