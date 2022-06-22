@@ -70,7 +70,7 @@
     <article>
     <h2>Notes</h2>
     <ul>
-    {%- for notes in glob('notes/**/*.md') -%}
+    {%- for notes in glob('notes/**/*.md')|selectattr('title') -%}
         {{ entry(notes) }}
     {%- endfor -%}
 
