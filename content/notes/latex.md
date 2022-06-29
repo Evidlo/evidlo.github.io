@@ -1,7 +1,7 @@
 ---
 author: Evan
 date: 2022-06-28
-title: Latex
+title: Latex Notes
 ---
 
 Simple makefile when working on LaTeX projects for auto-rebuilding.
