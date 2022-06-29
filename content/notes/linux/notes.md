@@ -849,3 +849,11 @@ Removing copr repos
 ## QEMU
 
     qemu-system-x86_64 -cdrom image.iso -boot d -net nic -net user -m 256 -rtc base=localtime -icount 1,sleep=off -rtc clock=vm
+
+## Playing Sound
+
+The `beep` command requires that the `pcspkr` module be loaded.  An alternative is the `play` command (provided by the `sox` package which ships with some systems).
+
+    play -n -c1 synth sin 330 fade h 0.1 0.2 0.1 : synth sin 330 fade h 0.1 0.2 0.1
+    
+There are a variety of effects and waveforms that can be chained or played simultaneously.
