@@ -21,16 +21,10 @@ foobar/
     └── foobar.py
 ```
 
-__init__.py
+\__init__.py
 
 ```
 Empty file
-```
-
-version.py
-
-```
-__version__="0.0.1"
 ```
 
 setup.py
@@ -74,6 +68,11 @@ setup(
 )
 ```
 
+version.py
+
+```
+__version__="0.0.1"
+```
 
 foobar/foobar.py
 
@@ -82,6 +81,14 @@ some_variable = 123
 
 def main():
     print("hello")
+```
+
+README.md
+
+```markdown
+# Foobar
+
+A description of your project
 ```
 
 Install your package using pip (inside the package directory):
