@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+    <title>Latex Notes</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="/styles.css" /> 
+    <link rel="stylesheet" type="text/css" href="/codehilite.css" /> 
+    <link rel="alternate" type="application/rss+xml" href="/rss.html" title="RSS feed">
+</head>
+<body>
+    <main>
+        
+  <article>
+    <header>
+      <h1>Latex Notes</h1>
+      <time datetime="2022-06-28">2022-06-28</time>
+    </header>
+    <p>Simple makefile when working on LaTeX projects for auto-rebuilding.</p>
+<div class="codehilite"><pre><span></span><code><span class="nf">.ONESHELL</span><span class="o">:</span>
+<span class="nf">.SILENT</span><span class="o">:</span>
+
+<span class="nv">SOURCE</span> <span class="o">:=</span> ICIP.tex
+
+<span class="nf">all</span><span class="o">:</span>
+    tectonic <span class="si">${</span><span class="nv">SOURCE</span><span class="si">}</span>
+
+<span class="nf">devserver</span><span class="o">:</span>
+    <span class="k">while</span> :<span class="p">;</span>
+    <span class="k">do</span>
+        tectonic <span class="si">${</span><span class="nv">SOURCE</span><span class="si">}</span>
+<span class="c">        # play sound on success or failure</span>
+<span class="cp">        if (( $$? ))</span>
+        <span class="k">then</span>
+<span class="c">            # failure</span>
+            play -n -c1 synth sin <span class="m">330</span> fade h <span class="m">0</span>.1 .2 .1 : synth sin <span class="m">330</span> fade h <span class="m">0</span>.1 .2 <span class="m">0</span>.1
+<span class="cp">        else</span>
+<span class="c">            # success</span>
+            play -n -c1 synth sin <span class="m">440</span> fade h <span class="m">0</span>.1 .2 .1 : synth sin <span class="m">880</span> fade h <span class="m">0</span>.1 .2 <span class="m">0</span>.1
+
+        <span class="k">fi</span>
+
+<span class="c">        # wait for file changes</span>
+        inotifywait -e modify *
+    <span class="k">done</span>
+</code></pre></div>
+  </article>
+
+    </main>
+<footer>
+    <p>Evan Widloski - Rendered with <a href="https://github.com/evidlo/legoman">Legoman</a></p>
+</footer>
+</body>
+</html>

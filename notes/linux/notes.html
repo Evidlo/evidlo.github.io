@@ -87,6 +87,7 @@
 <li><a href="#fedora-copr">Fedora COPR</a></li>
 <li><a href="#broken-tty">Broken TTY</a></li>
 <li><a href="#qemu">QEMU</a></li>
+<li><a href="#playing-sound">Playing Sound</a></li>
 </ul>
 </div>
 <h2 id="systemd">systemd</h2>
@@ -806,6 +807,13 @@ settings.</p>
 <h2 id="qemu">QEMU</h2>
 <div class="codehilite"><pre><span></span><code>qemu-system-x86_64 -cdrom image.iso -boot d -net nic -net user -m 256 -rtc base=localtime -icount 1,sleep=off -rtc clock=vm
 </code></pre></div>
+
+<h2 id="playing-sound">Playing Sound</h2>
+<p>The <code>beep</code> command requires that the <code>pcspkr</code> module be loaded.  An alternative is the <code>play</code> command (provided by the <code>sox</code> package which ships with some systems).</p>
+<div class="codehilite"><pre><span></span><code>play -n -c1 synth sin 330 fade h 0.1 0.2 0.1 : synth sin 330 fade h 0.1 0.2 0.1
+</code></pre></div>
+
+<p>There are a variety of effects and waveforms that can be chained or played simultaneously.</p>
 </article>
 
     </main>
