@@ -12,7 +12,7 @@ Simple guide on creating Python packages.
 For a package called `foobar`, create the following file structure:
 
 ```
-foobar/
+my_project/
 ├── setup.py
 ├── README.md
 └── foobar/
@@ -23,8 +23,9 @@ foobar/
 
 \__init__.py
 
-```
-Empty file
+``` python
+# Just an Empty file
+# This marks the directory as a python module
 ```
 
 setup.py
@@ -70,7 +71,8 @@ setup(
 
 version.py
 
-```
+``` python
+# We put the version in its own file so the version can be imported, if necessary
 __version__="0.0.1"
 ```
 
@@ -97,12 +99,14 @@ Install your package using pip (inside the package directory):
     
 If you install with the "editable" option `-e`, you can make changes to `foobar.py` without reinstalling the package.
 
-We can now run `myscript` from the command line and import things from the package in other Python scripts:
+We can now run `myscript` from the command line: 
 
 ``` bash
 [evan@blackbox ~] myscript
 hello
 ```
+
+and import things from the package in Python:
 
 ``` python
 >>> from foobar.foobar import some_variable
