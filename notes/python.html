@@ -20,7 +20,7 @@
 <p>Simple guide on creating Python packages.</p>
 <h2 id="creating-a-package">Creating a Package</h2>
 <p>For a package called <code>foobar</code>, create the following file structure:</p>
-<div class="codehilite"><pre><span></span><code>foobar/
+<div class="codehilite"><pre><span></span><code>my_project/
 ├── setup.py
 ├── README.md
 └── foobar/
@@ -30,7 +30,8 @@
 </code></pre></div>
 
 <p>__init__.py</p>
-<div class="codehilite"><pre><span></span><code>Empty file
+<div class="codehilite"><pre><span></span><code><span class="c1"># Just an Empty file</span>
+<span class="c1"># This marks the directory as a python module</span>
 </code></pre></div>
 
 <p>setup.py</p>
@@ -73,7 +74,8 @@
 </code></pre></div>
 
 <p>version.py</p>
-<div class="codehilite"><pre><span></span><code>__version__=&quot;0.0.1&quot;
+<div class="codehilite"><pre><span></span><code><span class="c1"># We put the version in its own file so the version can be imported, if necessary</span>
+<span class="n">__version__</span><span class="o">=</span><span class="s2">&quot;0.0.1&quot;</span>
 </code></pre></div>
 
 <p>foobar/foobar.py</p>
@@ -94,11 +96,12 @@ A description of your project
 </code></pre></div>
 
 <p>If you install with the "editable" option <code>-e</code>, you can make changes to <code>foobar.py</code> without reinstalling the package.</p>
-<p>We can now run <code>myscript</code> from the command line and import things from the package in other Python scripts:</p>
+<p>We can now run <code>myscript</code> from the command line: </p>
 <div class="codehilite"><pre><span></span><code><span class="o">[</span>evan@blackbox ~<span class="o">]</span> myscript
 hello
 </code></pre></div>
 
+<p>and import things from the package in Python:</p>
 <div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">foobar.foobar</span> <span class="kn">import</span> <span class="n">some_variable</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">some_variable</span>
