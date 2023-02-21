@@ -48,6 +48,7 @@ setup(
     license="GPL3",
     description="Example python project",
     long_description=README,
+    long_description_content_type='text/markdown',
     author="Evan Widloski",
     author_email="evan_ex@widloski.com",
     url="https://github.com/evidlo/foobar",
