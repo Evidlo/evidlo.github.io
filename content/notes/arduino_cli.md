@@ -1,0 +1,66 @@
+---
+author: Evan
+date: 2022-11-17
+title: Arduino CLI
+---
+
+## Connecting Monitor
+
+    acli monitor -p /dev/ttyACM0 -c baudrate=115200
+
+## Searching/Installing Additional Cores
+
+Search default list of cores
+
+    acli core search foo
+    
+Search cores on third-party URLs
+
+    acli core search stm --additional-urls http://github.com/stm32duino/...
+    
+## Listing Available Boards or Board Options
+
+List installed boards
+
+    acli board listall
+    
+List available options for installed board
+
+    acli board details -b STMicroelectronics:stm32:Nucleo_144
+    
+## Example Build Script
+
+``` bash
+#!/usr/bin/env bash
+
+core=STMicroelectronics:stm32
+board=Nucleo_144
+board_options=upload_method=swdMethod,pnum=NUCLEO_L496ZG
+
+function setup {
+   arduino-cli core install STMicroelectronics:stm32 --additional-urls https://github.com/stm32duino/BoardManagerFiles/raw/main/package_stmicroelectronics_index.json 
+}
+
+function compile {
+   arduino-cli compile . -b ${core}:${board} \
+        --board-options ${board_options}
+}
+
+function upload {
+    compile
+    arduino-cli upload . -b ${core}:${board} \
+        --board-options ${board_options}
+}
+
+function monitor {
+    arduino-cli monitor -p /dev/ttyACM0 -c baudrate=115200
+}
+
+function details {
+    arduino-cli board details -b ${core}:${board}
+}
+
+# easily run subcommands.  e.g. "./build upload"
+"$@"
+
+```
