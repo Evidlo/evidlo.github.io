@@ -44,12 +44,12 @@
     </article>
 
     <article>
-    <h2>Publications</h2>
+    <h2>Research/Publications</h2>
     <ul>
-        {%- for project in glob('pubs/**/*.md')|selectattr('date')|sort(attribute='date', reverse=true) -%}
+        {%- for project in glob('research/**/*.md')|selectattr('date')|sort(attribute='date', reverse=true) -%}
             {{ entry(project) }}
         {%- endfor -%}
-        {%- for project in glob('pubs/**/*.md')|rejectattr('date') -%}
+        {%- for project in glob('research/**/*.md')|rejectattr('date') -%}
             {{ entry(project) }}
         {%- endfor -%}
     </ul>
