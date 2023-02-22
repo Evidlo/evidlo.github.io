@@ -1,5 +1,5 @@
 ---
-title: Python Notes
+title: Python Packaging Notes
 date: 2020
 ---
 
@@ -21,14 +21,14 @@ my_project/
     └── foobar.py
 ```
 
-\__init__.py
+**\__init__.py**
 
 ``` python
 # Just an Empty file
 # This marks the directory as a python module
 ```
 
-setup.py
+**setup.py**
 
 ``` python
 from setuptools import find_packages, setup
@@ -70,14 +70,14 @@ setup(
 )
 ```
 
-version.py
+**version.py**
 
 ``` python
 # We put the version in its own file so the version can be imported, if necessary
 __version__="0.0.1"
 ```
 
-foobar/foobar.py
+**foobar/foobar.py**
 
 ``` python
 some_variable = 123
@@ -86,7 +86,7 @@ def main():
     print("hello")
 ```
 
-README.md
+**README.md**
 
 ```markdown
 # Foobar
