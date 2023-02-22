@@ -2,7 +2,7 @@
 <html lang=en>
 
 <head>
-    <title>Python Notes</title>
+    <title>Python Packaging Notes</title>
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" href="/styles.css" /> 
     <link rel="stylesheet" type="text/css" href="/codehilite.css" /> 
@@ -13,7 +13,7 @@
         
   <article>
     <header>
-      <h1>Python Notes</h1>
+      <h1>Python Packaging Notes</h1>
       <time datetime="2020">2020</time>
     </header>
     <h1 id="python">Python</h1>
@@ -29,12 +29,12 @@
     └── foobar.py
 </code></pre></div>
 
-<p>__init__.py</p>
+<p><strong>__init__.py</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Just an Empty file</span>
 <span class="c1"># This marks the directory as a python module</span>
 </code></pre></div>
 
-<p>setup.py</p>
+<p><strong>setup.py</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">find_packages</span><span class="p">,</span> <span class="n">setup</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;README.md&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -74,19 +74,19 @@
 <span class="p">)</span>
 </code></pre></div>
 
-<p>version.py</p>
+<p><strong>version.py</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># We put the version in its own file so the version can be imported, if necessary</span>
 <span class="n">__version__</span><span class="o">=</span><span class="s2">&quot;0.0.1&quot;</span>
 </code></pre></div>
 
-<p>foobar/foobar.py</p>
+<p><strong>foobar/foobar.py</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">some_variable</span> <span class="o">=</span> <span class="mi">123</span>
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<p>README.md</p>
+<p><strong>README.md</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="gh"># Foobar</span>
 
 A description of your project

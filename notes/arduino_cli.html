@@ -16,29 +16,10 @@
       <h1>Arduino CLI</h1>
       <time datetime="2022-11-17">2022-11-17</time>
     </header>
-    <h2 id="connecting-monitor">Connecting Monitor</h2>
-<div class="codehilite"><pre><span></span><code>acli monitor -p /dev/ttyACM0 -c baudrate=115200
-</code></pre></div>
-
-<h2 id="searchinginstalling-additional-cores">Searching/Installing Additional Cores</h2>
-<p>Search default list of cores</p>
-<div class="codehilite"><pre><span></span><code>acli core search foo
-</code></pre></div>
-
-<p>Search cores on third-party URLs</p>
-<div class="codehilite"><pre><span></span><code>acli core search stm --additional-urls http://github.com/stm32duino/...
-</code></pre></div>
-
-<h2 id="listing-available-boards-or-board-options">Listing Available Boards or Board Options</h2>
-<p>List installed boards</p>
-<div class="codehilite"><pre><span></span><code>acli board listall
-</code></pre></div>
-
-<p>List available options for installed board</p>
-<div class="codehilite"><pre><span></span><code>acli board details -b STMicroelectronics:stm32:Nucleo_144
-</code></pre></div>
-
+    <p><a href="https://github.com/arduino/arduino-cli">Arduino CLI</a> is a command line tool that can replace the functionality of the graphical Arduino GUI.  </p>
+<p>You can build, upload, use libraries, read the serial monitor of any board supported by Arduino in a headless setup, which means you can use your favorite editor for code editing and work remotely without relying on VNC or X-Forwarding.</p>
 <h2 id="example-build-script">Example Build Script</h2>
+<p><strong>build.sh</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
 
 <span class="nv">core</span><span class="o">=</span>STMicroelectronics:stm32
@@ -70,6 +51,32 @@
 
 <span class="c1"># easily run subcommands.  e.g. &quot;./build upload&quot;</span>
 <span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p>Then you can simply flash new code with</p>
+<div class="codehilite"><pre><span></span><code><span class="o">./</span><span class="n">build</span><span class="w"> </span><span class="n">upload</span><span class="w"></span>
+</code></pre></div>
+
+<h2 id="connecting-monitor">Connecting Monitor</h2>
+<div class="codehilite"><pre><span></span><code>acli monitor -p /dev/ttyACM0 -c baudrate=115200
+</code></pre></div>
+
+<h2 id="searchinginstalling-additional-cores">Searching/Installing Additional Cores</h2>
+<p>Search default list of cores</p>
+<div class="codehilite"><pre><span></span><code>acli core search foo
+</code></pre></div>
+
+<p>Search cores on third-party URLs</p>
+<div class="codehilite"><pre><span></span><code>acli core search stm --additional-urls http://github.com/stm32duino/...
+</code></pre></div>
+
+<h2 id="listing-available-boards-or-board-options">Listing Available Boards or Board Options</h2>
+<p>List installed boards</p>
+<div class="codehilite"><pre><span></span><code>acli board listall
+</code></pre></div>
+
+<p>List available options for installed board</p>
+<div class="codehilite"><pre><span></span><code>acli board details -b STMicroelectronics:stm32:Nucleo_144
 </code></pre></div>
   </article>
 
