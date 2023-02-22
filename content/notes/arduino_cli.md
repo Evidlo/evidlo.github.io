@@ -4,31 +4,13 @@ date: 2022-11-17
 title: Arduino CLI
 ---
 
-## Connecting Monitor
+[Arduino CLI](https://github.com/arduino/arduino-cli) is a command line tool that can replace the functionality of the graphical Arduino GUI.  
 
-    acli monitor -p /dev/ttyACM0 -c baudrate=115200
-
-## Searching/Installing Additional Cores
-
-Search default list of cores
-
-    acli core search foo
-    
-Search cores on third-party URLs
-
-    acli core search stm --additional-urls http://github.com/stm32duino/...
-    
-## Listing Available Boards or Board Options
-
-List installed boards
-
-    acli board listall
-    
-List available options for installed board
-
-    acli board details -b STMicroelectronics:stm32:Nucleo_144
+You can build, upload, use libraries, read the serial monitor of any board supported by Arduino in a headless setup, which means you can use your favorite editor for code editing and work remotely without relying on VNC or X-Forwarding.
     
 ## Example Build Script
+
+**build.sh**
 
 ``` bash
 #!/usr/bin/env bash
@@ -64,3 +46,31 @@ function details {
 "$@"
 
 ```
+
+Then you can simply flash new code with
+
+    ./build upload
+
+## Connecting Monitor
+
+    acli monitor -p /dev/ttyACM0 -c baudrate=115200
+
+## Searching/Installing Additional Cores
+
+Search default list of cores
+
+    acli core search foo
+    
+Search cores on third-party URLs
+
+    acli core search stm --additional-urls http://github.com/stm32duino/...
+    
+## Listing Available Boards or Board Options
+
+List installed boards
+
+    acli board listall
+    
+List available options for installed board
+
+    acli board details -b STMicroelectronics:stm32:Nucleo_144
