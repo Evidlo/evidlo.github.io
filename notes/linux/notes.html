@@ -94,35 +94,35 @@
 <p><strong>/etc/systemd/system</strong> - default location for system units
 <strong>~/.config/systemd/user</strong> - default location for user units</p>
 <h3 id="commands">Commands</h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># reload units and timers</span>
-systemctl <span class="o">[</span>--user<span class="o">]</span> daemon-reload
-<span class="c1"># show all units (including disabled)</span>
-systemctl <span class="o">[</span>--user<span class="o">]</span> list-units -a
-<span class="c1"># view logs for unit</span>
-<span class="c1"># also accepts:</span>
-<span class="c1">#   -f               | tail the log</span>
-<span class="c1">#   --user-unit foo  | target user unit instead of system</span>
-<span class="c1">#   --boot=0         | show logs from current boot (-1 for previous, etc)</span>
+<pre class="codehilite"><code class="language-bash"># reload units and timers
+systemctl [--user] daemon-reload
+# show all units (including disabled)
+systemctl [--user] list-units -a
+# view logs for unit
+# also accepts:
+#   -f               | tail the log
+#   --user-unit foo  | target user unit instead of system
+#   --boot=0         | show logs from current boot (-1 for previous, etc)
 journalctl --unit foo
-</code></pre></div>
+</code></pre>
 
 <h3 id="examples">Examples</h3>
 <p>A simple service unit</p>
 <p><strong>foobar.service</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="k">[Unit]</span><span class="w"></span>
-<span class="na">Description</span><span class="o">=</span><span class="s">example service</span><span class="w"></span>
+<pre class="codehilite"><code>[Unit]
+Description=example service
 
-<span class="k">[Service]</span><span class="w"></span>
-<span class="na">WorkingDirectory</span><span class="o">=</span><span class="s">/path/to/dir</span><span class="w"></span>
-<span class="na">Environment</span><span class="o">=</span><span class="s">&quot;FOOBAR=foo&quot;</span><span class="w"></span>
-<span class="na">ExecStart</span><span class="o">=</span><span class="s">foobar.sh</span><span class="w"></span>
+[Service]
+WorkingDirectory=/path/to/dir
+Environment=&quot;FOOBAR=foo&quot;
+ExecStart=foobar.sh
 
-<span class="k">[Install]</span><span class="w"></span>
-<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span><span class="w"></span>
-</code></pre></div>
+[Install]
+WantedBy=multi-user.target
+</code></pre>
 
 <p><strong>foobar.timer</strong> A simple timer unit</p>
-<div class="codehilite"><pre><span></span><code>[Unit]
+<pre class="codehilite"><code class="language-text">[Unit]
 Description=example timer
 
 [Timer]
@@ -133,18 +133,18 @@ Persistent=true
 
 [Install]
 WantedBy=timers.target
-</code></pre></div>
+</code></pre>
 
 <p>More examples <a href="http://github.com/evidlo/examples/tree/master/systemd">here</a>.</p>
 <h2 id="basic-arch-install">Basic Arch Install</h2>
-<div class="codehilite"><pre><span></span><code>dhcpcd
+<pre class="codehilite"><code class="language-bash">dhcpcd
 
-timedatectl set-ntp <span class="nb">true</span>
+timedatectl set-ntp true
 
 
 fdisk /dev/sda 
 
-<span class="c1"># Create 300MB boot, 2GB swap, and leave the rest for root</span>
+# Create 300MB boot, 2GB swap, and leave the rest for root
 
 mkswp /dev/sda2
 
@@ -154,7 +154,7 @@ mount /dev/sda3 /mnt
 
 swapon /dev/sda2
 
-<span class="c1"># edit /etc/pacman.d/mirrorlist to change mirror order **</span>
+# edit /etc/pacman.d/mirrorlist to change mirror order **
 
 pacstrap /mnt base
 
@@ -166,11 +166,11 @@ ln -s /usr/share/zoneinfo/America/Indianapolis /etc/localtime
 
 hwclock --systohc --utc
 
-<span class="c1"># uncomment en_US locales in /etc/locale.gen **</span>
+# uncomment en_US locales in /etc/locale.gen **
 
 locale-gen
 
-<span class="c1"># enter hostname in /etc/hostname **</span>
+# enter hostname in /etc/hostname **
 
 mkinitcpio -p linux
 
@@ -178,368 +178,368 @@ passwd
 
 pacman -S grub
 
-grub-install --target<span class="o">=</span>i386-pc --recheck --debug /dev/sda
+grub-install --target=i386-pc --recheck --debug /dev/sda
 
 grub-mkconfig -o /boot/grub/grub.cfg
 
-<span class="nb">exit</span>
+exit
 
 reboot
 
 pacman -S vim htop git openssh wget
 
 pacman -S xorg-server xf86-video-ati xorg-xinit
-</code></pre></div>
+</code></pre>
 
 <h2 id="generic-linux-install">Generic Linux Install</h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># list all available block devices</span>
+<pre class="codehilite"><code class="language-bash"># list all available block devices
 lsblk
-<span class="c1"># Copy bootable image to flash drive (status=progress requires dd &gt;= 8.24)</span>
-<span class="c1"># be careful not to mess up the of= argument, or you might overwrite your HD</span>
-sudo dd <span class="k">if</span><span class="o">=</span>foobar.iso <span class="nv">of</span><span class="o">=</span>/dev/sdX <span class="nv">status</span><span class="o">=</span>progress <span class="o">&amp;&amp;</span> sync
-</code></pre></div>
+# Copy bootable image to flash drive (status=progress requires dd &gt;= 8.24)
+# be careful not to mess up the of= argument, or you might overwrite your HD
+sudo dd if=foobar.iso of=/dev/sdX status=progress &amp;&amp; sync
+</code></pre>
 
 <h2 id="udev">udev</h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># show device connect/disconnects and fired rules</span>
+<pre class="codehilite"><code class="language-bash"># show device connect/disconnects and fired rules
 udevadm monitor
-<span class="c1"># list all attributes for a particular device (and parents)</span>
-udevadm info --attribute-walk --path<span class="o">=</span>/devices/...
-</code></pre></div>
+# list all attributes for a particular device (and parents)
+udevadm info --attribute-walk --path=/devices/...
+</code></pre>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># simple vendorid, productid example</span>
-<span class="c1"># note SYMLINK is only for block devices (I think, look it up yourself)</span>
-<span class="nv">SUBSYSTEMS</span><span class="o">==</span><span class="s2">&quot;usb&quot;</span>, ATTRS<span class="o">{</span>idProduct<span class="o">}==</span><span class="s2">&quot;3300&quot;</span>, ATTRS<span class="o">{</span>idVendor<span class="o">}==</span><span class="s2">&quot;1e10&quot;</span>, <span class="nv">MODE</span><span class="o">=</span><span class="s2">&quot;0666&quot;</span>, <span class="nv">SYMLINK</span><span class="o">+=</span><span class="s2">&quot;foobar&quot;</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash"># simple vendorid, productid example
+# note SYMLINK is only for block devices (I think, look it up yourself)
+SUBSYSTEMS==&quot;usb&quot;, ATTRS{idProduct}==&quot;3300&quot;, ATTRS{idVendor}==&quot;1e10&quot;, MODE=&quot;0666&quot;, SYMLINK+=&quot;foobar&quot;
+</code></pre>
 
 <h2 id="iptables">iptables</h2>
 <h3 id="commands_1">Commands</h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># list all tables</span>
+<pre class="codehilite"><code class="language-bash"># list all tables
 iptables -L -n -v
-<span class="c1"># (fedora) save iptables rules and remember to disable firewalld</span>
+# (fedora) save iptables rules and remember to disable firewalld
 iptables-save &gt; /etc/sysconfig/iptables
-</code></pre></div>
+</code></pre>
 
 <h3 id="examples_1">Examples</h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># allow ssh</span>
-<span class="c1"># must allow incoming connection and response</span>
+<pre class="codehilite"><code class="language-bash"># allow ssh
+# must allow incoming connection and response
 
-<span class="c1"># append rule to input (-A INPUT) on input interface enp6s0f0 (-i enp6s0f0) </span>
-<span class="c1"># with destination port 22 (--dport 22).  use &#39;state&#39; module (-m state)</span>
-<span class="c1"># and allow new and established connections (--state NEW,ESTABLISHED)</span>
-<span class="c1"># jump to target ACCEPT (-j ACCEPT)</span>
-iptables -A INPUT -i enp6s0f0 -p tcp --dport <span class="m">22</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+# append rule to input (-A INPUT) on input interface enp6s0f0 (-i enp6s0f0) 
+# with destination port 22 (--dport 22).  use 'state' module (-m state)
+# and allow new and established connections (--state NEW,ESTABLISHED)
+# jump to target ACCEPT (-j ACCEPT)
+iptables -A INPUT -i enp6s0f0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
 
-<span class="c1"># append rule to output (-A OUTPUT) on output interface enp6s0f0 (-o enp6s0f0) </span>
-<span class="c1"># with source port 22 (--sport 22).  use &#39;state&#39; module (-m state)</span>
-<span class="c1"># and allow established connections (--state ESTABLISHED)</span>
-<span class="c1"># jump to target ACCEPT (-j ACCEPT)</span>
-iptables -A OUTPUT -o enp6s0f0 -p tcp --sport <span class="m">22</span> -m state --state ESTABLISHED -j ACCEPT
-</code></pre></div>
+# append rule to output (-A OUTPUT) on output interface enp6s0f0 (-o enp6s0f0) 
+# with source port 22 (--sport 22).  use 'state' module (-m state)
+# and allow established connections (--state ESTABLISHED)
+# jump to target ACCEPT (-j ACCEPT)
+iptables -A OUTPUT -o enp6s0f0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+</code></pre>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># filter table: flush all chains, and delete all user added chains</span>
+<pre class="codehilite"><code class="language-bash"># filter table: flush all chains, and delete all user added chains
 iptables -F
 iptables -X
-<span class="c1"># nat table: flush all chains, and delete all user added chains</span>
+# nat table: flush all chains, and delete all user added chains
 iptables -t nat -F
 iptables -t nat -X
-</code></pre></div>
+</code></pre>
 
 <h2 id="lvm">LVM</h2>
 <h3 id="adding">Adding</h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># create new lv `foo` in group `foo_group`</span>
+<pre class="codehilite"><code class="language-bash"># create new lv `foo` in group `foo_group`
 lvcreate -L 10G foo_group -n foo
-</code></pre></div>
+</code></pre>
 
 <h2 id="deleting">Deleting</h2>
-<div class="codehilite"><pre><span></span><code>lvremove /dev/<span class="o">[</span>vgname<span class="o">]</span>/<span class="o">[</span>lvname<span class="o">]</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash">lvremove /dev/[vgname]/[lvname]
+</code></pre>
 
 <h3 id="btrfs">BTRFS</h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># add all devices to filesystem</span>
+<pre class="codehilite"><code class="language-bash"># add all devices to filesystem
 btrfs device add /dev/sdb2 /dev/sdc2 /dev/sdd2 /
-<span class="c1"># convert system to raid10</span>
-btrfs balance start -dconvert<span class="o">=</span>raid10 -mconvert<span class="o">=</span>raid10 /
-<span class="c1"># check balance progress</span>
+# convert system to raid10
+btrfs balance start -dconvert=raid10 -mconvert=raid10 /
+# check balance progress
 btrfs balance status /
-<span class="c1"># get rid of single chunks to get another shot at degraded,rw mount</span>
-btrfs balance start -dconvert<span class="o">=</span>raid10,soft -mconvert<span class="o">=</span>raid10,soft  /mount
-</code></pre></div>
+# get rid of single chunks to get another shot at degraded,rw mount
+btrfs balance start -dconvert=raid10,soft -mconvert=raid10,soft  /mount
+</code></pre>
 
 <h2 id="lxc">LXC</h2>
 <p><a href="https://www.flockport.com/enable-lxc-networking-in-debian-jessie-fedora-and-others/">https://www.flockport.com/enable-lxc-networking-in-debian-jessie-fedora-and-others/</a></p>
 <h3 id="config-examples">Config examples</h3>
 <p><strong>/etc/lxc/lxc.conf</strong> - set path for containers to be stored (default
 /var/lib/lxc)</p>
-<div class="codehilite"><pre><span></span><code>lxc.lxcpath <span class="o">=</span> <span class="s2">&quot;/lxc&quot;</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash">lxc.lxcpath = &quot;/lxc&quot;
+</code></pre>
 
 <p><strong>/etc/lxc/default.conf</strong> - config options for all newly created
 containers to inherit</p>
-<div class="codehilite"><pre><span></span><code>lxc.network.type <span class="o">=</span> veth
-lxc.network.link <span class="o">=</span> lxcbr0
-lxc.network.flags <span class="o">=</span> up
-lxc.network.hwaddr <span class="o">=</span> <span class="m">00</span>:16:3e:xx:xx:xx
-lxc.start.auto <span class="o">=</span> <span class="m">1</span>
+<pre class="codehilite"><code class="language-bash">lxc.network.type = veth
+lxc.network.link = lxcbr0
+lxc.network.flags = up
+lxc.network.hwaddr = 00:16:3e:xx:xx:xx
+lxc.start.auto = 1
 
-<span class="c1"># address</span>
-<span class="c1">#lxc.network.ipv4 = 192.168.1.1xx</span>
-lxc.network.ipv4.gateway <span class="o">=</span> <span class="m">192</span>.168.1.1
+# address
+#lxc.network.ipv4 = 192.168.1.1xx
+lxc.network.ipv4.gateway = 192.168.1.1
 
-<span class="c1"># memory</span>
-lxc.cgroup.memory.limit_in_bytes <span class="o">=</span> 512M
+# memory
+lxc.cgroup.memory.limit_in_bytes = 512M
 
-<span class="c1"># memory + swap</span>
-lxc.cgroup.memory.memsw.limit_in_bytes <span class="o">=</span> 1G
-</code></pre></div>
+# memory + swap
+lxc.cgroup.memory.memsw.limit_in_bytes = 1G
+</code></pre>
 
 <p><strong>/etc/default/lxc-net</strong> - it may be necessary to add
 /etc/lxc/dnsasq.conf to the apparmor profile
 (/etc/apparmor.d/<em>dnsmasq</em>) with read privileges</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">USE_LXC_BRIDGE</span><span class="o">=</span><span class="s2">&quot;true&quot;</span>
-<span class="nv">LXC_BRIDGE</span><span class="o">=</span><span class="s2">&quot;lxcbr0&quot;</span>
-<span class="nv">LXC_ADDR</span><span class="o">=</span><span class="s2">&quot;192.168.1.1&quot;</span>
-<span class="nv">LXC_NETMASK</span><span class="o">=</span><span class="s2">&quot;255.255.255.0&quot;</span>
-<span class="nv">LXC_NETWORK</span><span class="o">=</span><span class="s2">&quot;192.168.1.0/24&quot;</span>
-<span class="nv">LXC_DHCP_RANGE</span><span class="o">=</span><span class="s2">&quot;192.168.1.100,192.168.1.199&quot;</span>
-<span class="nv">LXC_DHCP_MAX</span><span class="o">=</span><span class="s2">&quot;100&quot;</span>
-<span class="nv">LXC_DHCP_CONFILE</span><span class="o">=</span><span class="s2">&quot;/etc/lxc/dnsmasq.conf&quot;</span>
-<span class="nv">LXC_DOMAIN</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash">USE_LXC_BRIDGE=&quot;true&quot;
+LXC_BRIDGE=&quot;lxcbr0&quot;
+LXC_ADDR=&quot;192.168.1.1&quot;
+LXC_NETMASK=&quot;255.255.255.0&quot;
+LXC_NETWORK=&quot;192.168.1.0/24&quot;
+LXC_DHCP_RANGE=&quot;192.168.1.100,192.168.1.199&quot;
+LXC_DHCP_MAX=&quot;100&quot;
+LXC_DHCP_CONFILE=&quot;/etc/lxc/dnsmasq.conf&quot;
+LXC_DOMAIN=&quot;&quot;
+</code></pre>
 
 <p><strong>/etc/lxc/dnsmasq.conf</strong></p>
-<div class="codehilite"><pre><span></span><code>dhcp-host<span class="o">=</span>evan,192.168.1.102
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash">dhcp-host=evan,192.168.1.102
+</code></pre>
 
 <p><strong>iptables config</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
-<span class="c1">## Evan Widloski - 2016-11-11</span>
-<span class="c1"># Diode iptables rules</span>
+<pre class="codehilite"><code class="language-bash">#!/bin/bash
+## Evan Widloski - 2016-11-11
+# Diode iptables rules
 
-<span class="c1"># filter table: flush all chains, and delete all user added chains</span>
+# filter table: flush all chains, and delete all user added chains
 iptables -F
 iptables -X
-<span class="c1"># nat table: flush all chains, and delete all user added chains</span>
+# nat table: flush all chains, and delete all user added chains
 iptables -t nat -F
 iptables -t nat -X
 
-<span class="c1"># set default policies to DROP packets</span>
+# set default policies to DROP packets
 iptables -P INPUT DROP
 iptables -P OUTPUT DROP
 iptables -P FORWARD DROP
 
-<span class="c1"># allow inbound outbound traffic on host </span>
-iptables -A OUTPUT -o enp6s0f0 -d <span class="m">0</span>.0.0.0/0 -j ACCEPT 
+# allow inbound outbound traffic on host 
+iptables -A OUTPUT -o enp6s0f0 -d 0.0.0.0/0 -j ACCEPT 
 iptables -A INPUT -i enp6s0f0 -m state --state ESTABLISHED,RELATED -j ACCEPT
 
-<span class="c1"># set up chain for sshguard</span>
+# set up chain for sshguard
 iptables -N sshguard
-iptables -A INPUT -p tcp --dport <span class="m">22</span> -j sshguard
+iptables -A INPUT -p tcp --dport 22 -j sshguard
 
-<span class="c1"># allow ssh</span>
-iptables -A INPUT -i enp6s0f0 -p tcp --dport <span class="m">22</span> -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -o enp6s0f0 -p tcp --sport <span class="m">22</span> -m state --state ESTABLISHED -j ACCEPT
+# allow ssh
+iptables -A INPUT -i enp6s0f0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o enp6s0f0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
 
-<span class="c1"># allow mosh</span>
-iptables -A INPUT -i enp6s0f0 -p udp --dport <span class="m">60000</span>:61000 -j ACCEPT
-iptables -A OUTPUT -o enp6s0f0 -p udp --sport <span class="m">60000</span>:61000 -j ACCEPT
+# allow mosh
+iptables -A INPUT -i enp6s0f0 -p udp --dport 60000:61000 -j ACCEPT
+iptables -A OUTPUT -o enp6s0f0 -p udp --sport 60000:61000 -j ACCEPT
 
-<span class="c1"># allow connections to varnish service</span>
-<span class="c1">#iptables -A INPUT -i enp6s0f0 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT</span>
-<span class="c1">#iptables -A OUTPUT -o enp6s0f0 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT</span>
+# allow connections to varnish service
+#iptables -A INPUT -i enp6s0f0 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+#iptables -A OUTPUT -o enp6s0f0 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
 
-<span class="c1"># allow host to access LXC targets via network</span>
+# allow host to access LXC targets via network
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-iptables -A OUTPUT -s <span class="m">192</span>.168.1.0/24 -j ACCEPT
+iptables -A OUTPUT -s 192.168.1.0/24 -j ACCEPT
 
-<span class="c1"># allow outbound traffic for lxc containers</span>
+# allow outbound traffic for lxc containers
 iptables -A FORWARD -i lxcbr0 -j ACCEPT
-iptables -t nat -A POSTROUTING -s <span class="m">192</span>.168.1.0/24 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 192.168.1.0/24 -j MASQUERADE
 
-<span class="c1"># after incoming packets have been NAT&#39;ed (see below), allow them to pass through</span>
-<span class="c1"># the forward chain to their intended LXC target</span>
+# after incoming packets have been NAT'ed (see below), allow them to pass through
+# the forward chain to their intended LXC target
 iptables -A FORWARD -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
 
-<span class="c1">##------------ evan --------------</span>
-<span class="c1">## ssh</span>
-iptables -t nat -A PREROUTING -p tcp --dport <span class="m">20022</span> -j DNAT --to-destination <span class="m">192</span>.168.1.102:22
-</code></pre></div>
+##------------ evan --------------
+## ssh
+iptables -t nat -A PREROUTING -p tcp --dport 20022 -j DNAT --to-destination 192.168.1.102:22
+</code></pre>
 
 <h3 id="commands_2">Commands</h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># list container statuses and ip addresses (fancy mode)</span>
+<pre class="codehilite"><code class="language-bash"># list container statuses and ip addresses (fancy mode)
 lxc-ls -f
-</code></pre></div>
+</code></pre>
 
-<div class="codehilite"><pre><span></span><code>brctl show
+<pre class="codehilite"><code class="language-bash">brctl show
 brctl delbr virbr0
 brctl addbr virbr0
-ip link <span class="nb">set</span> virbr0 down
-</code></pre></div>
+ip link set virbr0 down
+</code></pre>
 
 <h3 id="new-container-setup">New Container Setup</h3>
 <p>New LXC containers are very barebones and need a bit of setup to be
 useful. Here is an overview of steps for various distros.</p>
 <h4 id="debian">Debian</h4>
 <p>Setup PATH</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># add /bin, /sbin to path</span>
-<span class="nb">echo</span> <span class="s1">&#39;PATH=$PATH:/bin:/sbin&#39;</span>&gt;&gt;.bashrc
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash"># add /bin, /sbin to path
+echo 'PATH=$PATH:/bin:/sbin'&gt;&gt;.bashrc
+</code></pre>
 
 <p>Install packages</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># core commands</span>
+<pre class="codehilite"><code class="language-bash"># core commands
 apt-get install apt-utils vim man tar less iputils-ping
 
-<span class="c1"># extra commands</span>
+# extra commands
 apt-get install git zip autojump wget htop ncdu nload
-</code></pre></div>
+</code></pre>
 
 <h4 id="fedora">Fedora</h4>
 <p>Install packages</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># core commands</span>
+<pre class="codehilite"><code class="language-bash"># core commands
 dnf install vim man
 
-<span class="c1"># core commands</span>
+# core commands
 dnf install git zip autojump wget htop ncdu nload
-</code></pre></div>
+</code></pre>
 
 <h2 id="weechat">Weechat</h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># enable notifications for any messages in buffer (works for Android client, too)</span>
-/buffer <span class="nb">set</span> highlight_regex .<span class="se">\a</span>st<span class="o">{}</span>.*
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash"># enable notifications for any messages in buffer (works for Android client, too)
+/buffer set highlight_regex .\ast{}.*
+</code></pre>
 
 <h2 id="mdadm">MDADM</h2>
 <h3 id="checking-state-and-simulating-failure">Checking state and simulating failure</h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># check RAID state</span>
-cat /proc/mdstat  <span class="c1"># look for failure, (F), after the drive name: sda1[0](F)</span>
+<pre class="codehilite"><code class="language-bash"># check RAID state
+cat /proc/mdstat  # look for failure, (F), after the drive name: sda1[0](F)
 
-<span class="c1"># simulate a failed drive</span>
+# simulate a failed drive
 mdadm --manage --set-faulty /dev/md/pv00 /dev/sda1
 
-<span class="c1"># remove faulty state by removing and readding</span>
+# remove faulty state by removing and readding
 mdadm --remove /dev/md/pv00 /dev/sda1
 mdadm --add /dev/md/pv00 /dev/sda1
-</code></pre></div>
+</code></pre>
 
 <h3 id="replacing-a-failed-drive-sdc">Replacing a failed drive (sdc)</h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># set hard drive as failed</span>
-<span class="c1"># mark as failed and remove</span>
+<pre class="codehilite"><code class="language-bash"># set hard drive as failed
+# mark as failed and remove
 mdadm --manage /dev/md127 --fail /dev/sdc1
 mdadm --manage /dev/md127 --remove /dev/sdc1
 
-<span class="c1"># write down serial number of failed drive</span>
-hdparm -i /dev/sdc1 <span class="p">|</span> grep -i serial
+# write down serial number of failed drive
+hdparm -i /dev/sdc1 | grep -i serial
 shutdown -h now
-<span class="c1"># remove broken harddrive, insert the new hardddrive</span>
+# remove broken harddrive, insert the new hardddrive
 
-<span class="c1"># copy partition scheme from working harddrive to new harddrive</span>
-sfdisk -d /dev/sda <span class="p">|</span> sfdisk /dev/sdc
+# copy partition scheme from working harddrive to new harddrive
+sfdisk -d /dev/sda | sfdisk /dev/sdc
 
-<span class="c1"># add new harddrive</span>
+# add new harddrive
 mdadm --manage /dev/md127 --add /dev/sdc1
 
-<span class="c1"># verify that array is recovering</span>
+# verify that array is recovering
 cat /proc/mdstat
-</code></pre></div>
+</code></pre>
 
 <h3 id="notifying-on-harddrive-failure-gmail">Notifying on harddrive failure (gmail)</h3>
 <p><strong>/etc/exim/exim.conf</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># add this after `begin routers` in router config section</span>
- <span class="n">send_via_gmail</span><span class="p">:</span>
-     <span class="n">driver</span> <span class="o">=</span> <span class="n">manualroute</span>
-     <span class="n">domains</span> <span class="o">=</span> <span class="err">!</span> <span class="o">+</span><span class="n">local_domains</span>
-     <span class="n">transport</span> <span class="o">=</span> <span class="n">gmail_smtp</span>
-     <span class="n">route_list</span> <span class="o">=</span> <span class="o">*</span> <span class="n">gmail</span><span class="o">-</span><span class="n">smtp</span><span class="o">.</span><span class="n">l</span><span class="o">.</span><span class="n">google</span><span class="o">.</span><span class="n">com</span>
-<span class="c1"># add this after `begin transports` in transports config section</span>
- <span class="n">gmail_smtp</span><span class="p">:</span>
-     <span class="n">driver</span> <span class="o">=</span> <span class="n">smtp</span>
-     <span class="n">port</span> <span class="o">=</span> <span class="mi">587</span>
-     <span class="n">hosts_require_auth</span> <span class="o">=</span> <span class="n">gmail</span><span class="o">-</span><span class="n">smtp</span><span class="o">.</span><span class="n">l</span><span class="o">.</span><span class="n">google</span><span class="o">.</span><span class="n">com</span>
-     <span class="n">hosts_require_tls</span> <span class="o">=</span> <span class="n">gmail</span><span class="o">-</span><span class="n">smtp</span><span class="o">.</span><span class="n">l</span><span class="o">.</span><span class="n">google</span><span class="o">.</span><span class="n">com</span>
-<span class="c1"># add this after `begin authenaticators` in authentication config section</span>
- <span class="n">gmail_login</span><span class="p">:</span>
-     <span class="n">driver</span> <span class="o">=</span> <span class="n">plaintext</span>
-     <span class="n">public_name</span> <span class="o">=</span> <span class="n">LOGIN</span>
-     <span class="n">client_send</span> <span class="o">=</span> <span class="p">:</span> <span class="n">sender_email</span><span class="nd">@gmail</span><span class="o">.</span><span class="n">com</span> <span class="p">:</span> <span class="n">password_in_plaintext_here</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-python"># add this after `begin routers` in router config section
+ send_via_gmail:
+     driver = manualroute
+     domains = ! +local_domains
+     transport = gmail_smtp
+     route_list = * gmail-smtp.l.google.com
+# add this after `begin transports` in transports config section
+ gmail_smtp:
+     driver = smtp
+     port = 587
+     hosts_require_auth = gmail-smtp.l.google.com
+     hosts_require_tls = gmail-smtp.l.google.com
+# add this after `begin authenaticators` in authentication config section
+ gmail_login:
+     driver = plaintext
+     public_name = LOGIN
+     client_send = : sender_email@gmail.com : password_in_plaintext_here
+</code></pre>
 
 <p><strong>/etc/mdadm.conf</strong></p>
-<div class="codehilite"><pre><span></span><code>MAILADDR destination_email@example.com
+<pre class="codehilite"><code class="language-text">MAILADDR destination_email@example.com
 AUTO +imsm +1.x -all
 ARRAY /dev/md/pv00 level=raid5 num-devices=4 UUID=1327a02b:b19f6696:0e3f8ac7:9615591c
-</code></pre></div>
+</code></pre>
 
 <h3 id="growing-raid-size">Growing RAID size</h3>
 <p>This is useful if the RAID array needs to be grown by using up more free
 space (no added harddrive)</p>
-<div class="codehilite"><pre><span></span><code>umount /dev/sda
+<pre class="codehilite"><code class="language-bash">umount /dev/sda
 umount /dev/sdb
 umount /dev/sdc
 umount /dev/sdd
 
-<span class="c1"># grow RAID array to 500GB (this will take a while)</span>
+# grow RAID array to 500GB (this will take a while)
 mdadm -G /dev/md127 -z 500G
 
-<span class="c1"># resize physical volume to fit new RAID partition size</span>
+# resize physical volume to fit new RAID partition size
 pvresize /dev/md127
-</code></pre></div>
+</code></pre>
 
 <h3 id="accessing-via-live-cd">Accessing via Live CD</h3>
 <p>If the array gets screwed up somehow, you can try mounting it on a
 livecd.</p>
-<div class="codehilite"><pre><span></span><code>apt install mdadm
+<pre class="codehilite"><code class="language-bash">apt install mdadm
 
-<span class="c1"># assemble array from block devices</span>
+# assemble array from block devices
 mdadm --assemble --scan
 
-<span class="c1"># mount array (assuming lvm)</span>
+# mount array (assuming lvm)
 apt install lvm2
 
-<span class="c1"># see if lv&#39;s are intact</span>
+# see if lv's are intact
 lvscan
 
-<span class="c1"># mount lv</span>
-mount /dev/<span class="o">[</span>vgname<span class="o">]</span>/<span class="o">[</span>lvname<span class="o">]</span> /mnt/foo
-</code></pre></div>
+# mount lv
+mount /dev/[vgname]/[lvname] /mnt/foo
+</code></pre>
 
 <h2 id="installing-grub-on-a-live-cd-mounted-system">Installing GRUB on a Live CD Mounted System</h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># mount root lv</span>
-mount /dev/<span class="o">[</span>vgname<span class="o">]</span>/root /mnt/root
+<pre class="codehilite"><code class="language-bash"># mount root lv
+mount /dev/[vgname]/root /mnt/root
 
-<span class="c1"># mount live CD directories inside mounted lv</span>
-<span class="k">for</span> i <span class="k">in</span> /dev /dev/pts /proc /sys /run<span class="p">;</span> <span class="k">do</span> sudo mount -B <span class="nv">$i</span> /mnt/root<span class="nv">$i</span><span class="p">;</span> <span class="k">done</span>
+# mount live CD directories inside mounted lv
+for i in /dev /dev/pts /proc /sys /run; do sudo mount -B $i /mnt/root$i; done
 
-<span class="c1"># chroot into root lv</span>
+# chroot into root lv
 chroot /mnt/root
 
-<span class="c1"># install grub to each device in array</span>
+# install grub to each device in array
 grub2-install /dev/sda
 grub2-install /dev/sdb
 grub2-install /dev/sdc
 grub2-install /dev/sdd
 
-<span class="c1"># update grub config</span>
+# update grub config
 grub2-mkconfig -o /boot/grub2/grub.cfg
-</code></pre></div>
+</code></pre>
 
 <h2 id="mounting-images">Mounting Images</h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># list the partitions on the image file</span>
+<pre class="codehilite"><code class="language-bash"># list the partitions on the image file
 fdisk -l /tmp/sdcard.img 
-</code></pre></div>
+</code></pre>
 
-<div class="codehilite"><pre><span></span><code><span class="nv">Disk</span> <span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">sdcard</span>.<span class="nv">img</span>: <span class="mi">162</span> <span class="nv">MiB</span>, <span class="mi">169869824</span> <span class="nv">bytes</span>, <span class="mi">331777</span> <span class="nv">sectors</span>
-<span class="nv">Units</span>: <span class="nv">sectors</span> <span class="nv">of</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">512</span> <span class="o">=</span> <span class="mi">512</span> <span class="nv">bytes</span>
-<span class="nv">Sector</span> <span class="nv">size</span> <span class="ss">(</span><span class="nv">logical</span><span class="o">/</span><span class="nv">physical</span><span class="ss">)</span>: <span class="mi">512</span> <span class="nv">bytes</span> <span class="o">/</span> <span class="mi">512</span> <span class="nv">bytes</span>
-<span class="nv">I</span><span class="o">/</span><span class="nv">O</span> <span class="nv">size</span> <span class="ss">(</span><span class="nv">minimum</span><span class="o">/</span><span class="nv">optimal</span><span class="ss">)</span>: <span class="mi">512</span> <span class="nv">bytes</span> <span class="o">/</span> <span class="mi">512</span> <span class="nv">bytes</span>
-<span class="nv">Disklabel</span> <span class="nv">type</span>: <span class="nv">dos</span>
-<span class="nv">Disk</span> <span class="nv">identifier</span>: <span class="mi">0</span><span class="nv">x00000000</span>
+<pre class="codehilite"><code>Disk /tmp/sdcard.img: 162 MiB, 169869824 bytes, 331777 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x00000000
 
-<span class="nv">Device</span>           <span class="nv">Boot</span> <span class="nv">Start</span>    <span class="k">End</span> <span class="nv">Sectors</span>  <span class="nv">Size</span> <span class="nv">Id</span> <span class="nv">Type</span>
-<span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">sdcard</span>.<span class="nv">img1</span> <span class="o">*</span>        <span class="mi">1</span>  <span class="mi">65536</span>   <span class="mi">65536</span>   <span class="mi">32</span><span class="nv">M</span>  <span class="nv">c</span> <span class="nv">W95</span> <span class="nv">FAT32</span> <span class="ss">(</span><span class="nv">LBA</span><span class="ss">)</span>
-<span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">sdcard</span>.<span class="nv">img2</span>      <span class="mi">65537</span> <span class="mi">331776</span>  <span class="mi">266240</span>  <span class="mi">130</span><span class="nv">M</span> <span class="mi">83</span> <span class="nv">Linux</span>
-</code></pre></div>
+Device           Boot Start    End Sectors  Size Id Type
+/tmp/sdcard.img1 *        1  65536   65536   32M  c W95 FAT32 (LBA)
+/tmp/sdcard.img2      65537 331776  266240  130M 83 Linux
+</code></pre>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># use the sector size and the partition start sector to calculate offset (512 * 65537)</span>
-sudo mount -o loop,offset<span class="o">=</span><span class="m">33554944</span> /tmp/sdcard.img /mnt/tmp
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash"># use the sector size and the partition start sector to calculate offset (512 * 65537)
+sudo mount -o loop,offset=33554944 /tmp/sdcard.img /mnt/tmp
+</code></pre>
 
 <h2 id="auto-fs">Auto FS</h2>
 <p>Auto FS + SSHFS allows the system to mount ssh filesystems on access and
@@ -547,50 +547,50 @@ then automatically unmount after a certain timeout. The necessary tools
 are <strong>autofs</strong> and <strong>sshfs</strong>.</p>
 <p><strong>/etc/auto.master</strong> or <strong>/etc/auto.master.d/foobar.autofs</strong> or
 <strong>/etc/autofs/auto.master</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># mounts all the entries listed in /etc/auto.sshfs in /mnt/ with the given options</span>
-<span class="c1"># add the --verbose option here to debug mounting issues</span>
-<span class="c1"># set --timeout to control when sshfs mount is automatically unmounted</span>
-/mnt /etc/auto.sshfs --timeout<span class="o">=</span><span class="m">180</span> --ghost
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash"># mounts all the entries listed in /etc/auto.sshfs in /mnt/ with the given options
+# add the --verbose option here to debug mounting issues
+# set --timeout to control when sshfs mount is automatically unmounted
+/mnt /etc/auto.sshfs --timeout=180 --ghost
+</code></pre>
 
 <p><strong>/etc/auto.sshfs</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># make a mount to be used by auto.master</span>
-foobar -fstype<span class="o">=</span>fuse,rw,IdentityFile<span class="o">=</span>/home/evan/.ssh/foobar,port<span class="o">=</span><span class="m">22</span>,allow_other :sshfs#foo@example.org:
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash"># make a mount to be used by auto.master
+foobar -fstype=fuse,rw,IdentityFile=/home/evan/.ssh/foobar,port=22,allow_other :sshfs#foo@example.org:
+</code></pre>
 
 <p>AutoFS runs as root, so ensure that the host fingerprint has been added
 to <strong><em>root</em>.ssh/known_hosts</strong>. You can add this easily by attempting to
 ssh login to foo@example.org from root.</p>
-<div class="codehilite"><pre><span></span><code>su -
+<pre class="codehilite"><code class="language-bash">su -
 ssh foo@example.org
-<span class="c1"># enter yes</span>
-</code></pre></div>
+# enter yes
+</code></pre>
 
 <h2 id="resizing-luks-encrypted-lvm">Resizing LUKS encrypted LVM</h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># expand the block device with fdisk, if necessary</span>
+<pre class="codehilite"><code class="language-bash"># expand the block device with fdisk, if necessary
 
-<span class="c1"># resize physical volume</span>
-pvresize --setphysicalvolumesize <span class="m">111</span>.8G /dev/sdb2
-<span class="c1"># be careful about using `-l +100%FREE`.  this broke /home until I manually shrank fedora--vg-home by a few GB</span>
+# resize physical volume
+pvresize --setphysicalvolumesize 111.8G /dev/sdb2
+# be careful about using `-l +100%FREE`.  this broke /home until I manually shrank fedora--vg-home by a few GB
 lvextend -l 80G /dev/mapper/fedora--vg-home
 resize2fs /dev/mapper/fedora--vg-home
-</code></pre></div>
+</code></pre>
 
 <h2 id="fixing-nodejs">Fixing Nodejs</h2>
 <p><a href="https://bugzilla.redhat.com/show_bug.cgi?id=1125868">https://bugzilla.redhat.com/show_bug.cgi?id=1125868</a></p>
 <h2 id="rsync">Rsync</h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Sync permissions only. (useful if you forgot `-p` option in cp)</span>
-<span class="c1"># Looks at filesize differences to determine if a copy is needed rather</span>
-<span class="c1"># than timestamp (which gets reset when `-p` is left out of cp.</span>
+<pre class="codehilite"><code class="language-bash"># Sync permissions only. (useful if you forgot `-p` option in cp)
+# Looks at filesize differences to determine if a copy is needed rather
+# than timestamp (which gets reset when `-p` is left out of cp.
 rsync --archive --size-only /src/foo /dest/bar
-</code></pre></div>
+</code></pre>
 
-<div class="codehilite"><pre><span></span><code><span class="c1"># -a : archive, preserve permissions, creation dates, etc</span>
-<span class="c1"># -v : verbose</span>
-<span class="c1"># -h : human readable file sizes</span>
+<pre class="codehilite"><code class="language-bash"># -a : archive, preserve permissions, creation dates, etc
+# -v : verbose
+# -h : human readable file sizes
 
 rsync -avh src dest
-</code></pre></div>
+</code></pre>
 
 <h2 id="dns-tunneling-with-iodine">DNS Tunneling with iodine</h2>
 <p>Most of this was taken from <a href="http://dev.kryo.se/iodine/wiki/HowtoSetup">http://dev.kryo.se/iodine/wiki/HowtoSetup</a></p>
@@ -599,76 +599,76 @@ rsync -avh src dest
 server.example.com pointing to the ip of a server you own and an NS
 record tunnel.example.com pointing to server.example.com.</p>
 <p>To verify the setup is working, you can do:</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># on the server</span>
-sudo nc -u -l -p <span class="m">53</span>
+<pre class="codehilite"><code class="language-bash"># on the server
+sudo nc -u -l -p 53
 
-<span class="c1"># on another device</span>
+# on another device
 dig +trace tunnel.example.com
-<span class="c1"># you should see some stuff printed out in the console on the server</span>
-</code></pre></div>
+# you should see some stuff printed out in the console on the server
+</code></pre>
 
 <h3 id="server-setup">Server Setup</h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># set iptables rules</span>
+<pre class="codehilite"><code class="language-bash"># set iptables rules
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 iptables -A FORWARD -i eth0 -o dns0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 iptables -A FORWARD -i dns0 -o eth0 -j ACCEPT
 
-<span class="c1"># enable ip forwarding on the server</span>
-<span class="c1">#  unnecessary if you want to use `ssh -D 1234` for dynamic port forwarding </span>
-<span class="c1">#  on the client (as opposed to setting default routes)</span>
-<span class="nb">echo</span> <span class="m">1</span> &gt; /proc/sys/net/ipv4/ip_forward
+# enable ip forwarding on the server
+#  unnecessary if you want to use `ssh -D 1234` for dynamic port forwarding 
+#  on the client (as opposed to setting default routes)
+echo 1 &gt; /proc/sys/net/ipv4/ip_forward
 
-<span class="c1"># install iodine</span>
+# install iodine
 dnf install iodine
 
-<span class="c1"># run iodine (as root in a screen session)</span>
-<span class="c1">#  `password` is the password to use the tunnel</span>
-<span class="c1">#  `192.168.99.1` is the ip of the server on the tunnel network</span>
-iodined -c -P password -f <span class="m">192</span>.168.99.1 tunnel.example.com
+# run iodine (as root in a screen session)
+#  `password` is the password to use the tunnel
+#  `192.168.99.1` is the ip of the server on the tunnel network
+iodined -c -P password -f 192.168.99.1 tunnel.example.com
 
-<span class="c1"># note that if iodined is behind a NAT, you&#39;ll need to port forward UDP 53 and</span>
-<span class="c1">#   use the `-p` option to tell iodined the server&#39;s external ip</span>
-<span class="c1"># iodined -c -P password -f 192.168.99.1 tunnel.example.com -p [server.example.com ip]</span>
-</code></pre></div>
+# note that if iodined is behind a NAT, you'll need to port forward UDP 53 and
+#   use the `-p` option to tell iodined the server's external ip
+# iodined -c -P password -f 192.168.99.1 tunnel.example.com -p [server.example.com ip]
+</code></pre>
 
 <h3 id="client-setup">Client Setup</h3>
 <p>Alternatively, you can download a script that does this part from
 <a href="http://www.doeshosting.com/code/NStun.sh">http://www.doeshosting.com/code/NStun.sh</a>.</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># launch iodine client and wait for a &#39;Connection setup complete&#39; message</span>
+<pre class="codehilite"><code class="language-bash"># launch iodine client and wait for a 'Connection setup complete' message
 sudo iodine -f tunnel.example.com
 
-<span class="c1"># either use SSH for dynamic forwarding (one application at a time)  or set up routes</span>
+# either use SSH for dynamic forwarding (one application at a time)  or set up routes
 
-<span class="c1"># ssh</span>
-ssh -D <span class="m">1234</span> tunnel.example.com
-<span class="c1"># set Firefox to use socks proxy localhost on port 1234</span>
+# ssh
+ssh -D 1234 tunnel.example.com
+# set Firefox to use socks proxy localhost on port 1234
 
-<span class="c1"># set up routes</span>
-<span class="c1"># get the current gateway ip</span>
+# set up routes
+# get the current gateway ip
 ip route
-<span class="c1"># get the tunnel server ip</span>
+# get the tunnel server ip
 host server.example.com
-<span class="c1"># add a route for iodine to communicate with the outside world</span>
-sudo ip route add <span class="o">[</span>server.example.com IP<span class="o">]</span> via <span class="o">[</span>current gateway IP<span class="o">]</span>
-<span class="c1"># delete the default route for traffic</span>
+# add a route for iodine to communicate with the outside world
+sudo ip route add [server.example.com IP] via [current gateway IP]
+# delete the default route for traffic
 sudo ip route delete default
-<span class="c1"># add a default route so that all traffic is tunneled</span>
-sudo ip route add default via <span class="m">192</span>.168.99.1
-<span class="c1"># also DNS may not work, so you might have to manually set it to something reasonable</span>
-sudo sh -c <span class="s2">&quot;echo nameserver 8.8.4.4 &gt; /etc/resolv.conf&quot;</span>
-</code></pre></div>
+# add a default route so that all traffic is tunneled
+sudo ip route add default via 192.168.99.1
+# also DNS may not work, so you might have to manually set it to something reasonable
+sudo sh -c &quot;echo nameserver 8.8.4.4 &gt; /etc/resolv.conf&quot;
+</code></pre>
 
 <h2 id="dns">DNS</h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># lookup the hostname or domain name associated with ip address</span>
-<span class="c1"># also works for local machines in the search domain</span>
-dig -x <span class="m">1</span>.2.3.4
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash"># lookup the hostname or domain name associated with ip address
+# also works for local machines in the search domain
+dig -x 1.2.3.4
+</code></pre>
 
 <h2 id="booting">Booting</h2>
 <p><strong>block</strong> - smallest addressable unit of storage</p>
-<div class="codehilite"><pre><span></span><code>Block size is defined in the hardware of a hard drive, but the OS can
+<pre class="codehilite"><code>Block size is defined in the hardware of a hard drive, but the OS can
 define a virtual block size which chains multiple blocks together.
-</code></pre></div>
+</code></pre>
 
 <p>There are three primary boot options involving UEFI and BIOS firmwares</p>
 <ul>
@@ -713,65 +713,65 @@ end of a GPT disk.</p>
 <li></li>
 </ul>
 <h2 id="smart-status">SMART Status</h2>
-<div class="codehilite"><pre><span></span><code>smartctl -a /dev/sdX
+<pre class="codehilite"><code>smartctl -a /dev/sdX
 smartctl -t short /dev/sdX
-</code></pre></div>
+</code></pre>
 
 <h2 id="network-interfaces-and-bridging">Network interfaces and bridging</h2>
 <h3 id="simulating-network-disconnect">Simulating network disconnect</h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># add network namespaces (for network isolation)</span>
+<pre class="codehilite"><code class="language-bash"># add network namespaces (for network isolation)
 sudo ip netns add client-ns
 sudo ip netns add server-ns
 
-<span class="c1"># create pairs of virtual interfaces</span>
-sudo ip link add client <span class="nb">type</span> veth peer name client-bridge
-sudo ip link add server <span class="nb">type</span> veth peer name server-bridge
-<span class="c1"># add virtual interfaces to namespace</span>
-sudo ip link <span class="nb">set</span> client netns client-ns
-sudo ip link <span class="nb">set</span> server netns server-ns
-<span class="c1"># give addresses to each virtual interface</span>
-sudo ip netns <span class="nb">exec</span> client-ns ip addr add <span class="m">10</span>.0.0.2/24 dev client
-sudo ip netns <span class="nb">exec</span> server-ns ip addr add <span class="m">10</span>.0.0.1/24 dev server
-<span class="c1"># set virtual interfaces up</span>
-sudo ip netns <span class="nb">exec</span> client-ns ip link <span class="nb">set</span> client up
-sudo ip netns <span class="nb">exec</span> server-ns ip link <span class="nb">set</span> server up
-sudo ip link <span class="nb">set</span> client-bridge up
-sudo ip link <span class="nb">set</span> server-bridge up
+# create pairs of virtual interfaces
+sudo ip link add client type veth peer name client-bridge
+sudo ip link add server type veth peer name server-bridge
+# add virtual interfaces to namespace
+sudo ip link set client netns client-ns
+sudo ip link set server netns server-ns
+# give addresses to each virtual interface
+sudo ip netns exec client-ns ip addr add 10.0.0.2/24 dev client
+sudo ip netns exec server-ns ip addr add 10.0.0.1/24 dev server
+# set virtual interfaces up
+sudo ip netns exec client-ns ip link set client up
+sudo ip netns exec server-ns ip link set server up
+sudo ip link set client-bridge up
+sudo ip link set server-bridge up
 
-<span class="c1"># add bridge interface</span>
+# add bridge interface
 sudo brctl addbr bridge0
-<span class="c1"># link virtual interfaces to bridge</span>
-sudo brctl add <span class="k">if</span> bridge0 client-bridge
-sudo brctl add <span class="k">if</span> bridge0 server-bridge
-<span class="c1"># set bridge up</span>
-sudo ip link <span class="nb">set</span> bridge0 up
+# link virtual interfaces to bridge
+sudo brctl add if bridge0 client-bridge
+sudo brctl add if bridge0 server-bridge
+# set bridge up
+sudo ip link set bridge0 up
 
-<span class="c1"># (in a new terminal) do stuff on the virtual interface</span>
-sudo ip netns <span class="nb">exec</span> client-ns ping <span class="m">10</span>.0.0.1
+# (in a new terminal) do stuff on the virtual interface
+sudo ip netns exec client-ns ping 10.0.0.1
 
-<span class="c1"># set bridge down (simulate network offline)</span>
-sudo ip link <span class="nb">set</span> bridge0 down
+# set bridge down (simulate network offline)
+sudo ip link set bridge0 down
 
-<span class="c1"># sometimes you might need to use the loopback interface</span>
-sudo ip netns <span class="nb">exec</span> client-ns ip link <span class="nb">set</span> lo up
-sudo ip netns <span class="nb">exec</span> server-ns ip link <span class="nb">set</span> lo up
-</code></pre></div>
+# sometimes you might need to use the loopback interface
+sudo ip netns exec client-ns ip link set lo up
+sudo ip netns exec server-ns ip link set lo up
+</code></pre>
 
 <h2 id="ubuntu-vnc-server">Ubuntu VNC Server</h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># install x11vnc</span>
+<pre class="codehilite"><code class="language-bash"># install x11vnc
 sudo apt install x11vnc
-<span class="c1"># create a password</span>
+# create a password
 x11vnc -storepasswd
-<span class="c1"># start the server</span>
-</code></pre></div>
+# start the server
+</code></pre>
 
 <p>To automatically run the server at login, add a startup script:</p>
-<div class="codehilite"><pre><span></span><code>gnome-session-properties
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash">gnome-session-properties
+</code></pre>
 
 <p>Add a new item called "VNC" with the command field set to</p>
-<div class="codehilite"><pre><span></span><code>x11-vnc -forever -loop -noxdamage -repeat -rfbport <span class="m">5900</span> -shared -usepw
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash">x11-vnc -forever -loop -noxdamage -repeat -rfbport 5900 -shared -usepw
+</code></pre>
 
 <p>Remember to set the machine to never suspend in the system power
 settings.</p>
@@ -785,33 +785,33 @@ settings.</p>
 </ul>
 <h2 id="fedora-copr">Fedora COPR</h2>
 <p>List copr repos</p>
-<div class="codehilite"><pre><span></span><code>dnf copr list
-</code></pre></div>
+<pre class="codehilite"><code>dnf copr list
+</code></pre>
 
 <p>List copr repos</p>
-<div class="codehilite"><pre><span></span><code>dnf copr list
-</code></pre></div>
+<pre class="codehilite"><code>dnf copr list
+</code></pre>
 
 <p>List copr repos</p>
-<div class="codehilite"><pre><span></span><code>dnf copr list
-</code></pre></div>
+<pre class="codehilite"><code>dnf copr list
+</code></pre>
 
 <p>Removing copr repos</p>
-<div class="codehilite"><pre><span></span><code>sudo dnf copr remove foo/bar
-</code></pre></div>
+<pre class="codehilite"><code>sudo dnf copr remove foo/bar
+</code></pre>
 
 <h2 id="broken-tty">Broken TTY</h2>
-<div class="codehilite"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">DISPLAY</span><span class="o">=</span><span class="p">:</span><span class="mi">0</span><span class="w"> </span><span class="n">loadkeys</span><span class="w"> </span><span class="n">us</span><span class="w"></span>
-</code></pre></div>
+<pre class="codehilite"><code>sudo DISPLAY=:0 loadkeys us
+</code></pre>
 
 <h2 id="qemu">QEMU</h2>
-<div class="codehilite"><pre><span></span><code>qemu-system-x86_64 -cdrom image.iso -boot d -net nic -net user -m 256 -rtc base=localtime -icount 1,sleep=off -rtc clock=vm
-</code></pre></div>
+<pre class="codehilite"><code>qemu-system-x86_64 -cdrom image.iso -boot d -net nic -net user -m 256 -rtc base=localtime -icount 1,sleep=off -rtc clock=vm
+</code></pre>
 
 <h2 id="playing-sound">Playing Sound</h2>
 <p>The <code>beep</code> command requires that the <code>pcspkr</code> module be loaded.  An alternative is the <code>play</code> command (provided by the <code>sox</code> package which ships with some systems).</p>
-<div class="codehilite"><pre><span></span><code>play -n -c1 synth sin 330 fade h 0.1 0.2 0.1 : synth sin 330 fade h 0.1 0.2 0.1
-</code></pre></div>
+<pre class="codehilite"><code>play -n -c1 synth sin 330 fade h 0.1 0.2 0.1 : synth sin 330 fade h 0.1 0.2 0.1
+</code></pre>
 
 <p>There are a variety of effects and waveforms that can be chained or played simultaneously.</p>
 </article>

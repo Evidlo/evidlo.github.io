@@ -20,94 +20,94 @@
 <p>Simple guide on creating Python packages.</p>
 <h2 id="creating-a-package">Creating a Package</h2>
 <p>For a package called <code>foobar</code>, create the following file structure:</p>
-<div class="codehilite"><pre><span></span><code>my_project/
+<pre class="codehilite"><code>my_project/
 ├── setup.py
 ├── README.md
 └── foobar/
     ├── __init__.py
     ├── version.py
     └── foobar.py
-</code></pre></div>
+</code></pre>
 
 <p><strong>__init__.py</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Just an Empty file</span>
-<span class="c1"># This marks the directory as a python module</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-python"># Just an Empty file
+# This marks the directory as a python module
+</code></pre>
 
 <p><strong>setup.py</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">find_packages</span><span class="p">,</span> <span class="n">setup</span>
+<pre class="codehilite"><code class="language-python">from setuptools import find_packages, setup
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;README.md&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">README</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+with open(&quot;README.md&quot;) as f:
+    README = f.read()
 
-<span class="n">version</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="c1"># manually read version from file</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;foobar/version.py&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-    <span class="n">exec</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">version</span><span class="p">)</span>
+version = {}
+# manually read version from file
+with open(&quot;foobar/version.py&quot;) as file:
+    exec(file.read(), version)
 
-<span class="n">setup</span><span class="p">(</span>
-    <span class="c1"># some basic project information</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;foobar&quot;</span><span class="p">,</span>
-    <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">[</span><span class="s2">&quot;__version__&quot;</span><span class="p">],</span>
-    <span class="n">license</span><span class="o">=</span><span class="s2">&quot;GPL3&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Example python project&quot;</span><span class="p">,</span>
-    <span class="n">long_description</span><span class="o">=</span><span class="n">README</span><span class="p">,</span>
-    <span class="n">long_description_content_type</span><span class="o">=</span><span class="s1">&#39;text/markdown&#39;</span><span class="p">,</span>
-    <span class="n">author</span><span class="o">=</span><span class="s2">&quot;Evan Widloski&quot;</span><span class="p">,</span>
-    <span class="n">author_email</span><span class="o">=</span><span class="s2">&quot;evan_ex@widloski.com&quot;</span><span class="p">,</span>
-    <span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://github.com/evidlo/foobar&quot;</span><span class="p">,</span>
-    <span class="c1"># your project&#39;s pip dependencies</span>
-    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
-        <span class="s2">&quot;numpy&quot;</span><span class="p">,</span>
-        <span class="c1"># consider specifying version as well</span>
-        <span class="s2">&quot;scikit-image==0.17.2&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="n">include_package_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="c1"># automatically look for subfolders with __init__.py</span>
-    <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">(),</span>
-    <span class="c1"># if you want your code to be able to run directly from command line</span>
-    <span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
-        <span class="s1">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s1">&#39;myscript = foobar.foobar:main&#39;</span><span class="p">,</span>
-        <span class="p">]</span>
-    <span class="p">},</span>
-<span class="p">)</span>
-</code></pre></div>
+setup(
+    # some basic project information
+    name=&quot;foobar&quot;,
+    version=version[&quot;__version__&quot;],
+    license=&quot;GPL3&quot;,
+    description=&quot;Example python project&quot;,
+    long_description=README,
+    long_description_content_type='text/markdown',
+    author=&quot;Evan Widloski&quot;,
+    author_email=&quot;evan_ex@widloski.com&quot;,
+    url=&quot;https://github.com/evidlo/foobar&quot;,
+    # your project's pip dependencies
+    install_requires=[
+        &quot;numpy&quot;,
+        # consider specifying version as well
+        &quot;scikit-image==0.17.2&quot;,
+    ],
+    include_package_data=True,
+    # automatically look for subfolders with __init__.py
+    packages=find_packages(),
+    # if you want your code to be able to run directly from command line
+    entry_points={
+        'console_scripts': [
+            'myscript = foobar.foobar:main',
+        ]
+    },
+)
+</code></pre>
 
 <p><strong>version.py</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># We put the version in its own file so the version can be imported, if necessary</span>
-<span class="n">__version__</span><span class="o">=</span><span class="s2">&quot;0.0.1&quot;</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-python"># We put the version in its own file so the version can be imported, if necessary
+__version__=&quot;0.0.1&quot;
+</code></pre>
 
 <p><strong>foobar/foobar.py</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="n">some_variable</span> <span class="o">=</span> <span class="mi">123</span>
+<pre class="codehilite"><code class="language-python">some_variable = 123
 
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
-</code></pre></div>
+def main():
+    print(&quot;hello&quot;)
+</code></pre>
 
 <p><strong>README.md</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="gh"># Foobar</span>
+<pre class="codehilite"><code class="language-markdown"># Foobar
 
 A description of your project
-</code></pre></div>
+</code></pre>
 
 <p>Install your package using pip (inside the package directory):</p>
-<div class="codehilite"><pre><span></span><code>pip install -e .
-</code></pre></div>
+<pre class="codehilite"><code>pip install -e .
+</code></pre>
 
 <p>If you install with the "editable" option <code>-e</code>, you can make changes to <code>foobar.py</code> without reinstalling the package.</p>
 <p>We can now run <code>myscript</code> from the command line: </p>
-<div class="codehilite"><pre><span></span><code><span class="o">[</span>evan@blackbox ~<span class="o">]</span> myscript
+<pre class="codehilite"><code class="language-bash">[evan@blackbox ~] myscript
 hello
-</code></pre></div>
+</code></pre>
 
 <p>and import things from the package in Python:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">foobar.foobar</span> <span class="kn">import</span> <span class="n">some_variable</span>
+<pre class="codehilite"><code class="language-python">&gt;&gt;&gt; from foobar.foobar import some_variable
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">some_variable</span>
-<span class="mi">123</span>
-</code></pre></div>
+&gt;&gt;&gt; some_variable
+123
+</code></pre>
 
 <h2 id="uploading-to-pypi">Uploading to PyPi</h2>
 <ol>
@@ -124,21 +124,21 @@ hello
 </li>
 </ol>
 <p>Or use this Makefile:</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Evan Widloski - 2019-03-04</span><span class="w"></span>
-<span class="c1"># makefile for building Python projects</span><span class="w"></span>
+<pre class="codehilite"><code># Evan Widloski - 2019-03-04
+# makefile for building Python projects
 
-<span class="o">.</span><span class="n">PHONY</span><span class="p">:</span><span class="w"> </span><span class="n">dist</span><span class="w"></span>
-<span class="n">dist</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="n">python</span><span class="w"> </span><span class="n">setup</span><span class="o">.</span><span class="n">py</span><span class="w"> </span><span class="n">sdist</span><span class="w"> </span><span class="n">bdist_wheel</span><span class="w"></span>
+.PHONY: dist
+dist:
+    python setup.py sdist bdist_wheel
 
-<span class="o">.</span><span class="n">PHONY</span><span class="p">:</span><span class="w"> </span><span class="n">pypi</span><span class="w"></span>
-<span class="n">pypi</span><span class="p">:</span><span class="w"> </span><span class="n">dist</span><span class="w"></span>
-<span class="w">    </span><span class="n">twine</span><span class="w"> </span><span class="n">upload</span><span class="w"> </span><span class="n">dist</span><span class="o">/*</span><span class="w"></span>
+.PHONY: pypi
+pypi: dist
+    twine upload dist/*
 
-<span class="o">.</span><span class="n">PHONY</span><span class="p">:</span><span class="w"> </span><span class="n">clean</span><span class="w"></span>
-<span class="n">clean</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="n">rm</span><span class="w"> </span><span class="n">dist</span><span class="o">/*</span><span class="w"></span>
-</code></pre></div>
+.PHONY: clean
+clean:
+    rm dist/*
+</code></pre>
   </article>
 
     </main>

@@ -17,33 +17,33 @@
       <time datetime="2022-06-28">2022-06-28</time>
     </header>
     <p>Simple makefile when working on LaTeX projects for auto-rebuilding.</p>
-<div class="codehilite"><pre><span></span><code><span class="nf">.ONESHELL</span><span class="o">:</span>
-<span class="nf">.SILENT</span><span class="o">:</span>
+<pre class="codehilite"><code class="language-Makefile">.ONESHELL:
+.SILENT:
 
-<span class="nv">SOURCE</span> <span class="o">:=</span> ICIP.tex
+SOURCE := ICIP.tex
 
-<span class="nf">all</span><span class="o">:</span>
-    tectonic <span class="si">${</span><span class="nv">SOURCE</span><span class="si">}</span>
+all:
+    tectonic ${SOURCE}
 
-<span class="nf">devserver</span><span class="o">:</span>
-    <span class="k">while</span> :<span class="p">;</span>
-    <span class="k">do</span>
-        tectonic <span class="si">${</span><span class="nv">SOURCE</span><span class="si">}</span>
-<span class="c">        # play sound on success or failure</span>
-<span class="cp">        if (( $$? ))</span>
-        <span class="k">then</span>
-<span class="c">            # failure</span>
-            play -n -c1 synth sin <span class="m">330</span> fade h <span class="m">0</span>.1 .2 .1 : synth sin <span class="m">330</span> fade h <span class="m">0</span>.1 .2 <span class="m">0</span>.1
-<span class="cp">        else</span>
-<span class="c">            # success</span>
-            play -n -c1 synth sin <span class="m">440</span> fade h <span class="m">0</span>.1 .2 .1 : synth sin <span class="m">880</span> fade h <span class="m">0</span>.1 .2 <span class="m">0</span>.1
+devserver:
+    while :;
+    do
+        tectonic ${SOURCE}
+        # play sound on success or failure
+        if (( $$? ))
+        then
+            # failure
+            play -n -c1 synth sin 330 fade h 0.1 .2 .1 : synth sin 330 fade h 0.1 .2 0.1
+        else
+            # success
+            play -n -c1 synth sin 440 fade h 0.1 .2 .1 : synth sin 880 fade h 0.1 .2 0.1
 
-        <span class="k">fi</span>
+        fi
 
-<span class="c">        # wait for file changes</span>
+        # wait for file changes
         inotifywait -e modify *
-    <span class="k">done</span>
-</code></pre></div>
+    done
+</code></pre>
   </article>
 
     </main>
