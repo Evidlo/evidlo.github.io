@@ -3,11 +3,12 @@ title: Python Packaging Notes
 date: 2020
 ---
 
-# Python
-
 Simple guide on creating Python packages.
 
-## Creating a Package
+[TOC]
+
+
+# Creating a Package
 
 For a package called `foobar`, create the following file structure:
 
@@ -19,13 +20,6 @@ my_project/
     ├── __init__.py
     ├── version.py
     └── foobar.py
-```
-
-**\__init__.py**
-
-``` python
-# Just an Empty file
-# This marks the directory as a python module
 ```
 
 **setup.py**
@@ -70,7 +64,14 @@ setup(
 )
 ```
 
-**version.py**
+**foobar/\__init__.py**
+
+``` python
+# Just an Empty file
+# This marks the directory as a python module
+```
+
+**foobar/version.py**
 
 ``` python
 # We put the version in its own file so the version can be imported, if necessary
@@ -117,17 +118,17 @@ and import things from the package in Python:
 ```
 
 
-## Uploading to PyPi
+# Uploading to PyPi
 
 1. Create a pypi account
     
 2. Build the package
 
-       python setup.py sdist bdist_wheel
+       `python setup.py sdist bdist_wheel`
     
 3. Upload to pypi with twine
 
-       twine upload/dist*
+       `twine upload/dist*`
 
 
 Or use this Makefile:
@@ -147,4 +148,81 @@ pypi: dist
 .PHONY: clean
 clean:
 	rm dist/*
+```
+
+```
+make clean
+make pypi
+```
+
+# Other Good Practices
+### Docstrings
+
+All functions should have a docstring that explains what the arguments do and what the function returns.  Here is a simple example of a function with a docstring
+
+``` python
+def fibonacci(n):
+    """Return Fibonacci sequence up to n elements
+    
+    Args:
+        n (int): number of elements to generate
+        
+    Returns:
+        list: fibonacci sequence of length n
+    """
+    
+    sequence = [0, 1]
+    for i in range(n - 2):
+        sequence.append(sequence[i - 1] + sequence[i - 2])
+        
+    return sequence[:n]
+```
+
+See more docstring examples [here](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html).
+
+### Tests
+
+Tests are an automated way to check that code is working as expected.  They are necessary to ensure your changes to a function don't break code elsewhere that depends on that function.
+
+As an example, all functions in `glide/calibration/foobar.py`, there should a corresponding test function in `glide/calibration/tests/test_foobar.py`.
+
+Here is an example function and its test:
+
+`glide/calibration/foobar.py`
+
+``` python
+def fibonacci(n):
+    """Return Fibonacci sequence up to n elements
+    
+    Args:
+        n (int): number of elements to generate
+        
+    Returns:
+        list: fibonacci sequence of length n
+    """
+    
+    sequence = [0, 1]
+    for i in range(n - 2):
+        sequence.append(sequence[i - 1] + sequence[i - 2])
+        
+    return sequence[:n]
+```
+
+`glide/calibration/tests/test_foobar.py`
+
+```python
+from glide.calibration.foobar import fibonacci
+
+def test_fibonacci():
+    sequence = fibonacci(5)
+    assert sequence == [0, 1, 1, 2, 3], "Incorrect fibonacci sequence"
+```
+
+Run tests like this from the `glide-sdc/` folder:
+
+``` sh
+# run tests for specific module
+./run_tests.sh glide/calibration 
+# run all tests
+./run_tests.sh
 ```
