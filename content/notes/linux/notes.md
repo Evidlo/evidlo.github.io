@@ -857,3 +857,11 @@ The `beep` command requires that the `pcspkr` module be loaded.  An alternative 
     play -n -c1 synth sin 330 fade h 0.1 0.2 0.1 : synth sin 330 fade h 0.1 0.2 0.1
     
 There are a variety of effects and waveforms that can be chained or played simultaneously.
+
+## Connecting to Multiple WiFi Networks Simultaneously
+
+Add a new dummy interface called `wlan0` that is tied to the real interface `wlp3s0`
+
+    sudo iw dev wlp3s0 interface add wlan0 type station
+    
+Then use NetworkManager as normal to connect to another network with this new interface.
