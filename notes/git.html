@@ -17,18 +17,18 @@
       <time datetime="2020">2020</time>
     </header>
     <h2 id="modifying-a-pull-request">Modifying a pull request</h2>
-<pre class="codehilite"><code class="language-bash">git remote add [pr_username] git@github.com:[pr_username]/[reponame]
-git fetch [pr_username]
-git checkout -b [new_branch_name] [pr_username]/master
-# make your commits
-git push [pr_username] HEAD:master
-</code></pre>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>pr_username<span class="o">]</span><span class="w"> </span>git@github.com:<span class="o">[</span>pr_username<span class="o">]</span>/<span class="o">[</span>reponame<span class="o">]</span>
+git<span class="w"> </span>fetch<span class="w"> </span><span class="o">[</span>pr_username<span class="o">]</span>
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span><span class="o">[</span>new_branch_name<span class="o">]</span><span class="w"> </span><span class="o">[</span>pr_username<span class="o">]</span>/master
+<span class="c1"># make your commits</span>
+git<span class="w"> </span>push<span class="w"> </span><span class="o">[</span>pr_username<span class="o">]</span><span class="w"> </span>HEAD:master
+</code></pre></div>
 
 <h2 id="pushing-to-multiple-remotes">Pushing to multiple remotes</h2>
-<pre class="codehilite"><code>git remote add origin https://user@gitlab.com/myrepo 
-git remote set-url --push --add origin https://user@github.com/myrepo 
-git remote set-url --push --add origin https://user@gitlab.com/myrepo
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span><span class="w"> </span><span class="n">remote</span><span class="w"> </span><span class="k">add</span><span class="w"> </span><span class="n">origin</span><span class="w"> </span><span class="nl">https</span><span class="p">:</span><span class="o">//</span><span class="k">user</span><span class="nv">@gitlab</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">myrepo</span><span class="w"> </span>
+<span class="n">git</span><span class="w"> </span><span class="n">remote</span><span class="w"> </span><span class="k">set</span><span class="o">-</span><span class="n">url</span><span class="w"> </span><span class="o">--</span><span class="n">push</span><span class="w"> </span><span class="o">--</span><span class="k">add</span><span class="w"> </span><span class="n">origin</span><span class="w"> </span><span class="nl">https</span><span class="p">:</span><span class="o">//</span><span class="k">user</span><span class="nv">@github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">myrepo</span><span class="w"> </span>
+<span class="n">git</span><span class="w"> </span><span class="n">remote</span><span class="w"> </span><span class="k">set</span><span class="o">-</span><span class="n">url</span><span class="w"> </span><span class="c1">--push --add origin https://user@gitlab.com/myrepo</span>
+</code></pre></div>
   </article>
 
     </main>

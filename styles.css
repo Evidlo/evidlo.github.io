@@ -14,6 +14,8 @@ header {
 }
 h1 {
     margin-bottom: 1ch;
+    border-bottom:1px solid #CCC;
+    padding-bottom:3px;
 }
 time {
     color: #888;

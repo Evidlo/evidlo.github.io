@@ -31,94 +31,94 @@
 <p>Since this radio module is for handheld units that transmit audio, I needed some sort of modem for converting data to an analog format and vice-versa.  One of the methods of modulation I investigated was DTMF, which is used commonly in amateur radio and is built in to many consumer units.  However, DTMF modems tend to be rather large pin-wise and aren't compatible with most digipeaters, so I decided to build one from scratch using my favorite microcontroller, the ATTiny85.  For starters, I need to modulate and demodulate incoming data (known as <code>symbols</code> in communications) so they can be transmitted over the air.  In this case, most digipeaters use a standard known as <code>Bell-202</code> (also known as AFSK-1200), which is a simple modulation scheme where a logic 1 (mark) is represented by a 1200 Hz tone and a logic 0 (space) is represented by a 2200 Hz tone.  I accomplished this by calculating an 8-point DTFT at 1200 Hz and 2200 Hz at a sample rate of 9600 Hz (determined through testing).  I didn't use the FFT here because I'm only interested in the spectral power at two points.</p>
 <p>Once I generated my DTFT coefficients, I used the <a href="https://en.wikipedia.org/wiki/Q_%28number_format%29">Q number format</a>, which is a method of handling signed fractional numbers within fixed point datatypes.  I wrote a bit of code to do the conversion.</p>
 <h4 id="calculating-coefficients">Calculating coefficients</h4>
-<pre class="codehilite"><code class="language-octave">#!/bin/octave
-## Evan Widloski - 2016-10-15
-## calculate DTFT coefficients and express as binary fractions
+<div class="codehilite"><pre><span></span><code><span class="c">#!/bin/octave</span>
+<span class="c">## Evan Widloski - 2016-10-15</span>
+<span class="c">## calculate DTFT coefficients and express as binary fractions</span>
 
-## ----- Convert decimal numbers to n bit signed binary fractions -----
-function out = dec2binfrac(x,n)
-  ## round input array to nearest 1/(2^n)
-  x = round(x * 2^n)/(2^n);
-  k = [1:n-1];
-  if (x &lt; 0)
-    x = 1+x;
-    out = -2^(n-1);
-  else
-    out = 0;
-  endif
-  twos_complement = mod(abs(x),.5.^(k-1)) &gt;= .5.^k;
-  bin_values = 2.^[n-2:-1:0];
-  out += sum(bin_values .* twos_complement);
-endfunction
+<span class="c">## ----- Convert decimal numbers to n bit signed binary fractions -----</span>
+<span class="k">function</span><span class="w"> </span>out<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">dec2binfrac</span><span class="p">(</span>x,n<span class="p">)</span>
+<span class="w">  </span><span class="c">## round input array to nearest 1/(2^n)</span>
+  <span class="n">x</span> <span class="p">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span>^<span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span>^<span class="n">n</span><span class="p">);</span>
+  <span class="n">k</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">x</span> <span class="p">=</span> <span class="mi">1</span><span class="o">+</span><span class="n">x</span><span class="p">;</span>
+    <span class="n">out</span> <span class="p">=</span> <span class="o">-</span><span class="mi">2</span>^<span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+  <span class="k">else</span>
+    <span class="n">out</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">endif</span>
+  <span class="n">twos_complement</span> <span class="p">=</span> <span class="nb">mod</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">),.</span><span class="mf">5.</span>^<span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">&gt;</span><span class="p">=</span> <span class="p">.</span><span class="mf">5.</span>^<span class="n">k</span><span class="p">;</span>
+  <span class="n">bin_values</span> <span class="p">=</span> <span class="mf">2.</span>^<span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span>
+  <span class="n">out</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">bin_values</span> <span class="o">.*</span> <span class="n">twos_complement</span><span class="p">);</span>
+<span class="k">endfunction</span>
 
-## ----- Create coefficients for implementation in C -----
-N = 8
+<span class="c">## ----- Create coefficients for implementation in C -----</span>
+<span class="n">N</span> <span class="p">=</span> <span class="mi">8</span>
 
-## generate DFT coefficients
-Xd1 = e.^(-i*2*pi*(1200/9600)*[0:N-1]);
-Xd2 = e.^(-i*2*pi*(2200/9600)*[0:N-1]);
+<span class="c">## generate DFT coefficients</span>
+<span class="n">Xd1</span> <span class="p">=</span> <span class="nb">e</span><span class="o">.^</span><span class="p">(</span><span class="o">-</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">1200</span><span class="o">/</span><span class="mi">9600</span><span class="p">)</span><span class="o">*</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
+<span class="n">Xd2</span> <span class="p">=</span> <span class="nb">e</span><span class="o">.^</span><span class="p">(</span><span class="o">-</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">2200</span><span class="o">/</span><span class="mi">9600</span><span class="p">)</span><span class="o">*</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
 
-## scale down coefficients by 1 bit, since `1` can't be expressed as binary fraction
-## e.g. scale 1 to 127/128
-Xd1 = Xd1*((2^(N-1) - 1)/2^(N-1));
-Xd2 = Xd2*((2^(N-1) - 1)/2^(N-1));
+<span class="c">## scale down coefficients by 1 bit, since `1` can&#39;t be expressed as binary fraction</span>
+<span class="c">## e.g. scale 1 to 127/128</span>
+<span class="n">Xd1</span> <span class="p">=</span> <span class="n">Xd1</span><span class="o">*</span><span class="p">((</span><span class="mi">2</span>^<span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>^<span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+<span class="n">Xd2</span> <span class="p">=</span> <span class="n">Xd2</span><span class="o">*</span><span class="p">((</span><span class="mi">2</span>^<span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>^<span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
 
-## express coefficients as signed N-bit binary fractions (Q7)
-arrayfun(@(x) dec2binfrac(x,N),real(Xd1))
-arrayfun(@(x) dec2binfrac(x,N),imag(Xd1))
-arrayfun(@(x) dec2binfrac(x,N),real(Xd2))
-arrayfun(@(x) dec2binfrac(x,N),imag(Xd2))
-</code></pre>
+<span class="c">## express coefficients as signed N-bit binary fractions (Q7)</span>
+<span class="nb">arrayfun</span><span class="p">(@(</span><span class="n">x</span><span class="p">)</span> <span class="n">dec2binfrac</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="nb">real</span><span class="p">(</span><span class="n">Xd1</span><span class="p">))</span>
+<span class="nb">arrayfun</span><span class="p">(@(</span><span class="n">x</span><span class="p">)</span> <span class="n">dec2binfrac</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="nb">imag</span><span class="p">(</span><span class="n">Xd1</span><span class="p">))</span>
+<span class="nb">arrayfun</span><span class="p">(@(</span><span class="n">x</span><span class="p">)</span> <span class="n">dec2binfrac</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="nb">real</span><span class="p">(</span><span class="n">Xd2</span><span class="p">))</span>
+<span class="nb">arrayfun</span><span class="p">(@(</span><span class="n">x</span><span class="p">)</span> <span class="n">dec2binfrac</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">N</span><span class="p">),</span><span class="nb">imag</span><span class="p">(</span><span class="n">Xd2</span><span class="p">))</span>
+</code></pre></div>
 
 <p>This yielded 4 arrays which would calculate the DFT at 1200 and 2200 Hz with a 9600 Hz sample rate.</p>
 <h3 id="simulation">Simulation</h3>
 <p>Before implementing my code on the ATTiny, I wanted to do some verification and evaluate performance.  Fortunately, Octave has a <a href="https://www.gnu.org/software/octave/doc/v4.0.1/Getting-Started-with-Oct_002dFiles.html">C/C++ api</a> which allowed me to test my code with the same bit-precision as I would have on the microcontroller.  Below you can see the 4 arrays of DTFT coefficients (generated previously) in Q.7 number format (1 sign bit, 7 data bits).</p>
-<pre class="codehilite"><code class="language-c">// Evan Widloski - FSK Computation
-// Intended to be called from Octave
-#include &lt;octave/oct.h&gt;
-#include &lt;stdint.h&gt;
-#include &lt;math.h&gt;
+<div class="codehilite"><pre><span></span><code><span class="c1">// Evan Widloski - FSK Computation</span>
+<span class="c1">// Intended to be called from Octave</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;octave/oct.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;math.h&gt;</span>
 
-// Input: 8 element row-vector containing time samples, 9600 samp/s
-// Output: 1 element. DTFT(2200) - DTFT(1200)
+<span class="c1">// Input: 8 element row-vector containing time samples, 9600 samp/s</span>
+<span class="c1">// Output: 1 element. DTFT(2200) - DTFT(1200)</span>
 
-DEFUN_DLD(compute_cpp, args, , &quot;FSK&quot;){
-// get input vector from args
-int8NDArray arg = args(0).vector_value();
-int8_t in[8] = {arg(0), arg(1), arg(2), arg(3), arg(4), arg(5), arg(6), arg(7)};
-printf(&quot;input:%d,%d,%d,%d,%d,%d,%d,%d\n&quot;,in[0],in[1],in[2],in[3],in[4],in[5],in[6],in[7]);
+<span class="n">DEFUN_DLD</span><span class="p">(</span><span class="n">compute_cpp</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">,</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s">&quot;FSK&quot;</span><span class="p">){</span>
+<span class="c1">// get input vector from args</span>
+<span class="n">int8NDArray</span><span class="w"> </span><span class="n">arg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">args</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">vector_value</span><span class="p">();</span>
+<span class="kt">int8_t</span><span class="w"> </span><span class="n">in</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">arg</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">arg</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">arg</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">arg</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="w"> </span><span class="n">arg</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="w"> </span><span class="n">arg</span><span class="p">(</span><span class="mi">7</span><span class="p">)};</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;input:%d,%d,%d,%d,%d,%d,%d,%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">in</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">in</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">in</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">in</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">in</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span><span class="n">in</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span><span class="n">in</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span><span class="n">in</span><span class="p">[</span><span class="mi">7</span><span class="p">]);</span>
 
-// define coefficient vectors
-int8_t coeff_1200_real[8] = {127,   90,    0,  -90, -127,  -90,    0,   90};
-int8_t coeff_1200_imag[8] = {  0,  -90, -127,  -90,    0,   90,  127,   90};
-int8_t coeff_2200_real[8] = {127,   16, -123,  -49,  110,   77,  -90, -101};
-int8_t coeff_2200_imag[8] = {  0, -126,  -33,  117,   63, -101,  -90,   77};
+<span class="c1">// define coefficient vectors</span>
+<span class="kt">int8_t</span><span class="w"> </span><span class="n">coeff_1200_real</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">127</span><span class="p">,</span><span class="w">   </span><span class="mi">90</span><span class="p">,</span><span class="w">    </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">-90</span><span class="p">,</span><span class="w"> </span><span class="mi">-127</span><span class="p">,</span><span class="w">  </span><span class="mi">-90</span><span class="p">,</span><span class="w">    </span><span class="mi">0</span><span class="p">,</span><span class="w">   </span><span class="mi">90</span><span class="p">};</span>
+<span class="kt">int8_t</span><span class="w"> </span><span class="n">coeff_1200_imag</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="mi">-90</span><span class="p">,</span><span class="w"> </span><span class="mi">-127</span><span class="p">,</span><span class="w">  </span><span class="mi">-90</span><span class="p">,</span><span class="w">    </span><span class="mi">0</span><span class="p">,</span><span class="w">   </span><span class="mi">90</span><span class="p">,</span><span class="w">  </span><span class="mi">127</span><span class="p">,</span><span class="w">   </span><span class="mi">90</span><span class="p">};</span>
+<span class="kt">int8_t</span><span class="w"> </span><span class="n">coeff_2200_real</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">127</span><span class="p">,</span><span class="w">   </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mi">-123</span><span class="p">,</span><span class="w">  </span><span class="mi">-49</span><span class="p">,</span><span class="w">  </span><span class="mi">110</span><span class="p">,</span><span class="w">   </span><span class="mi">77</span><span class="p">,</span><span class="w">  </span><span class="mi">-90</span><span class="p">,</span><span class="w"> </span><span class="mi">-101</span><span class="p">};</span>
+<span class="kt">int8_t</span><span class="w"> </span><span class="n">coeff_2200_imag</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">-126</span><span class="p">,</span><span class="w">  </span><span class="mi">-33</span><span class="p">,</span><span class="w">  </span><span class="mi">117</span><span class="p">,</span><span class="w">   </span><span class="mi">63</span><span class="p">,</span><span class="w"> </span><span class="mi">-101</span><span class="p">,</span><span class="w">  </span><span class="mi">-90</span><span class="p">,</span><span class="w">   </span><span class="mi">77</span><span class="p">};</span>
 
-int16_t dtft_1200_real, dtft_1200_imag, dtft_2200_real, dtft_2200_imag;
-dtft_1200_real =  dtft_1200_imag =  dtft_2200_real =  dtft_2200_imag = 0;
+<span class="kt">int16_t</span><span class="w"> </span><span class="n">dtft_1200_real</span><span class="p">,</span><span class="w"> </span><span class="n">dtft_1200_imag</span><span class="p">,</span><span class="w"> </span><span class="n">dtft_2200_real</span><span class="p">,</span><span class="w"> </span><span class="n">dtft_2200_imag</span><span class="p">;</span>
+<span class="n">dtft_1200_real</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">dtft_1200_imag</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">dtft_2200_real</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">dtft_2200_imag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 
-for (int i = 0; i &lt; 8; i++){
-  dtft_1200_real += (int8_t)(((int16_t)in[i]*(int16_t)coeff_1200_real[i])&gt;&gt;7);
-  dtft_1200_imag += (int8_t)(((int16_t)in[i]*(int16_t)coeff_1200_imag[i])&gt;&gt;7);
-  dtft_2200_real += (int8_t)(((int16_t)in[i]*(int16_t)coeff_2200_real[i])&gt;&gt;7);
-  dtft_2200_imag += (int8_t)(((int16_t)in[i]*(int16_t)coeff_2200_imag[i])&gt;&gt;7);
-}
-dtft_1200_real = dtft_1200_real&gt;&gt;3;
-dtft_1200_imag = dtft_1200_imag&gt;&gt;3;
-dtft_2200_real = dtft_2200_real&gt;&gt;3;
-dtft_2200_imag = dtft_2200_imag&gt;&gt;3;
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">  </span><span class="n">dtft_1200_real</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="kt">int8_t</span><span class="p">)(((</span><span class="kt">int16_t</span><span class="p">)</span><span class="n">in</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="kt">int16_t</span><span class="p">)</span><span class="n">coeff_1200_real</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">&gt;&gt;</span><span class="mi">7</span><span class="p">);</span>
+<span class="w">  </span><span class="n">dtft_1200_imag</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="kt">int8_t</span><span class="p">)(((</span><span class="kt">int16_t</span><span class="p">)</span><span class="n">in</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="kt">int16_t</span><span class="p">)</span><span class="n">coeff_1200_imag</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">&gt;&gt;</span><span class="mi">7</span><span class="p">);</span>
+<span class="w">  </span><span class="n">dtft_2200_real</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="kt">int8_t</span><span class="p">)(((</span><span class="kt">int16_t</span><span class="p">)</span><span class="n">in</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="kt">int16_t</span><span class="p">)</span><span class="n">coeff_2200_real</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">&gt;&gt;</span><span class="mi">7</span><span class="p">);</span>
+<span class="w">  </span><span class="n">dtft_2200_imag</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="kt">int8_t</span><span class="p">)(((</span><span class="kt">int16_t</span><span class="p">)</span><span class="n">in</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="kt">int16_t</span><span class="p">)</span><span class="n">coeff_2200_imag</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">&gt;&gt;</span><span class="mi">7</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">dtft_1200_real</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dtft_1200_real</span><span class="o">&gt;&gt;</span><span class="mi">3</span><span class="p">;</span>
+<span class="n">dtft_1200_imag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dtft_1200_imag</span><span class="o">&gt;&gt;</span><span class="mi">3</span><span class="p">;</span>
+<span class="n">dtft_2200_real</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dtft_2200_real</span><span class="o">&gt;&gt;</span><span class="mi">3</span><span class="p">;</span>
+<span class="n">dtft_2200_imag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dtft_2200_imag</span><span class="o">&gt;&gt;</span><span class="mi">3</span><span class="p">;</span>
 
-int16_t dtft_1200 = dtft_1200_real*dtft_1200_real +
-                    dtft_1200_imag*dtft_1200_imag;
-int16_t dtft_2200 = dtft_2200_real*dtft_2200_real +
-                    dtft_2200_imag*dtft_2200_imag;
-// dtft_1200 = sqrt(dtft_1200);
-// dtft_2200 = sqrt(dtft_2200);
+<span class="kt">int16_t</span><span class="w"> </span><span class="n">dtft_1200</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dtft_1200_real</span><span class="o">*</span><span class="n">dtft_1200_real</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                    </span><span class="n">dtft_1200_imag</span><span class="o">*</span><span class="n">dtft_1200_imag</span><span class="p">;</span>
+<span class="kt">int16_t</span><span class="w"> </span><span class="n">dtft_2200</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dtft_2200_real</span><span class="o">*</span><span class="n">dtft_2200_real</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                    </span><span class="n">dtft_2200_imag</span><span class="o">*</span><span class="n">dtft_2200_imag</span><span class="p">;</span>
+<span class="c1">// dtft_1200 = sqrt(dtft_1200);</span>
+<span class="c1">// dtft_2200 = sqrt(dtft_2200);</span>
 
-return octave_value(dtft_2200 - dtft_1200);
-return octave_value(dtft_2200);
-      }
-</code></pre>
+<span class="k">return</span><span class="w"> </span><span class="n">octave_value</span><span class="p">(</span><span class="n">dtft_2200</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dtft_1200</span><span class="p">);</span>
+<span class="k">return</span><span class="w"> </span><span class="n">octave_value</span><span class="p">(</span><span class="n">dtft_2200</span><span class="p">);</span>
+<span class="w">      </span><span class="p">}</span>
+</code></pre></div>
 
 <p>Initially, I generated my test signals incoherently, meaning that the phase resets each time the signal transitions from a mark to a space and vice versa.  This creates discontinuities and adds noise to the spectrum in the transition regions.  From the results below, it was clear that my implementation really needed to be coherent.</p>
 <p>
@@ -135,64 +135,64 @@ return octave_value(dtft_2200);
 <figure><img src="bit_clock.png" /><figcaption>Input signal and bit synchronized output.  Input signal is resampled (green dots) to create output with clean timing</figcaption>
 </figure>
 </p>
-<pre class="codehilite"><code class="language-python">#!/bin/python
-## Evan Widloski - 2016-11-27
-## Test bit synchronization algorithm
-from itertools import cycle
-import matplotlib.pyplot as plt
-import numpy as np
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/python</span>
+<span class="c1">## Evan Widloski - 2016-11-27</span>
+<span class="c1">## Test bit synchronization algorithm</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">cycle</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-## inputs generated from simulation.m
-## noisy input
-# input = [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]
-
-
-bit_period = 8
-
-last_change_time = 16
-last_bit_time = 0
-last_bit = 1
-sync = []
-output = []
-bit_get = []
-for bit in input:
-    if last_change_time &gt; 15 and bit != last_bit:
-        last_bit_time = bit_period/2
-        last_change_time = 0
-        sync.append(1)
-    else:
-        sync.append(0)
-    if last_bit_time == 8:
-        if bit != last_bit:
-            last_change_time = 0
-        last_bit = bit
-        last_bit_time = 0
-        bit_get.append(1)
-    else:
-        bit_get.append(0)
-
-    last_change_time += 1
-    last_bit_time += 1
-    output.append(last_bit)
+<span class="c1">## inputs generated from simulation.m</span>
+<span class="c1">## noisy input</span>
+<span class="c1"># input = [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]</span>
 
 
-input = np.array(input)
-output = np.array(output)
-bit_get = np.array(bit_get)
-sync = np.array(sync)
+<span class="n">bit_period</span> <span class="o">=</span> <span class="mi">8</span>
 
-plt.subplot(2,1,1)
-plt.plot(input, 'b')
-plt.plot(np.where(bit_get == 1),1, 'go')
-plt.title('Thresholded input')
-plt.axis([0, len(output), -.2, 1.2])
-# plt.plot(sync, 'g')
-plt.subplot(2,1,2)
-plt.plot(output, 'r')
-plt.title('Final output')
-plt.axis([0, len(output), -.2, 1.2])
-plt.show()
-</code></pre>
+<span class="n">last_change_time</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">last_bit_time</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">last_bit</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">sync</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">bit_get</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">bit</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">last_change_time</span> <span class="o">&gt;</span> <span class="mi">15</span> <span class="ow">and</span> <span class="n">bit</span> <span class="o">!=</span> <span class="n">last_bit</span><span class="p">:</span>
+        <span class="n">last_bit_time</span> <span class="o">=</span> <span class="n">bit_period</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">last_change_time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">sync</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sync</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">last_bit_time</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bit</span> <span class="o">!=</span> <span class="n">last_bit</span><span class="p">:</span>
+            <span class="n">last_change_time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">last_bit</span> <span class="o">=</span> <span class="n">bit</span>
+        <span class="n">last_bit_time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">bit_get</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">bit_get</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">last_change_time</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">last_bit_time</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last_bit</span><span class="p">)</span>
+
+
+<span class="nb">input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="n">bit_get</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bit_get</span><span class="p">)</span>
+<span class="n">sync</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sync</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">bit_get</span> <span class="o">==</span> <span class="mi">1</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;go&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Thresholded input&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="o">-</span><span class="mf">.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">])</span>
+<span class="c1"># plt.plot(sync, &#39;g&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Final output&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="o">-</span><span class="mf">.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
 
 <p>The algorithm waits for a quiet period (no data being transmitted), then synchronizes on the first bit edge it sees.  So long as there are breaks between transmitted packets, the algorithm works well enough to clean up the incoming bit stream.</p>
 <h3 id="construction">Construction</h3>
@@ -212,9 +212,9 @@ plt.show()
 </p>
 <p>However, there was one more problem.  The ATTiny85 is a fairly underpowered device, and with all the multiplications I was doing, I was using up most of the sample period performing computations.  With the sample period now cut in half, there wasn't enough time to finish the DFT calculation before the next sample came in.  My first thought to a solution was to simply use an external 16 MHz crystal rather than the built in 8 MHz oscillator.</p>
 <p>After some research, I learned I could use the ATTiny's PLL as a clock source to double the frequency of the built in oscillator and achieve the desired 16 MHz.  This was just a new target in my makefile:</p>
-<pre class="codehilite"><code class="language-make">16mhz-pll:
-  avrdude -v -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -U lfuse:w:0xf1:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="nf">16mhz-pll</span><span class="o">:</span>
+<span class="w">  </span>avrdude<span class="w"> </span>-v<span class="w"> </span>-p<span class="w"> </span><span class="k">$(</span>DEVICE<span class="k">)</span><span class="w"> </span>-c<span class="w"> </span><span class="k">$(</span>PROGRAMMER<span class="k">)</span><span class="w"> </span>-P<span class="w"> </span><span class="k">$(</span>PORT<span class="k">)</span><span class="w"> </span>-U<span class="w"> </span>lfuse:w:0xf1:m<span class="w"> </span>-U<span class="w"> </span>hfuse:w:0xdf:m<span class="w"> </span>-U<span class="w"> </span>efuse:w:0xff:m
+</code></pre></div>
 
 <h2 id="packetized-data">Packetized Data</h2>
 <table>
