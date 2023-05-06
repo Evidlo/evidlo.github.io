@@ -184,11 +184,11 @@ See more docstring examples [here](https://sphinxcontrib-napoleon.readthedocs.io
 
 Tests are an automated way to check that code is working as expected.  They are necessary to ensure your changes to a function don't break code elsewhere that depends on that function.
 
-As an example, all functions in `glide/calibration/foobar.py`, there should a corresponding test function in `glide/calibration/tests/test_foobar.py`.
+As an example, for all functions in `foobar/foobar.py`, there should a corresponding test function in `tests/test_foobar.py`.
 
 Here is an example function and its test:
 
-`glide/calibration/foobar.py`
+`foobar/foobar.py`
 
 ``` python
 def fibonacci(n):
@@ -208,21 +208,18 @@ def fibonacci(n):
     return sequence[:n]
 ```
 
-`glide/calibration/tests/test_foobar.py`
+`tests/test_foobar.py`
 
 ```python
-from glide.calibration.foobar import fibonacci
+from foobar.foobar import fibonacci
 
 def test_fibonacci():
     sequence = fibonacci(5)
     assert sequence == [0, 1, 1, 2, 3], "Incorrect fibonacci sequence"
 ```
 
-Run tests like this from the `glide-sdc/` folder:
+Run tests like this from the `myproject/` folder:
 
 ``` sh
-# run tests for specific module
-./run_tests.sh glide/calibration 
-# run all tests
-./run_tests.sh
+pytest --quiet
 ```
