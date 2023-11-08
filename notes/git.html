@@ -29,6 +29,13 @@ git<span class="w"> </span>push<span class="w"> </span><span class="o">[</span>p
 <span class="n">git</span><span class="w"> </span><span class="n">remote</span><span class="w"> </span><span class="k">set</span><span class="o">-</span><span class="n">url</span><span class="w"> </span><span class="o">--</span><span class="n">push</span><span class="w"> </span><span class="o">--</span><span class="k">add</span><span class="w"> </span><span class="n">origin</span><span class="w"> </span><span class="nl">https</span><span class="p">:</span><span class="o">//</span><span class="k">user</span><span class="nv">@github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">myrepo</span><span class="w"> </span>
 <span class="n">git</span><span class="w"> </span><span class="n">remote</span><span class="w"> </span><span class="k">set</span><span class="o">-</span><span class="n">url</span><span class="w"> </span><span class="c1">--push --add origin https://user@gitlab.com/myrepo</span>
 </code></pre></div>
+
+<h2 id="deleting-remote-branch">Deleting Remote Branch</h2>
+<div class="codehilite"><pre><span></span><code># delete a local branch
+git branch -d foobar
+# delete a remote branch
+git push origin --delete foobar
+</code></pre></div>
   </article>
 
     </main>

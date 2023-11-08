@@ -177,9 +177,9 @@ make pypi
 <p>See more docstring examples <a href="https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html">here</a>.</p>
 <h3 id="tests">Tests</h3>
 <p>Tests are an automated way to check that code is working as expected.  They are necessary to ensure your changes to a function don't break code elsewhere that depends on that function.</p>
-<p>As an example, all functions in <code>glide/calibration/foobar.py</code>, there should a corresponding test function in <code>glide/calibration/tests/test_foobar.py</code>.</p>
+<p>As an example, for all functions in <code>foobar/foobar.py</code>, there should a corresponding test function in <code>tests/test_foobar.py</code>.</p>
 <p>Here is an example function and its test:</p>
-<p><code>glide/calibration/foobar.py</code></p>
+<p><code>foobar/foobar.py</code></p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return Fibonacci sequence up to n elements</span>
 
@@ -197,19 +197,16 @@ make pypi
     <span class="k">return</span> <span class="n">sequence</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
 </code></pre></div>
 
-<p><code>glide/calibration/tests/test_foobar.py</code></p>
-<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">glide.calibration.foobar</span> <span class="kn">import</span> <span class="n">fibonacci</span>
+<p><code>tests/test_foobar.py</code></p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">foobar.foobar</span> <span class="kn">import</span> <span class="n">fibonacci</span>
 
 <span class="k">def</span> <span class="nf">test_fibonacci</span><span class="p">():</span>
     <span class="n">sequence</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">sequence</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;Incorrect fibonacci sequence&quot;</span>
 </code></pre></div>
 
-<p>Run tests like this from the <code>glide-sdc/</code> folder:</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># run tests for specific module</span>
-./run_tests.sh<span class="w"> </span>glide/calibration<span class="w"> </span>
-<span class="c1"># run all tests</span>
-./run_tests.sh
+<p>Run tests like this from the <code>myproject/</code> folder:</p>
+<div class="codehilite"><pre><span></span><code>pytest<span class="w"> </span>--quiet
 </code></pre></div>
   </article>
 
