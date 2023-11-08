@@ -21,3 +21,13 @@ git remote set-url --push --add origin https://user@github.com/myrepo
 git remote set-url --push --add origin https://user@gitlab.com/myrepo
 
 ```
+
+## Deleting Remote Branch
+
+```
+# delete a local branch
+git branch -d foobar
+# delete a remote branch
+git push origin --delete foobar
+
+```
