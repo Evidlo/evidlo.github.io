@@ -7,7 +7,7 @@ author: Evan Widloski
 [TOC]
 
 ## systemd
-
+    
 **/etc/systemd/system** - default location for system units
 **~/.config/systemd/user** - default location for user units
 
@@ -184,6 +184,18 @@ iptables -X
 iptables -t nat -F
 iptables -t nat -X
 ```
+
+## iperf
+
+Do network bandwidth testing
+
+Test speed to device A for 10 s
+
+    iperf -c [other_ip] -p [other_port] -f M
+    
+Wait for connection from device B
+
+    iperf -s -p 1234
 
 ## LVM
 
@@ -865,3 +877,12 @@ Add a new dummy interface called `wlan0` that is tied to the real interface `wlp
     sudo iw dev wlp3s0 interface add wlan0 type station
     
 Then use NetworkManager as normal to connect to another network with this new interface.
+
+## Syncthing CLI
+
+    # get current device ID
+    syncthing cli show system | grep myID
+    # add another device
+    syncthing cli config devices add --name OTHER_MACHINE --device-id OTHER_ID
+    # share a folder
+    syncthing cli config folders FOLDER_ID devices add --device-id OTHER_ID
