@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+    <title>Numpy Notes</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="/styles.css" /> 
+    <link rel="stylesheet" type="text/css" href="/codehilite.css" /> 
+    <link rel="alternate" type="application/rss+xml" href="/rss.html" title="RSS feed">
+</head>
+<body>
+    <main>
+        
+  <article>
+    <header>
+      <h1>Numpy Notes</h1>
+      <time datetime="2023-12-03">2023-12-03</time>
+    </header>
+    <h1 id="compute-dot-product-of-multidimensional-matrix-with-vector">Compute dot product of multidimensional matrix with vector</h1>
+<p>Supposed we have an (N, N, N, 3) matrix representing the (X, Y, Z) coordinates of all voxels in a rectangular 3D grid.</p>
+<p>In order to compute the dot product of each voxel coordinate with a vector, we can do:</p>
+<pre class="codehilite"><code>vector = np.array((1, 0, 0))
+np.tensordot(grid, vector, axes=1)
+</code></pre>
+  </article>
+
+    </main>
+<footer>
+    <p>Evan Widloski - Rendered with <a href="https://github.com/evidlo/legoman">Legoman</a></p>
+</footer>
+</body>
+</html>
