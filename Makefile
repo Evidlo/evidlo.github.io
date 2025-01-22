@@ -14,7 +14,7 @@ devserver: output
 	legoman build
 	livereload output -t output -p 8000 -w 1 &
 	# wait for change and rebuild
-	inotifywait -mre modify --format %w%f content | while read path
+	inotifywait -mre modify,create --format %w%f content | while read path
 	do
 		legoman build $$path
 	done
