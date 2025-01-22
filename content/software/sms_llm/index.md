@@ -143,3 +143,7 @@ And now for what you've been waiting for!  The first message in these screenshot
 - I started off the project using Phi4, but I had difficulty keeping the LLM responses short.  After switching to llama3.3, this seems to have improved a lot.
 
 - I'm not sure what the legal implications are of agreeing to sell land that I don't even own, so lately I've instructed the models to never actually close on anything.
+
+- People have mentioned that responding to SMS spam helps the spammers to "warm up" a number and build carrier reputation so they can send more spam texts.  I figure that reporting and blocking the numbers after I've had my fun is a reasonable compromise.
+
+- I do get some spam calls in addition to texts, but I haven't noticed an increase in either quite yet.
