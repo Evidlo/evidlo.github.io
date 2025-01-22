@@ -878,6 +878,22 @@ Add a new dummy interface called `wlan0` that is tied to the real interface `wlp
     
 Then use NetworkManager as normal to connect to another network with this new interface.
 
+## NMCLI
+
+Connect to a specific BSSID
+
+    nmcli dev wifi connect "XX:XX:XX:XX:XX:XX"
+    
+List access points
+
+    nmcli dev wifi list
+    
+## Flatpak Filesystem Access
+
+Give all flatpak programs access to the filesystem by default
+
+    flatpak --user override --filesystem=host
+
 ## Syncthing CLI
 
     # get current device ID
