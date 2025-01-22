@@ -12,10 +12,14 @@ main {
 header {
     margin-bottom: 1ch;
 }
-h1 {
+h1, h2, h3, h4, h5 {
     margin-bottom: 1ch;
     border-bottom:1px solid #CCC;
     padding-bottom:3px;
+    color: black;
+}
+h1 a, h2 a, h3 a, h4 a, h5 a {
+    color: black;
 }
 time {
     color: #888;

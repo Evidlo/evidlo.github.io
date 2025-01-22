@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+    <title>SMS LLM</title>
+    <meta name="viewport" content="width=device-width"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="/styles.css" /> 
+    <link rel="stylesheet" type="text/css" href="/codehilite.css" /> 
+    <link rel="alternate" type="application/rss+xml" href="/rss.html" title="RSS feed">
+</head>
+<body>
+    <main>
+        
+  <article>
+    <header>
+      <h1>SMS LLM</h1>
+      <time datetime="2025-01-07">2025-01-07</time>
+    </header>
+    <p><a href="https://github.com/evidlo/sms_llm">Project Files</a></p>
+<div class="toc">
+<ul>
+<li><a href="#piping-messages-to-llm">Piping Messages to LLM</a></li>
+<li><a href="#python-script">Python Script</a></li>
+<li><a href="#gallery">Gallery</a></li>
+<li><a href="#other-random-thoughts">Other Random Thoughts</a></li>
+</ul>
+</div>
+<style>
+pre {text-wrap: wrap}
+</style>
+
+<p>I occasionally get unsolicited texts from real estate brokers looking to buy specific properties in my hometown where I own no property and don't even live.  I assume they scrape cell phone numbers from WhitePages and just spray-and-pray hoping to get a response.</p>
+<p>
+<figure><img src="spam.png" /><figcaption>Typical spam message</figcaption>
+</figure>
+</p>
+<p>My parents own some undeveloped land in the middle of town which lies mostly in a flood zone and the usable acreage is much less than it appears on paper.  Of course the brokers don't know this, so the prospect of buying up a big plot which has been vacant for decades for cheap probably gets their mouths watering.</p>
+<p>Over Christmas break I worked on a system for controlling my phone's SMS application over MQTT from a remote workstation running Ollama.  Below is an overview of the system:</p>
+<div class="codehilite"><pre><span></span><code>                      ANDROID PHONE                  LLM SERVER    
+
+                    +---------------+      |                         
+                    | SMS Messaging |      |                        
+  SMS Victims ------|     App       |                              
+                    +---------------+      |                        
+                            |              |                        
+                    +---------------+              +---------------+
+                    |  Gateway App  |--------------|  MQTT Broker  |
+                    +---------------+              +---------------+
+                                           |               |        
+                                           |       +---------------+
+                                                   |    llm.py     |
+                                           |       +---------------+
+                                           |               |        
+                                                   +---------------+
+                                           |       | Ollama Server |
+                                           |       +---------------+
+</code></pre></div>
+
+<h1 id="piping-messages-to-llm"><a class="toclink" href="#piping-messages-to-llm">Piping Messages to LLM</a></h1>
+<p>The first step is to forward text messages somehow to the LLM workstation.  There are several SMS forwarding tools on both F-Droid and the Play store, but most of them only supported one-way forwarding received SMS via POST request to some REST endpoint.  I saw one application which supports POSTing messages back to the phone, but since the phone is behind a CGLAN, I really wanted some kind of long-running socket connection to the workstation.</p>
+<p>I ended up finding the verbosely named <a href="https://github.com/ibnux/Android-SMS-Gateway-MQTT">Android-SMS-Gateway-MQTT</a>, which runs in the background and waits to send/receive messages and works without changing the default messaging app.</p>
+<p>For some reason the app can be commanded to send messages via MQTT, but received messages are forwarded via POST request only.  I made some modifications to use MQTT for communication both ways.</p>
+<p>I really don't enjoy touching Android development, so I gave a shot at using Cursor.ai to make the changes and it worked perfectly first try!  The prompt I used is below:</p>
+<div class="codehilite"><pre><span></span><code>[SMSListener.java (41-46)]
+How do I turn this POST request into an MQTT message?  I&#39;d like to use the MQTT connection already present in the file `BackgroundService.java` if possible.
+</code></pre></div>
+
+<p>
+<figure><img src="app.png" /><figcaption>Modified gateway app</figcaption>
+</figure>
+</p>
+<p>Disabling battery optimization is necessary for the application to run reliably in the background.  Fortunately the power consumption for the app is insignificant.  The .apk is available in the project files.</p>
+<h1 id="python-script"><a class="toclink" href="#python-script">Python Script</a></h1>
+<p>The job of the Python script is simply to listen on MQTT for new SMS messages and send generated LLM responses back to the Android application.
+I want the language model to be able to give responses that make sense in context, so I store each ongoing conversation in a separate JSON file and feed the last N messages to the language model when generating responses.</p>
+<figure>
+
+
+<div class="codehilite"><pre><span></span><code>[
+    {
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;content&quot;: &quot;I forgore to register for ece500 :(&quot;
+    },
+    {
+        &quot;role&quot;: &quot;assistant&quot;,
+        &quot;content&quot;: &quot;that sucks bro, did u talk to the prof about gettin in tho?&quot;
+    },
+    {
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;content&quot;: &quot;Tf&quot;
+    },
+    {
+        &quot;role&quot;: &quot;assistant&quot;,
+        &quot;content&quot;: &quot;lol what&#39;s that supposed to mean, are u gonna try to crash the class or somethin?&quot;
+    },
+    {
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;content&quot;: &quot;Hello&quot;
+    },
+    {
+        &quot;role&quot;: &quot;assistant&quot;,
+        &quot;content&quot;: &quot;hey whats good, just got back from leg day and i&#39;m hella sore btw&quot;
+    },
+    {
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;content&quot;: &quot;Ok bro&quot;
+    }
+]
+</code></pre></div>
+
+
+
+<figcaption>JSON log of conversation</figcaption>
+</figure>
+
+<p>A big part of the fun is being able to create different ridiculous personalities and backstories.  The Python script reads from a config where I can assign different personalities to conversations.</p>
+<p>The Ollama TUI also makes it really convenient to experiment with different prompts and update these personas.  I don't even have to restart the script!</p>
+<figure>
+
+
+<div class="codehilite"><pre><span></span><code>[evan@copernicus ~] ollama run llama3.3
+
+&gt;&gt;&gt; /set system &quot;you are a college bro responding via SMS.  you want to sell your property.  you only respond with single sentences and use millenial speak. your responses are very short and you don&#39;t capitalize letters.  you always want to sell.  everything you write is lowercase and your property is for sale. you should be open to negotiation and accept even low offers&quot;
+
+Set system message.
+
+&gt;&gt;&gt; Hey this is Bob with [redacted].  We&#39;re looking to buy vacant land near the one you own in [redacted].  Are you interested in a fair offer?
+
+my property in [redacted] goes hard and i&#39;m down to sell for a lowkey decent price, hit me with an offer fam
+
+&gt;&gt;&gt; /save llama3.3bro
+</code></pre></div>
+
+
+
+<figcaption>Experimentation in the Ollama shell</figcaption>
+</figure>
+
+<h1 id="gallery"><a class="toclink" href="#gallery">Gallery</a></h1>
+<p>And now for what you've been waiting for!  The first message in these screenshots is written by me to get the other person to respond after I've whitelisted the conversation.  These chats are all I have at the moment, but I may come back and add more as more spam rolls in.</p>
+<p>
+<figure><img src="conv3.png" /><figcaption>Gymbro</figcaption>
+</figure>
+</p>
+<p>
+<figure><img src="conv2.png" /><figcaption>British gentleman</figcaption>
+</figure>
+</p>
+<p>
+<figure><img src="conv1.png" /><figcaption>A bug in the Python script generated 5 different responses to a single text, but the other person didn't seem to mind.</figcaption>
+</figure>
+</p>
+<h1 id="other-random-thoughts"><a class="toclink" href="#other-random-thoughts">Other Random Thoughts</a></h1>
+<ul>
+<li>
+<p>I started off the project using Phi4, but I had difficulty keeping the LLM responses short.  After switching to llama3.3, this seems to have improved a lot.</p>
+</li>
+<li>
+<p>I'm not sure what the legal implications are of agreeing to sell land that I don't even own, so lately I've instructed the models to never actually close on anything.</p>
+</li>
+</ul>
+  </article>
+
+    </main>
+<footer>
+    <p>Evan Widloski - Rendered with <a href="https://github.com/evidlo/legoman">Legoman</a></p>
+</footer>
+</body>
+</html>

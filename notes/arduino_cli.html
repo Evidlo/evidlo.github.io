@@ -3,7 +3,8 @@
 
 <head>
     <title>Arduino CLI</title>
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="/styles.css" /> 
     <link rel="stylesheet" type="text/css" href="/codehilite.css" /> 
     <link rel="alternate" type="application/rss+xml" href="/rss.html" title="RSS feed">
@@ -18,66 +19,66 @@
     </header>
     <p><a href="https://github.com/arduino/arduino-cli">Arduino CLI</a> is a command line tool that can replace the functionality of the graphical Arduino GUI.  </p>
 <p>You can build, upload, use libraries, read the serial monitor of any board supported by Arduino in a headless setup, which means you can use your favorite editor for code editing and work remotely without relying on VNC or X-Forwarding.</p>
-<h2 id="example-build-script">Example Build Script</h2>
+<h2 id="example-build-script"><a class="toclink" href="#example-build-script">Example Build Script</a></h2>
 <p><strong>build.sh</strong></p>
-<pre class="codehilite"><code class="language-bash">#!/usr/bin/env bash
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
 
-core=STMicroelectronics:stm32
-board=Nucleo_144
-board_options=upload_method=swdMethod,pnum=NUCLEO_L496ZG
+<span class="nv">core</span><span class="o">=</span>STMicroelectronics:stm32
+<span class="nv">board</span><span class="o">=</span>Nucleo_144
+<span class="nv">board_options</span><span class="o">=</span><span class="nv">upload_method</span><span class="o">=</span>swdMethod,pnum<span class="o">=</span>NUCLEO_L496ZG
 
-function setup {
-   arduino-cli core install STMicroelectronics:stm32 --additional-urls https://github.com/stm32duino/BoardManagerFiles/raw/main/package_stmicroelectronics_index.json 
-}
+<span class="k">function</span><span class="w"> </span>setup<span class="w"> </span><span class="o">{</span>
+<span class="w">   </span>arduino-cli<span class="w"> </span>core<span class="w"> </span>install<span class="w"> </span>STMicroelectronics:stm32<span class="w"> </span>--additional-urls<span class="w"> </span>https://github.com/stm32duino/BoardManagerFiles/raw/main/package_stmicroelectronics_index.json<span class="w"> </span>
+<span class="o">}</span>
 
-function compile {
-   arduino-cli compile . -b ${core}:${board} \
-        --board-options ${board_options}
-}
+<span class="k">function</span><span class="w"> </span>compile<span class="w"> </span><span class="o">{</span>
+<span class="w">   </span>arduino-cli<span class="w"> </span>compile<span class="w"> </span>.<span class="w"> </span>-b<span class="w"> </span><span class="si">${</span><span class="nv">core</span><span class="si">}</span>:<span class="si">${</span><span class="nv">board</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--board-options<span class="w"> </span><span class="si">${</span><span class="nv">board_options</span><span class="si">}</span>
+<span class="o">}</span>
 
-function upload {
-    compile
-    arduino-cli upload . -b ${core}:${board} \
-        --board-options ${board_options}
-}
+<span class="k">function</span><span class="w"> </span>upload<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>compile
+<span class="w">    </span>arduino-cli<span class="w"> </span>upload<span class="w"> </span>.<span class="w"> </span>-b<span class="w"> </span><span class="si">${</span><span class="nv">core</span><span class="si">}</span>:<span class="si">${</span><span class="nv">board</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--board-options<span class="w"> </span><span class="si">${</span><span class="nv">board_options</span><span class="si">}</span>
+<span class="o">}</span>
 
-function monitor {
-    arduino-cli monitor -p /dev/ttyACM0 -c baudrate=115200
-}
+<span class="k">function</span><span class="w"> </span>monitor<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>arduino-cli<span class="w"> </span>monitor<span class="w"> </span>-p<span class="w"> </span>/dev/ttyACM0<span class="w"> </span>-c<span class="w"> </span><span class="nv">baudrate</span><span class="o">=</span><span class="m">115200</span>
+<span class="o">}</span>
 
-function details {
-    arduino-cli board details -b ${core}:${board}
-}
+<span class="k">function</span><span class="w"> </span>details<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>arduino-cli<span class="w"> </span>board<span class="w"> </span>details<span class="w"> </span>-b<span class="w"> </span><span class="si">${</span><span class="nv">core</span><span class="si">}</span>:<span class="si">${</span><span class="nv">board</span><span class="si">}</span>
+<span class="o">}</span>
 
-# easily run subcommands.  e.g. &quot;./build upload&quot;
-&quot;$@&quot;
-</code></pre>
+<span class="c1"># easily run subcommands.  e.g. &quot;./build upload&quot;</span>
+<span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+</code></pre></div>
 
 <p>Then you can simply flash new code with</p>
-<pre class="codehilite"><code>./build upload
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="o">./</span><span class="n">build</span><span class="w"> </span><span class="n">upload</span>
+</code></pre></div>
 
-<h2 id="connecting-monitor">Connecting Monitor</h2>
-<pre class="codehilite"><code>acli monitor -p /dev/ttyACM0 -c baudrate=115200
-</code></pre>
+<h2 id="connecting-monitor"><a class="toclink" href="#connecting-monitor">Connecting Monitor</a></h2>
+<div class="codehilite"><pre><span></span><code>acli monitor -p /dev/ttyACM0 -c baudrate=115200
+</code></pre></div>
 
-<h2 id="searchinginstalling-additional-cores">Searching/Installing Additional Cores</h2>
+<h2 id="searchinginstalling-additional-cores"><a class="toclink" href="#searchinginstalling-additional-cores">Searching/Installing Additional Cores</a></h2>
 <p>Search default list of cores</p>
-<pre class="codehilite"><code>acli core search foo
-</code></pre>
+<div class="codehilite"><pre><span></span><code>acli core search foo
+</code></pre></div>
 
 <p>Search cores on third-party URLs</p>
-<pre class="codehilite"><code>acli core search stm --additional-urls http://github.com/stm32duino/...
-</code></pre>
+<div class="codehilite"><pre><span></span><code>acli core search stm --additional-urls http://github.com/stm32duino/...
+</code></pre></div>
 
-<h2 id="listing-available-boards-or-board-options">Listing Available Boards or Board Options</h2>
+<h2 id="listing-available-boards-or-board-options"><a class="toclink" href="#listing-available-boards-or-board-options">Listing Available Boards or Board Options</a></h2>
 <p>List installed boards</p>
-<pre class="codehilite"><code>acli board listall
-</code></pre>
+<div class="codehilite"><pre><span></span><code>acli board listall
+</code></pre></div>
 
 <p>List available options for installed board</p>
-<pre class="codehilite"><code>acli board details -b STMicroelectronics:stm32:Nucleo_144
-</code></pre>
+<div class="codehilite"><pre><span></span><code>acli board details -b STMicroelectronics:stm32:Nucleo_144
+</code></pre></div>
   </article>
 
     </main>
