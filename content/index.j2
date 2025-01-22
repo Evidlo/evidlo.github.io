@@ -25,7 +25,7 @@
     <article>
     <h2>Software Projects</h2>
     <ul>
-        {%- for project in glob('software/*.md')|selectattr('date')|sort(attribute='date', reverse=true) -%}
+        {%- for project in glob('software/**/*.md')|selectattr('date')|sort(attribute='date', reverse=true) -%}
             {{ entry(project) }}
         {%- endfor -%}
     </ul>
