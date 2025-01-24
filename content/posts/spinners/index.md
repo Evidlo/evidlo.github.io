@@ -1,7 +1,7 @@
 ---
 title: Can Spinners
 author: Evan
-date: 2024-01-05
+date: 2024-12-24
 ---
 
 I came up with these little spinning doodads a few years ago around Christmas, and I haven't seen anything like them online, so I'm writing about them here as they are quite fun to make.  I've just been calling these things "can spinners" (ChatGPT suggested "twirluminum").
