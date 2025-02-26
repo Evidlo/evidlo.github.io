@@ -68,7 +68,7 @@ I want the language model to be able to give responses that make sense in contex
 
 <figure>
 
-``` text
+``` json
 [
     {
         "role": "user",
