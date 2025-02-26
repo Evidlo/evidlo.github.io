@@ -62,5 +62,5 @@ Incandescent bulbs work the best, but even LED bulbs are enough to get the spinn
 ![Dad Turbine, Propeller, Turbine, Windmill](IMG_4795.webp)
 ![Doubledecker - Dad Turbine + Propeller](double.jpg)
 ![](IMG_5100.webp)
-![Hubcap](hubcap.jpg)
+![Hubcap (this one sucked)](hubcap.jpg)
 ![Big Turbine and Hubcap](IMG_4798.webp)
