@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="/styles.css" /> 
+    <link rel="stylesheet" type="text/css" href="/codehilite.css" /> 
+    <link rel="alternate" type="application/rss+xml" href="/rss.html" title="RSS feed">
+</head>
+<body>
+    <main>
+        
+  <article>
+    <header>
+      <h1></h1>
+      <time datetime=""></time>
+    </header>
+    <h1 id="document-title"><a class="toclink" href="#document-title">Document Title</a></h1>
+<p>Generate a FUSE daemon in Python which implements the <code>/path/to/some/dir/@tag1</code> scheme.  <code>[tagstring]</code> is guaranteed not to have any <code>@</code> symbol.  Here are some examples of tagstring queries I would like</p>
+<p><code>foo,bar</code>: return results which contain both <code>foo</code> and <code>bar</code> tags</p>
+<p><code>foo,bar∧</code>: return results which contain both <code>foo</code> and <code>bar</code> tags (reverse polish notation)</p>
+<p><code>foo,bar∨</code>: return results which contain either <code>foo</code> or <code>bar</code> tags (reverse polish notation)</p>
+<p><code>foo,bar∧baz∨</code>: return results which contain either <code>foo</code> and <code>bar</code> tags, or <code>baz</code> tag (reverse polish notation)</p>
+<p>You should be able to create/delete/rename tags by manipulating the tags as if they are folders.  e.g. <code>rm /path/to/dir/@tag1 -r</code> would remove  </p>
+<p>You should use sqlite as your backing store.</p>
+<p>Specific directories are selected to enable tagging.  Tags are globally defined for a system.
+These commands assume cwd is a tagging-enabled directory.</p>
+<ul>
+<li>adding tag to existing file<ul>
+<li><code>cp foobar.md foobar.md@notes</code></li>
+</ul>
+</li>
+<li>setting tags on a file (overwrite previous tagging)<ul>
+<li><code>mv foobar.md foobar.md@notes</code></li>
+</ul>
+</li>
+<li>removing tag from file<ul>
+<li><code>rm foobar.md@notes</code></li>
+</ul>
+</li>
+<li>removing a file (also remove file entry from DB)<ul>
+<li><code>rm ~/downloads/foobar.md</code> </li>
+</ul>
+</li>
+<li>renaming a tag<ul>
+<li><code>mv @foo @bar</code></li>
+</ul>
+</li>
+<li>viewing tags on a file ???<ul>
+<li><code>ttt ~/downloads/foobar.md</code></li>
+</ul>
+</li>
+</ul>
+  </article>
+
+    </main>
+<footer>
+    <p>Evan Widloski - Rendered with <a href="https://github.com/evidlo/legoman">Legoman</a></p>
+</footer>
+</body>
+</html>
