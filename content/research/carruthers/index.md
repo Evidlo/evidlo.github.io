@@ -7,6 +7,8 @@ title: Carruthers Geocoronal Observatory
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js" integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/mathtex-script-type.min.js" defer></script>
 
+![Carruthers under testing at BAE Systems.  The two UV cameras are visible on top of the spacecraft.](spacecraft.webp)
+
 Carruthers Geocoronal Observatory (CGO) is a recently selected small satellite mission that will help physicists understand the uppermost parts of the Earth's atmosphere.  It contains two UV imagers that will take pictures of the light from the Sun scattering off hydrogen in the Earth's exosphere.
 
 Carruthers will orbit around L1, a point of gravitational equilibrium about 1.5 million km from the Earth where it will be able to observe the entirety of the exosphere continuously over several years.
