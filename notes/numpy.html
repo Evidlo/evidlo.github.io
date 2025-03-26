@@ -2,7 +2,7 @@
 <html lang=en>
 
 <head>
-    <title>Numpy Notes</title>
+    <title>Numpy/Pytorch/Matplotlib Notes</title>
     <meta name="viewport" content="width=device-width"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="/styles.css" /> 
@@ -14,7 +14,7 @@
         
   <article>
     <header>
-      <h1>Numpy Notes</h1>
+      <h1>Numpy/Pytorch/Matplotlib Notes</h1>
       <time datetime="2023-12-03">2023-12-03</time>
     </header>
     <h1 id="compute-dot-product-of-multidimensional-matrix-with-vector"><a class="toclink" href="#compute-dot-product-of-multidimensional-matrix-with-vector">Compute dot product of multidimensional matrix with vector</a></h1>
@@ -35,6 +35,21 @@ np.tensordot(grid, vector, axes=1)
 
 <p>Instead, do</p>
 <div class="codehilite"><pre><span></span><code>&gt;&gt;&gt; xxx = xxx.where(~condition, 123)
+</code></pre></div>
+
+<h1 id="multiple-synced-animations"><a class="toclink" href="#multiple-synced-animations">Multiple Synced Animations</a></h1>
+<p>To sync multiple animation on different subplots:</p>
+<ol>
+<li>Set all <code>aniXXX.event_source</code> to be the same.</li>
+<li>Call <code>.save(..., extra_anim=[ani1, ani2, ..., ani(N-1)])</code> on the last animation</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ani</span> <span class="o">=</span> <span class="n">generate_animation</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">ani2</span> <span class="o">=</span> <span class="n">generate_other_animation</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<span class="n">ani2</span><span class="o">.</span><span class="n">event_source</span> <span class="o">=</span> <span class="n">ani1</span><span class="o">.</span><span class="n">event_source</span>
+<span class="n">ani2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;out.gif&#39;</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">extra_anim</span><span class="o">=</span><span class="p">[</span><span class="n">ani1</span><span class="p">])</span>
 </code></pre></div>
   </article>
 
