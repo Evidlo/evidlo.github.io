@@ -1,6 +1,6 @@
 ---
 title: Python Packaging Notes
-date: 2020
+date: 2025-06-02
 ---
 
 Simple guide on creating Python packages.
@@ -14,54 +14,62 @@ For a package called `foobar`, create the following file structure:
 
 ```
 my_project/
-├── setup.py
+├── pyproject.toml
 ├── README.md
 └── foobar/
     ├── __init__.py
-    ├── version.py
     └── foobar.py
 ```
 
-**setup.py**
+**pyproject.toml**
 
-``` python
-from setuptools import find_packages, setup
 
-with open("README.md") as f:
-    README = f.read()
+``` toml
+[project]
+name = "foobar"
+version = "0.0.1"
+readme = "README.md"
+description = "Example python project"
+authors = [
+    { name = "Evan Widloski", email = "evan_ex@widloski.com" },
+]
+license = {text = "GPL-3.0"}
+keywords = ["your", "keywords", "go", "here"]
+requires-python = ">=3.7"
+dependencies = [
+    "numpy",
+    # consider specifying version as well
+    "scikit-image==0.17.2",
+]
+classifiers = [
+    "Topic :: Software Development :: Libraries",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
 
-version = {}
-# manually read version from file
-with open("foobar/version.py") as file:
-    exec(file.read(), version)
+[project.urls]
+Homepage = "https://github.com/evidlo/foobar"
+Repository = "https://github.com/evidlo/foobar"
+Issues = "https://github.com/evidlo/foobar/issues"
 
-setup(
-    # some basic project information
-    name="foobar",
-    version=version["__version__"],
-    license="GPL3",
-    description="Example python project",
-    long_description=README,
-    long_description_content_type='text/markdown',
-    author="Evan Widloski",
-    author_email="evan_ex@widloski.com",
-    url="https://github.com/evidlo/foobar",
-    # your project's pip dependencies
-    install_requires=[
-        "numpy",
-        # consider specifying version as well
-        "scikit-image==0.17.2",
-    ],
-    include_package_data=True,
-    # automatically look for subfolders with __init__.py
-    packages=find_packages(),
-    # if you want your code to be able to run directly from command line
-    entry_points={
-        'console_scripts': [
-            'myscript = foobar.foobar:main',
-        ]
-    },
-)
+[project.scripts]
+# if you want your code to be able to run directly from command line
+myscript = "foobar.foobar:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages]
+# automatically look for subfolders with __init__.py
+find = {}
+
+[build-system]
+requires = ["setuptools>=59.0.0"]
+build-backend = 'setuptools.build_meta'
 ```
 
 **foobar/\__init__.py**
@@ -93,7 +101,14 @@ def main():
 # Foobar
 
 A description of your project
+
+## Quickstart
+
+    pip install foobar
+    
 ```
+
+# Installing and Using
 
 Install your package using pip (inside the package directory):
 
@@ -124,7 +139,7 @@ and import things from the package in Python:
     
 2. Build the package
 
-       `python setup.py sdist bdist_wheel`
+       `python -m build`
     
 3. Upload to pypi with twine
 
@@ -139,7 +154,7 @@ Or use this Makefile:
 
 .PHONY: dist
 dist:
-	python setup.py sdist bdist_wheel
+    python -m build
 
 .PHONY: pypi
 pypi: dist
