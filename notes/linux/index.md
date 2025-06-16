@@ -902,3 +902,12 @@ Give all flatpak programs access to the filesystem by default
     syncthing cli config devices add --name OTHER_MACHINE --device-id OTHER_ID
     # share a folder
     syncthing cli config folders FOLDER_ID devices add --device-id OTHER_ID
+    
+## NMAP
+
+Produce prettier NMAP output with custom XSL.  Append `--stylesheet [URL] -oX - | xsltproc -` to the end of the nmap command.
+
+    # bad styling
+    sudo nmap -sS 192.168.1.100-200 -p 1234 
+    # cleaner styling
+    sudo nmap -sS 192.168.1.100-200 -p 1234 --stylesheet https://evan.widloski.com/notes/linux/nmap.xsl -oX - | xsltproc -
