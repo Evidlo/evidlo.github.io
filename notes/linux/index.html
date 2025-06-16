@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang=en>
+<html lang="en">
 
 <head>
     <title>Linux Notes</title>
@@ -94,6 +94,7 @@
 <li><a href="#nmcli">NMCLI</a></li>
 <li><a href="#flatpak-filesystem-access">Flatpak Filesystem Access</a></li>
 <li><a href="#syncthing-cli">Syncthing CLI</a></li>
+<li><a href="#nmap">NMAP</a></li>
 </ul>
 </div>
 <h2 id="systemd"><a class="toclink" href="#systemd">systemd</a></h2>
@@ -857,6 +858,14 @@ syncthing cli show system | grep myID
 syncthing cli config devices add --name OTHER_MACHINE --device-id OTHER_ID
 <span class="gh">#</span> share a folder
 syncthing cli config folders FOLDER_ID devices add --device-id OTHER_ID
+</code></pre></div>
+
+<h2 id="nmap"><a class="toclink" href="#nmap">NMAP</a></h2>
+<p>Produce prettier NMAP output with custom XSL.  Append <code>--stylesheet [URL] -oX - | xsltproc -</code> to the end of the nmap command.</p>
+<div class="codehilite"><pre><span></span><code># bad styling
+sudo nmap -sS 192.168.1.100-200 -p 1234 
+# cleaner styling
+sudo nmap -sS 192.168.1.100-200 -p 1234 --stylesheet https://evan.widloski.com/notes/linux/nmap.xsl -oX - | xsltproc -
 </code></pre></div>
 </article>
 
