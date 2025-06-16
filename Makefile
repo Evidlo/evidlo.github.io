@@ -10,11 +10,11 @@ devserver: output
 	# kill backgrounded process on exit
 	trap "exit" INT TERM
 	trap "kill 0" EXIT
-	# build and serve content
+	# build and serve
 	legoman build
 	livereload output -t output -p 8000 -w 1 &
 	# wait for change and rebuild
-	inotifywait -mre modify,create --format %w%f content | while read path
+	inotifywait -mre modify,create --format %w%f . --exclude output | while read path
 	do
 		legoman build $$path
 	done

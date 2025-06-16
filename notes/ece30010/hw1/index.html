@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="/fancy.css"/>
+  <link rel="stylesheet" type="text/css" href="/notes.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Evan Widloski</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25109327-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+  
+  
+  <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    displayAlign: "left",
+    displayIndent: "0em"
+  });
+  </script>
+
+  <script>
+    function showHide(e) {
+    latexblock = $(e).find('.latex');
+    if (latexblock.hasClass('opened')) {
+        // close block
+        latexblock.removeClass('opened');
+        latexblock.hide();
+    } else {
+        // open block
+        latexblock.addClass('opened');
+        latexblock.show();
+    }
+  }
+  </script>
+
+  </head>
+
+<body>
+	<div class="v h">
+		<div class="h hc">
+			<div class="simplebox">
+				<div class="title">ECE30010 - HW1</div>
+				<div class="body v">
+                    <ol>
+<li><ul>
+<li><table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(x_1\)</span></th>
+<th><span class="math inline">\(x_2\)</span></th>
+<th><span class="math inline">\(\sum w_ix_i + b\)</span></th>
+<th><span class="math inline">\(u(\sum)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>/</td>
+<td>&lt;&gt;</td>
+<td>&lt;&gt;</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td>1(0) + 1(0) - 1.5 = -1.5</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>1(1) + 1(0) - 1.5 = -0.5</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1(0) + 1(1) - 1.5 = -0.5</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>1(1) + 1(1) - 1.5 = 0.5</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\[ y = u(x_1 + x_2 - 1.5) \]</span></p>
+<p>This is equivalent to the AND function.</p></li>
+</ul></li>
+<li><ul>
+<li><p>a) NOT</p>
+<table>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(x_1\)</span></td>
+<td><span class="math inline">\(u(\sum)\)</span></td>
+</tr>
+<tr class="even">
+<td>/</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>So <span class="math inline">\(w_1 = -2\)</span>, <span class="math inline">\(b = 1\)</span>, and <span class="math inline">\(y = u(-2x_1 + 1)\)</span></p>
+<p>b) NAND</p>
+<table>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(x_1\)</span></td>
+<td><span class="math inline">\(x_2\)</span></td>
+<td><span class="math inline">\(u(\sum)\)</span></td>
+</tr>
+<tr class="even">
+<td>/</td>
+<td>&lt;&gt;</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>So <span class="math inline">\(w_1 = w_2 = -1\)</span>, <span class="math inline">\(b = 1.5\)</span>, and <span class="math inline">\(y = u(-x_1 - x_2  + 1.5)\)</span></p>
+<p>c) NOR</p>
+<table>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(x_1\)</span></td>
+<td><span class="math inline">\(x_2\)</span></td>
+<td><span class="math inline">\(u(\sum)\)</span></td>
+</tr>
+<tr class="even">
+<td>/</td>
+<td>&lt;&gt;</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>So <span class="math inline">\(w_1 = w_2 = -1\)</span>, <span class="math inline">\(b = 0.5\)</span>, and <span class="math inline">\(y = u(-x_1 -x_2 + 0.5)\)</span></p></li>
+</ul></li>
+<li><p>This can be constructed by composing logical gates:</p>
+<p>(<span class="math inline">\(x_1\)</span> AND <span class="math inline">\(x_2\)</span>) OR (<span class="math inline">\(x_1\)</span> AND <span class="math inline">\(x_3\)</span>) OR (<span class="math inline">\(x_2\)</span> AND <span class="math inline">\(x_3\)</span>) = (<span class="math inline">\(x_1\)</span> AND <span class="math inline">\(x_2\)</span>) OR ((<span class="math inline">\(x_1\)</span> AND <span class="math inline">\(x_3\)</span>) OR (<span class="math inline">\(x_2\)</span> AND <span class="math inline">\(x_3\)</span>))</p>
+<p><span class="math inline">\(u(u(u(x_1 + x_2 - 1.5) + u(x_1 + x_3 - 1.5) - 0.5) + u(x_2 + x_3 - 1.5) - 0.5)\)</span></p></li>
+<li></li>
+</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

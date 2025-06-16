@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="/fancy.css"/>
+  <link rel="stylesheet" type="text/css" href="/notes.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Evan Widloski</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25109327-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+    <style type="text/css">
+  a.sourceLine { display: inline-block; line-height: 1.25; }
+  a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+  a.sourceLine:empty { height: 1.2em; position: absolute; }
+  .sourceCode { overflow: visible; }
+  code.sourceCode { white-space: pre; position: relative; }
+  div.sourceCode { margin: 1em 0; }
+  pre.sourceCode { margin: 0; }
+  @media screen {
+  div.sourceCode { overflow: auto; }
+  }
+  @media print {
+  code.sourceCode { white-space: pre-wrap; }
+  a.sourceLine { text-indent: -1em; padding-left: 1em; }
+  }
+  pre.numberSource a.sourceLine
+    { position: relative; }
+  pre.numberSource a.sourceLine:empty
+    { position: absolute; }
+  pre.numberSource a.sourceLine::before
+    { content: attr(data-line-number);
+      position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+      border: none; pointer-events: all;
+      -webkit-touch-callout: none; -webkit-user-select: none;
+      -khtml-user-select: none; -moz-user-select: none;
+      -ms-user-select: none; user-select: none;
+      padding: 0 4px; width: 4em;
+      color: #aaaaaa;
+    }
+  pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+  div.sourceCode
+    {  }
+  @media screen {
+  a.sourceLine::before { text-decoration: underline; }
+  }
+  code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+  code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+  code span.at { color: #7d9029; } /* Attribute */
+  code span.bn { color: #40a070; } /* BaseN */
+  code span.bu { } /* BuiltIn */
+  code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+  code span.ch { color: #4070a0; } /* Char */
+  code span.cn { color: #880000; } /* Constant */
+  code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+  code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+  code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+  code span.dt { color: #902000; } /* DataType */
+  code span.dv { color: #40a070; } /* DecVal */
+  code span.er { color: #ff0000; font-weight: bold; } /* Error */
+  code span.ex { } /* Extension */
+  code span.fl { color: #40a070; } /* Float */
+  code span.fu { color: #06287e; } /* Function */
+  code span.im { } /* Import */
+  code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+  code span.op { color: #666666; } /* Operator */
+  code span.ot { color: #007020; } /* Other */
+  code span.pp { color: #bc7a00; } /* Preprocessor */
+  code span.sc { color: #4070a0; } /* SpecialChar */
+  code span.ss { color: #bb6688; } /* SpecialString */
+  code span.st { color: #4070a0; } /* String */
+  code span.va { color: #19177c; } /* Variable */
+  code span.vs { color: #4070a0; } /* VerbatimString */
+  code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  
+  
+  <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    displayAlign: "left",
+    displayIndent: "0em"
+  });
+  </script>
+
+  <script>
+    function showHide(e) {
+    latexblock = $(e).find('.latex');
+    if (latexblock.hasClass('opened')) {
+        // close block
+        latexblock.removeClass('opened');
+        latexblock.hide();
+    } else {
+        // open block
+        latexblock.addClass('opened');
+        latexblock.show();
+    }
+  }
+  </script>
+
+  </head>
+
+<body>
+	<div class="v h">
+		<div class="h hc">
+			<div class="simplebox">
+				<div class="title"></div>
+				<div class="body v">
+                    <ul>
+          <li><a href="#register-summary">Register Summary</a><ul>
+          <li><a href="#ddrb---port-b-data-direction-register">DDRB - Port B Data Direction Register</a></li>
+          <li><a href="#portb---port-b-data-register">PORTB - Port B Data Register</a></li>
+          </ul></li>
+          <li><a href="#timers">Timers</a><ul>
+          <li><a href="#tccr0a---timer-0-counter-control-register-a">TCCR0A - Timer 0 Counter Control Register A</a></li>
+          <li><a href="#tccr0b---timer-0-counter-control-register-b">TCCR0B - Timer 0 Counter Control Register B</a></li>
+          <li><a href="#tcnt0---timer-0-counter-register">TCNT0 - Timer 0 Counter Register</a></li>
+          <li><a href="#cr0a---timer-0-output-compare-register-a">0CR0A - Timer 0 Output Compare Register A</a></li>
+          <li><a href="#cr0b---timer-0-output-compare-register-b">0CR0B - Timer 0 Output Compare Register B</a></li>
+          <li><a href="#tccr1---timer-1-counter-control-register">TCCR1 - Timer 1 Counter Control Register</a></li>
+          <li><a href="#timsk---timer-0-interrupt-mask-register">TIMSK - Timer 0 Interrupt Mask Register</a><ul>
+          <li><a href="#wave-form-generation">Wave Form Generation</a></li>
+          </ul></li>
+          <li><a href="#tccr1---timer-1-counter-control-register-1">TCCR1 - Timer 1 Counter Control Register</a></li>
+          <li><a href="#timer-modes">Timer modes</a><ul>
+          <li><a href="#normal">Normal</a></li>
+          <li><a href="#ctc---clear-timer-to-compare-match">CTC - Clear Timer to Compare Match</a></li>
+          <li><a href="#fast-pwm">Fast PWM</a></li>
+          <li><a href="#waveform-generation">Waveform Generation</a></li>
+          </ul></li>
+          </ul></li>
+          <li><a href="#interrupts">Interrupts</a><ul>
+          <li><a href="#timsk---timer-interrupt-mask-register">TIMSK - Timer Interrupt Mask Register</a></li>
+          <li><a href="#hardware-interrupts">Hardware interrupts</a><ul>
+          <li><a href="#external-interrupts">External interrupts</a></li>
+          <li><a href="#pin-change-interrupt">Pin change interrupt</a></li>
+          </ul></li>
+          <li><a href="#timer-interrupts">Timer interrupts</a></li>
+          </ul></li>
+          <li><a href="#adc">ADC</a><ul>
+          <li><a href="#admux---adc-multiplexer-select">ADMUX - ADC Multiplexer Select</a></li>
+          <li><a href="#adcsra---adc-control-and-status">ADCSRA - ADC Control and Status</a></li>
+          <li><a href="#adcsrb---adc-control-and-status">ADCSRB - ADC Control and Status</a></li>
+          <li><a href="#manual-triggering">Manual Triggering</a></li>
+          <li><a href="#auto-triggering">Auto triggering</a></li>
+          </ul></li>
+          </ul>
+                    <p><a href="./attiny85.jpg"><img src="./attiny85.jpg" /></a></p>
+<h1 id="register-summary">Register Summary</h1>
+<h2 id="ddrb---port-b-data-direction-register">DDRB - Port B Data Direction Register</h2>
+<table>
+<thead>
+<tr class="header">
+<th>DDB5</th>
+<th>DDB4</th>
+<th>DDB3</th>
+<th>DDB2</th>
+<th>DDB1</th>
+<th>DDB0</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h2 id="portb---port-b-data-register">PORTB - Port B Data Register</h2>
+<table>
+<thead>
+<tr class="header">
+<th>PORTB5</th>
+<th>PORTB4</th>
+<th>PORTB3</th>
+<th>PORTB2</th>
+<th>PORTB1</th>
+<th>PORTB0</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<h1 id="timers">Timers</h1>
+<h2 id="tccr0a---timer-0-counter-control-register-a">TCCR0A - Timer 0 Counter Control Register A</h2>
+<table>
+<thead>
+<tr class="header">
+<th>COM0A1</th>
+<th>COM0A0</th>
+<th>COM0B1</th>
+<th>COM0B0</th>
+<th></th>
+<th></th>
+<th>WGM01</th>
+<th>WGM00</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>COM0A[1:0]</strong> - control behavior on OC0A compare match</p>
+<p><strong>COM0B[1:0]</strong> - control behavior on OC0B compare match</p>
+<table>
+<thead>
+<tr class="header">
+<th>COM0x1</th>
+<th>COM0x0</th>
+<th>OC0x behavior on compare match in Normal mode</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>OC0x disconnected</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>Toggle OC0x</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>Clear OC0x</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>Set OC0x</td>
+</tr>
+</tbody>
+</table>
+<p><strong>WGM0[2:0]</strong> - control bits for waveform generation mode. <strong>WGM02</strong> is in <strong>TCCR0B</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>WGM02</th>
+<th>WGM01</th>
+<th>WGM00</th>
+<th>Mode</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>Normal</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>PWM Phase Correct</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>CTC</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>Fast PWM</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tccr0b---timer-0-counter-control-register-b">TCCR0B - Timer 0 Counter Control Register B</h2>
+<table>
+<thead>
+<tr class="header">
+<th>FOC0A</th>
+<th>FOC0B</th>
+<th></th>
+<th></th>
+<th>WGM02</th>
+<th>CS02</th>
+<th>CS01</th>
+<th>CS00</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>FOC0A</strong> -</p>
+<p><strong>FOC0B</strong> -</p>
+<p><strong>WGM02</strong> - part of waveform generation settings, see TCCR0A</p>
+<p><strong>CS0[2:0]</strong> - set Timer 0 prescaler</p>
+<table>
+<thead>
+<tr class="header">
+<th>CS02</th>
+<th>CS01</th>
+<th>CS00</th>
+<th>Prescaler</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>Timer stopped</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>/1</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>/8</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>/64</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>/256</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>/102</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tcnt0---timer-0-counter-register">TCNT0 - Timer 0 Counter Register</h2>
+<p>Contains current counter value for Timer 0</p>
+<h2 id="cr0a---timer-0-output-compare-register-a">0CR0A - Timer 0 Output Compare Register A</h2>
+<p>Compared against Timer 0 counter value to trigger some event, like an output compare interupt</p>
+<h2 id="cr0b---timer-0-output-compare-register-b">0CR0B - Timer 0 Output Compare Register B</h2>
+<p>Compared against Timer 0 counter value to trigger some event, like an output compare interupt</p>
+<h2 id="tccr1---timer-1-counter-control-register">TCCR1 - Timer 1 Counter Control Register</h2>
+<table>
+<thead>
+<tr class="header">
+<th>CTC1</th>
+<th>PWM1A</th>
+<th>COM1A1</th>
+<th>COM1A0</th>
+<th>CS13</th>
+<th>CS12</th>
+<th>CS11</th>
+<th>CS10</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>CTC1</strong> - clear Timer 1 after compare match with OCR1C</p>
+<p><strong>PWM1A</strong> - enable PWM mode for OCR1A, (counter reset after compare match with OCR1C)</p>
+<p><strong>COM1A[1:0]</strong> - control OC1A behavior on compare match with OCR1A</p>
+<table>
+<thead>
+<tr class="header">
+<th>COM1A1</th>
+<th>COM1A0</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>OC1A disconnected</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>Toggle OC1A</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>Clear OC1A</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>Set OC1A</td>
+</tr>
+</tbody>
+</table>
+<p><strong>CS1[3:0]</strong> - set Timer 1 prescaler</p>
+<table>
+<thead>
+<tr class="header">
+<th>CS13</th>
+<th>CS12</th>
+<th>CS11</th>
+<th>CS10</th>
+<th>Prescaler</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>Timer stopped</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>16</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>32</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>64</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>128</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>256</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>512</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1024</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>2048</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>4096</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>8192</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>16384</td>
+</tr>
+</tbody>
+</table>
+<h2 id="timsk---timer-0-interrupt-mask-register">TIMSK - Timer 0 Interrupt Mask Register</h2>
+<h3 id="wave-form-generation">Wave Form Generation</h3>
+<p><strong>TCNT0</strong> - counter</p>
+<p><strong>OCR0A</strong> - stationary threshold</p>
+<p><strong>OC0A</strong> - output from compare</p>
+<p><strong>OCR0B</strong> - stationary threshold</p>
+<p><strong>OC0B</strong> - output from compare</p>
+<h2 id="tccr1---timer-1-counter-control-register-1">TCCR1 - Timer 1 Counter Control Register</h2>
+<table>
+<thead>
+<tr class="header">
+<th>CTC1</th>
+<th>PWM1A</th>
+<th>COM1A1</th>
+<th>COM1A0</th>
+<th>CS13</th>
+<th>CS12</th>
+<th>CS11</th>
+<th>CS10</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>CTC1</strong> - clear TCNT1 on compare match with OCR1C</p>
+<p><strong>PWM1A</strong> - enable PWM mode using OCR1A, reset on compare match with OCR1C</p>
+<p><strong>COM1A1/COM1A0</strong> - determine output behavior of OC1A on compare match with OCR1A</p>
+<div class="settings">
+<table>
+<thead>
+<tr class="header">
+<th>COM1A1</th>
+<th>COM1A0</th>
+<th>Mode</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>Comparator A disconnect from OC1A</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>Toggle OC1A</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>Clear 0C1A</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>Set OC1A</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>TCNT1</strong> - counter</p>
+<h2 id="timer-modes">Timer modes</h2>
+<p><strong>BOTTOM</strong> - always 0</p>
+<p><strong>MAX</strong> - size of the counter</p>
+<p><strong>TOP</strong> - can be either <strong>MAX</strong> or OCRxx, depending on mode</p>
+<h3 id="normal">Normal</h3>
+<p>Timer counts up to TOP=0xFF then overflows and resets. Use OCRxx to either toggle output (OCxx) or trigger an interrupt</p>
+<h3 id="ctc---clear-timer-to-compare-match">CTC - Clear Timer to Compare Match</h3>
+<p>Timer is cleared when TCNT* (timer count) passes 0CR* (output compare)</p>
+<h3 id="fast-pwm">Fast PWM</h3>
+<p>Timer counts up to TOP then resets to BOTTOM.</p>
+<h3 id="waveform-generation">Waveform Generation</h3>
+<h1 id="interrupts">Interrupts</h1>
+<p><strong>sei()</strong> - enable interrupts</p>
+<h2 id="timsk---timer-interrupt-mask-register">TIMSK - Timer Interrupt Mask Register</h2>
+<p><strong>0CIE1A</strong> - call TIMER1\<sub>COMPA</sub>\<sub>vect</sub> compare match</p>
+<p><strong>0CIE1B</strong> - call TIMER1\<sub>COMPB</sub>\<sub>vect</sub> compare match</p>
+<p><strong>0CIE0A</strong> - call TIMER0\<sub>COMPA</sub>\<sub>vect</sub> compare match</p>
+<p><strong>0CIE0B</strong> - call TIMER0\<sub>COMPB</sub>\<sub>vect</sub> compare match</p>
+<p><strong>TOIE1</strong> - call TIMER1\<sub>OVF</sub>\<sub>vect</sub> on timer overflow</p>
+<p><strong>TOIE0</strong> - call TIMER0\<sub>OVF</sub>\<sub>vect</sub> on timer overflow</p>
+<h2 id="hardware-interrupts">Hardware interrupts</h2>
+<h3 id="external-interrupts">External interrupts</h3>
+<p>Only available to certain pins (only INT0 on attiny85) Interrupts must be unmasked (enabled)</p>
+<p><strong>GIMSK</strong> - set INT0 to enable interrupt</p>
+<p><strong>MCUCR</strong> - set ISC01/ISC00 to interrupt on change/rising/falling edge</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="pp">#include </span><span class="im">&lt;avr/io.h&gt;</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="pp">#include </span><span class="im">&lt;avr/interrupt.h&gt;</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="dt">int</span> main(<span class="dt">void</span>)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">{</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">  DDRB |= <span class="dv">1</span> &lt;&lt; PB1;             <span class="co">// enable output on PB1</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">  GIMSK = <span class="dv">1</span>&lt;&lt;INT0;              <span class="co">// unmask INT0 external interrupt</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">  MCUCR = <span class="dv">0</span>&lt;&lt;ISC01 | <span class="dv">1</span>&lt;&lt;ISC00;  <span class="co">// enable interrupt on rise/fall</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">  sei();                        <span class="co">// global interrupt enable</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">  <span class="cf">while</span>(<span class="dv">1</span>) {}</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">}</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">// interrupt service routine (ISR) for timer 0 A compare match</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17">ISR(INT0_vect)</a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">{</a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">  PORTB ^= (<span class="dv">1</span>&lt;&lt;PB1);</a>
+<a class="sourceLine" id="cb1-20" data-line-number="20">}</a></code></pre></div>
+<h3 id="pin-change-interrupt">Pin change interrupt</h3>
+<p>These are still technically 'external' to the chip. Only one interrupt per port, but any pin on the port can trigger it. Interrupts must be unmasked (enabled)</p>
+<p><strong>GIMSK</strong> - set PCIE to unmask all PCI on port (only 1 port on attiny85)</p>
+<p><strong>PCMSK</strong> - set PCINTx to enable PCI on PCINT0 pin</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="pp">#include </span><span class="im">&lt;avr/io.h&gt;</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="pp">#include </span><span class="im">&lt;avr/interrupt.h&gt;</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="dt">int</span> main(<span class="dt">void</span>)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">{</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">  DDRB = <span class="dv">1</span> &lt;&lt; PB1;  <span class="co">// enable output on PB1</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">  GIMSK = <span class="dv">1</span>&lt;&lt;PCIE;   <span class="co">// turn on pin change interrupts</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">  PCMSK = <span class="dv">1</span>&lt;&lt;PCINT0; <span class="co">// unmask PCINT0 pin change interrupt</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">  sei();             <span class="co">// global interrupt enable</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">  <span class="cf">while</span>(<span class="dv">1</span>) {}</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">}</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">// interrupt service routine for PCINT0</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">ISR(PCINT0_vect)</a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">{</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19">  PORTB ^= (<span class="dv">1</span>&lt;&lt;PB1);</a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">}</a></code></pre></div>
+<h2 id="timer-interrupts">Timer interrupts</h2>
+<p><strong>TIMSK</strong> - timer interrupt mask</p>
+<p><strong>TIMER1\<sub>COMPA</sub>\<sub>vect</sub></strong> - call on compare match with OCR1A</p>
+<p><strong>TIMER1\<sub>COMPB</sub>\<sub>vect</sub></strong> - call on compare match with OCR1B</p>
+<p><strong>TIMER1\<sub>OVF</sub>\<sub>vect</sub></strong> - call when TOP is reached</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="pp">#include </span><span class="im">&lt;avr/io.h&gt;</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="pp">#include </span><span class="im">&lt;avr/interrupt.h&gt;</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="dt">void</span> main() {</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">    DDRB = (<span class="dv">1</span>&lt;&lt;PB1);  <span class="co">// set PB1 to output</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">    <span class="co">// enable timer clock and set prescaler to 1</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">    TCCR1 =  <span class="dv">1</span>&lt;&lt;CS10;</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">    <span class="co">// run TIMER1_COMPA interrupt when there&#39;s a match on timer 1, comparator A</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">    TIMSK |= <span class="dv">1</span>&lt;&lt;OCIE1A;</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">    OCR1A = <span class="dv">255</span>; <span class="co">// TOP - when to toggle OC1A</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">    OCR1C = <span class="dv">255</span>; <span class="co">// when to reset TCINT1</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16">    sei(); <span class="co">//enable interrupts</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">    <span class="cf">while</span>(<span class="dv">1</span>){}</a>
+<a class="sourceLine" id="cb3-19" data-line-number="19">}</a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21">ISR(TIMER1_COMPA_vect){</a>
+<a class="sourceLine" id="cb3-22" data-line-number="22">    PORTB ^= <span class="dv">1</span>&lt;&lt;PB1; <span class="co">// toggle output</span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23">}</a></code></pre></div>
+<h1 id="adc">ADC</h1>
+<h2 id="admux---adc-multiplexer-select">ADMUX - ADC Multiplexer Select</h2>
+<table>
+<thead>
+<tr class="header">
+<th>REFS1</th>
+<th>REFS0</th>
+<th>ADLAR</th>
+<th>REFS2</th>
+<th>MUX3</th>
+<th>MUX2</th>
+<th>MUX1</th>
+<th>MUX0</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>REFS[2:0]</strong> - used to set voltage reference for ADC</p>
+<p><strong>ADLAR</strong> - enable left adjust for result (ADH contains 8 MSBs of ADC reading)</p>
+<p><strong>MUX[3:0]</strong> - set adc to use</p>
+<table>
+<thead>
+<tr class="header">
+<th>MUX3</th>
+<th>MUX2</th>
+<th>MUX1</th>
+<th>MUX0</th>
+<th>Input Used</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>ADC0</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>ADC1</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>ADC2</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>ADC3</td>
+</tr>
+</tbody>
+</table>
+<h2 id="adcsra---adc-control-and-status">ADCSRA - ADC Control and Status</h2>
+<table>
+<thead>
+<tr class="header">
+<th>ADEN</th>
+<th>ADSC</th>
+<th>ADATE</th>
+<th>ADIF</th>
+<th>ADIE</th>
+<th>ADPS2</th>
+<th>ADPS1</th>
+<th>ADPS0</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>ADEN</strong> - enable ADC</p>
+<p><strong>ADSC</strong> - enable a single measurement in manual mode, or enable auto mode</p>
+<p><strong>ADATE</strong> - enable ADC auto triggering</p>
+<p><strong>ADIF</strong> - this output is set when the ADC measurement is ready. cleared automatically if ADC interrupt is used</p>
+<p><strong>ADIE</strong> - enable ADC interrupt ADC<sub>vect</sub></p>
+<p><strong>ADPS[2:0]</strong> - adc prescaler</p>
+<table>
+<thead>
+<tr class="header">
+<th>ADPS2</th>
+<th>ADPS1</th>
+<th>ADPS0</th>
+<th>Prescaler</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>16</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>32</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>64</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>128</td>
+</tr>
+</tbody>
+</table>
+<h2 id="adcsrb---adc-control-and-status">ADCSRB - ADC Control and Status</h2>
+<table>
+<thead>
+<tr class="header">
+<th>BIN</th>
+<th>ACME</th>
+<th>IPR</th>
+<th></th>
+<th></th>
+<th>ADTS2</th>
+<th>ADTS1</th>
+<th>ADTS0</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<p><strong>BIN</strong> - enables bipolar mode. 9 bit resolution + sign bit</p>
+<p><strong>IPR</strong> - reverse polarity in bipolar mode</p>
+<p><strong>ADTS</strong> - control ADC triggering in auto mode</p>
+<table>
+<thead>
+<tr class="header">
+<th>ADTS2</th>
+<th>ADTS1</th>
+<th>ADTS0</th>
+<th>Trigger Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>Free running</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>Analog comparator</td>
+</tr>
+<tr class="odd">
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>External interrupt 0</td>
+</tr>
+<tr class="even">
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>Timer0 Compare Match A</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>Timer0 Overflow</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>Timer0 Compare Match B</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>Pin Change Interrupt</td>
+</tr>
+</tbody>
+</table>
+<h2 id="manual-triggering">Manual Triggering</h2>
+<h2 id="auto-triggering">Auto triggering</h2>
+<p><strong>ADATE</strong> - ADC auto trigger enable</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="/fancy.css"/>
+  <link rel="stylesheet" type="text/css" href="/notes.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Evan Widloski</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25109327-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+  
+  
+  <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    displayAlign: "left",
+    displayIndent: "0em"
+  });
+  </script>
+
+  <script>
+    function showHide(e) {
+    latexblock = $(e).find('.latex');
+    if (latexblock.hasClass('opened')) {
+        // close block
+        latexblock.removeClass('opened');
+        latexblock.hide();
+    } else {
+        // open block
+        latexblock.addClass('opened');
+        latexblock.show();
+    }
+  }
+  </script>
+
+  </head>
+
+<body>
+	<div class="v h">
+		<div class="h hc">
+			<div class="simplebox">
+				<div class="title">ECE438 - Digital Signal Processing</div>
+				<div class="body v">
+                    <ul>
+          <li><a href="#ctft">CTFT</a><ul>
+          <li><a href="#useful-ctft-pairs">Useful CTFT Pairs</a></li>
+          <li><a href="#duality-of-fourier-transform">Duality of fourier transform</a></li>
+          <li><a href="#time-shifting">Time Shifting</a></li>
+          <li><a href="#time-scaling">Time Scaling</a></li>
+          </ul></li>
+          <li><a href="#dtft">DTFT</a></li>
+          <li><a href="#reconstruction">Reconstruction</a></li>
+          </ul>
+                    <h1 id="ctft">CTFT</h1>
+<p><span class="math display">\[X(f) = \int_{-\infty}^{\infty} x(t) e^{-2 \pi j f t} dt\]</span></p>
+<p><span class="math display">\[x(t) = \int_{-\infty}^{\infty} X(f) e^{2 \pi j f t} df\]</span></p>
+<p>As a convention, we require <span class="math inline">\(x(t)\)</span> has the form <span class="math inline">\(u(t)f(t)\)</span> so that infinite negative tail of <span class="math inline">\(e^{-2 \pi j f t}\)</span> is eliminated.</p>
+<p>An alternative notation:</p>
+<p><span class="math display">\[X(\omega) = \int_{-\infty}^{\infty} x(t) e^{j f t} dt\]</span></p>
+<p><span class="math display">\[x(t) = \frac{1}{2 \pi} \int_{-\infty}^{\infty} X(f) e^{j f t} df\]</span></p>
+<h2 id="useful-ctft-pairs">Useful CTFT Pairs</h2>
+<p><span class="math display">\[\text{sinc}(t) = \frac{\sin (\pi t)}{\pi t} \xrightarrow[]{CTFT} \text{rect}(f)\]</span> <span class="math display">\[\text{comb}_T(x(t)) \xrightarrow[]{CTFT} \frac{1}{T} \text{rep}_{1/T}(X(f))\]</span></p>
+<h2 id="duality-of-fourier-transform">Duality of fourier transform</h2>
+<p><span class="math display">\[x(t) \xrightarrow[]{CTFT} X(f)\]</span></p>
+<p><span class="math display">\[X(t) \xrightarrow[]{CTFT} x(-f)\]</span></p>
+<h2 id="time-shifting">Time Shifting</h2>
+<p><span class="math display">\[x(t - t_0) \xrightarrow[]{CTFT} X(f)e^{-j 2 \pi  ft_0}\]</span></p>
+<h2 id="time-scaling">Time Scaling</h2>
+<p><span class="math display">\[x\left(\frac{t}{a}\right) \xrightarrow[]{CTFT} |a| X(af)\]</span></p>
+<h1 id="dtft">DTFT</h1>
+<p><span class="math display">\[X_d (\omega) = \sum_{n = - \infty}^\infty x[n] e^{-j \omega n}\]</span></p>
+<p><span class="math display">\[x[n] = \frac{1}{2 \pi} \int_{-\infty}^{\infty} X_d(\omega) e^{j \omega n}\]</span></p>
+<h1 id="reconstruction">Reconstruction</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

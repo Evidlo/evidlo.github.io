@@ -1,0 +1,140 @@
+/*------------ sourcecode ------------*/
+pre.sourceCode {
+    border: 1px dashed black;
+    padding: 20px;
+    overflow: auto;
+}
+
+/* ------------ theorems ------------ */
+
+.theorem {
+    border: 1px dashed black;
+    padding: 20px;
+    margin: 20px 0 20px 0;
+}
+
+/* ------------ examples ------------ */
+
+.examples {
+    margin: 20px 0 20px 0;
+    padding: 20px 0 20px 0;
+}
+
+.examples::before {
+    content: "Examples";
+    border-bottom: 1px solid black;
+}
+
+.ex {
+    margin: 20px 0 20px 0;
+    padding: 10px;
+    border: 1px solid;
+}
+
+.ex::before {
+    content: "Example";
+    border-bottom: 1px solid black;
+}
+
+/* ------------ derivation ------------- */
+.derivation {
+    color: purple;
+}
+.derivation:hover {
+    cursor: pointer;
+}
+
+/* ------------ definitions ------------ */
+
+.definition {
+    background-color: lightblue;
+    padding: 20px;
+    margin: 20px 0 20px 0;
+}
+
+.definition::before {
+    border: 1px solid black;
+}
+
+/* ------------ proofs ------------ */
+
+.proof {
+    border: 1px solid black;
+    padding: 20px;
+}
+
+.proof::before {
+    /* content: "Proof"; */
+    border: 1px solid black;
+}
+
+/* ------------ general stuff -------*/
+
+p {
+    white-space: pre-wrap;
+}
+
+
+strong {
+    font-weight: bold;
+}
+
+/* ---------- tables and lists ---------*/
+
+.header th {
+    border-bottom:1px solid;
+}
+td + td { border-left: 1px dashed; }
+tr + tr { border-top: 1px dashed; }
+
+table {
+    border-collapse: collapse;
+}
+td, th {
+    padding: 10px;
+    text-align: center;
+}
+
+/* ----------- figures -------------- */
+
+img{
+    max-width:500px;
+}
+
+.figure p{
+    text-align: left
+}
+
+/* ----------- headlines ------------- */
+h1 {
+    color: black;
+    text-align:center;
+    border-bottom: 2px black solid;
+    font-weight:unset;
+}
+
+/*set document header to white*/
+h1.title {
+    color: white;
+}
+
+h2 {
+    text-decoration: underline;
+    font-weight:unset;
+}
+h3 {
+    text-decoration: underline;
+    font-weight:unset;
+}
+h4 {
+    text-decoration: underline;
+    font-weight:unset;
+}
+h5 {
+    text-decoration: underline;
+    font-weight:unset;
+}
+h6 {
+    text-decoration: underline;
+    font-weight:unset;
+}

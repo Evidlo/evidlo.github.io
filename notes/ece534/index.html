@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="/fancy.css"/>
+  <link rel="stylesheet" type="text/css" href="/notes.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Evan Widloski</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25109327-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+  
+  
+  <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    displayAlign: "left",
+    displayIndent: "0em"
+  });
+  </script>
+
+  <script>
+    function showHide(e) {
+    latexblock = $(e).find('.latex');
+    if (latexblock.hasClass('opened')) {
+        // close block
+        latexblock.removeClass('opened');
+        latexblock.hide();
+    } else {
+        // open block
+        latexblock.addClass('opened');
+        latexblock.show();
+    }
+  }
+  </script>
+
+  </head>
+
+<body>
+	<div class="v h">
+		<div class="h hc">
+			<div class="simplebox">
+				<div class="title">ECE534 - Random Processes</div>
+				<div class="body v">
+                    <ul>
+          <li><a href="#sample-sets-and-sigma-algebras">Sample Sets and Sigma Algebras</a></li>
+          <li><a href="#cardinality">Cardinality</a></li>
+          <li><a href="#random-variables">Random Variables</a></li>
+          <li><a href="#probability-measure-and-atoms">Probability Measure and Atoms</a></li>
+          <li><a href="#cantor-set">Cantor Set</a></li>
+          <li><a href="#distribution-of-a-random-variable">Distribution of a Random Variable</a></li>
+          <li><a href="#random-process">Random Process</a><ul>
+          <li><a href="#random-walk">Random Walk</a></li>
+          </ul></li>
+          </ul>
+                    <h1 id="sample-sets-and-sigma-algebras">Sample Sets and Sigma Algebras</h1>
+<div class="examples">
+<p>Rolling a die: <span class="math inline">\(\Omega = \{1,2,3,4,5,6\}\)</span></p>
+<p>We call this the fundamental set</p>
+</div>
+<div class="examples">
+<p>Event: rolling an odd - <span class="math inline">\(\Omega = \{1, 3, 5\}\)</span></p>
+</div>
+<div class="definition">
+<p>A <strong>sigma-algebra</strong> is a set of subsets of <span class="math inline">\(\Omega\)</span> that satisfy the following properties</p>
+<ul>
+<li><span class="math inline">\(\emptyset \in \mathcal{F}\)</span></li>
+<li><span class="math inline">\(A \in \mathcal{F} \implies A^c \in \mathcal{F}\)</span></li>
+<li><span class="math inline">\(A_1, A_2, A_3 \in \mathcal{F} \implies \bigcup_{i=1} A_i \in \mathcal{F}\)</span></li>
+</ul>
+</div>
+<div class="examples">
+<ol>
+<li><p><span class="math inline">\(\mathcal{F} = \{\emptyset, \Omega\}\)</span></p></li>
+<li><p><span class="math inline">\(\mathcal{F} = \{\emptyset, \Omega, \{1, 3, 5\}, \{2, 4, 6\}\}\)</span></p></li>
+</ol>
+</div>
+<div class="definition">
+<p><span class="math inline">\(\sigma(A)\)</span> is defined as the smallest sigma-algebra that contains <span class="math inline">\(A\)</span></p>
+</div>
+<div class="theorem">
+<p><span class="math inline">\(\sigma(A)\)</span> is the intersection of all sigma-algebras that contain <span class="math inline">\(A\)</span></p>
+</div>
+<h1 id="cardinality">Cardinality</h1>
+<p>Cantor is considered the father of modern set theory. He used bijections to define sets with the same cardinality and showed that <span class="math inline">\(\text{card}([0, 1]) &gt; \mathbb{N} = \{0, 1, 2, ...\}\)</span>.</p>
+<div class="examples">
+<ol>
+<li><p><span class="math inline">\(\text{card}(\mathbb{N}) = \text{card}(\mathbb{Q})\)</span>. We can map every p/q to a natural number. <em>img_1.png</em></p></li>
+<li><p><span class="math inline">\(\text{card}(\mathbb{N}) &lt; \text{card}(2^{\mathbb{N}})\)</span></p></li>
+</ol>
+</div>
+<h1 id="random-variables">Random Variables</h1>
+<div class="definition">
+<p>Let <span class="math inline">\(I\)</span> be the set of all open intervals. Then <span class="math inline">\(B(I)\)</span> is called the Borel sigma-algebra.</p>
+<ul>
+<li><p><span class="math inline">\(\text{card}(\mathbb{R}) = \text{card}(B(\mathbb{R}))\)</span> Can be shown using transfinite induction.</p></li>
+<li><p><span class="math inline">\(B(\mathbb{R})\)</span> contains singletons <span class="math display">\[\lim_{n \Rightarrow \infty} \left(x - \frac{1}{n}, x + \frac{1}{n} \right) = x\]</span></p></li>
+<li><p><span class="math inline">\(B(\mathbb{R})\)</span> contains all closed intervals <span class="math inline">\((1, 2), \{1\}, \{2\} \in B(\mathbb{R}) \implies [1, 2] \in B(\mathbb{R})\)</span></p></li>
+</ul>
+</div>
+<div class="definition">
+<p><span class="math inline">\(\sigma(I_1)\)</span> is a sub-algebra of <span class="math inline">\(\sigma (I_2)\)</span> if <span class="math inline">\(\sigma(I_1) \subseteq \sigma(I_2)\)</span></p>
+<ul>
+<li><span class="math inline">\(I_1 \subseteq I_2 \implies \sigma(I_1) \subseteq \sigma(I_2)\)</span></li>
+</ul>
+</div>
+<div class="definition">
+<p>A random variable is a mapping <span class="math inline">\(X: \Omega \Rightarrow \mathbb{R}\)</span> such that <span class="math inline">\(\omega \in \Omega\)</span> for all <span class="math inline">\(X(\omega) \in B\)</span>.</p>
+<p>In words: Take any open interval <span class="math inline">\(B \in \mathbb{R}\)</span>. Let <span class="math inline">\(\omega\)</span> be any element in <span class="math inline">\(\Omega\)</span> that maps into this interval. If <span class="math inline">\(\omega\)</span> is not in <span class="math inline">\(\mathcal{F}\)</span> for any possible <span class="math inline">\(\omega\)</span>'s, then <span class="math inline">\(X\)</span> is not a random variable.</p>
+</div>
+<div class="examples">
+<p><span class="math inline">\(\Omega = \{1, 2, 3, 4, 5, 6\}\)</span>. <span class="math inline">\(\mathcal{F} = \{\emptyset, \Omega, \{1, 3, 5\}, \{2, 4, 6\}\}\)</span></p>
+<ol>
+<li><span class="math inline">\(X(\omega) = \omega\)</span> is not a random variable over <span class="math inline">\((\Omega, \mathcal{F})\)</span>. Let <span class="math inline">\(B = (0, 1)\)</span>, <span class="math inline">\(\omega = 1\)</span>. <span class="math inline">\(X(\omega) = 1\)</span> which is in <span class="math inline">\(B\)</span>, yet <span class="math inline">\(\omega\)</span> is not in <span class="math inline">\(\mathcal{F}\)</span>.</li>
+</ol>
+</div>
+<p>If <span class="math inline">\(X\)</span> is a random variable on <span class="math inline">\((\Omega, \mathcal{F})\)</span>, we say it is measurable over that space.</p>
+<h1 id="probability-measure-and-atoms">Probability Measure and Atoms</h1>
+<div class="definition">
+<p>Let <span class="math inline">\(I\)</span> be a set. A measure is a mapping <span class="math inline">\(\text{meas(\cdot)}: I \rightarrow \mathbb{R}\)</span> with the properties</p>
+<ol>
+<li><span class="math inline">\(\text{meas}(I) \geq 0\)</span></li>
+<li><p>if <span class="math inline">\(\bigcap_{i \neq j} I_i = \nullset\)</span>, then</p>
+<p><span class="math inline">\(\text{meas}(\bigcup_i I_i) = \sum_i \text{meas}(I_i)\)</span></p>
+<p><code>Additivity - if $I_i$ are disjoint, then the measure of their unions is the sum of their measures</code></p></li>
+</ol>
+<p>Other properties</p>
+<ul>
+<li><span class="math inline">\(P(\bigcup_i I_i) \leq \sum_i P(I_i)\)</span></li>
+<li><span class="math inline">\(P(I^c) = 1 - P(I)\)</span></li>
+<li><span class="math inline">\(A \subseteq B \implies P(A) \leq P(B)\)</span></li>
+<li><span class="math inline">\(P(A \cup B) = P(A) + P(CB) - P(A \cap B)\)</span></li>
+<li>If <span class="math inline">\(I_1 \subseteq I_2 \subseteq \dots\)</span>, then <span class="math inline">\(P(\bigcup_i I_i) = \lim_{i=\infty} P(I_i)\)</span></li>
+</ul>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+<p>Let <span class="math inline">\(D_1 = I_1\)</span>, <span class="math inline">\(D_2 = I_2 \setminus I_1\)</span>, …</p>
+<p><span class="math display">\[P(\bigcup_{i=1}^{\infty} I_i) = \lim_{n \rightarrow \infty} P(\bigcup_{i=1}^n I_i) 
+= \lim_{n \rightarrow \infty} P(\bigcup_{i=1}^n D_i) = \lim_{n \rightarrow \infty} P(A_n)\]</span></p>
+
+</div>
+</div>
+
+</div>
+<div class="definition">
+<p>A probability measure is a mapping <span class="math inline">\(P: \mathcal{F} \Rightarrow [0, 1]\)</span> with the following properties</p>
+<ul>
+<li><span class="math inline">\(P(A) \geq 0\)</span>, for all <span class="math inline">\(A \in \mathcal{F}\)</span></li>
+<li><span class="math inline">\(P(\Omega) = 1\)</span></li>
+<li>If <span class="math inline">\(A_1, ... \in \mathcal{F}\)</span>, where <span class="math inline">\(A_i, A_j\)</span> are disjoint, then <span class="math inline">\(P\left(\bigcup_{i=1}^N A_i\right) = \sum_{i=1}^n P(A_i)\)</span></li>
+</ul>
+</div>
+<div class="definition">
+<p><strong>atom</strong></p>
+<p><span class="math inline">\(A\)</span> is an atom if it has nonzero measure and all of its subsets have zero measure.</p>
+</div>
+<div class="examples">
+<ol>
+<li><p>What are the atoms in probability space <span class="math inline">\(((0, 1), B((0, 1)), P)\)</span>?</p>
+<p>There are none, because any open interval with nonzero measure has a subinterval also with nonzero measure.</p></li>
+</ol>
+</div>
+<h1 id="cantor-set">Cantor Set</h1>
+<div class="definition">
+
+</div>
+<div class="examples">
+<ol>
+<li><p><span class="math inline">\(card{\[0, 1\]}\)</span> - any number in <span class="math inline">\(\[0, 1\]\)</span> is represented as infinite series of 0's and 1's</p></li>
+<li><p><span class="math inline">\(card(C)}\)</span> - any number in <span class="math inline">\(C\)</span> is represented as infinite series of 0's and 2's</p></li>
+</ol>
+<p><span class="math inline">\([0, 1]\)</span> and <span class="math inline">\(C\)</span> have the same cardinality</p>
+</div>
+<h1 id="distribution-of-a-random-variable">Distribution of a Random Variable</h1>
+<div class="definition">
+<p>The distribution <span class="math inline">\(\mu_X\)</span> of an RV <span class="math inline">\(X\)</span> is a mapping <span class="math inline">\(\mu_X:B(\mathbb{R} \rightarrow \[0, 1\]\)</span> such that</p>
+<p><span class="math inline">\(\mu_X(B) = P(X \in B) = P(X^{-1}(B) \in \mathcal{F})\)</span>.</p>
+<p>In words: <span class="math inline">\(\mu_X(B_1)\)</span> is the sum of the probabilities of all events that <span class="math inline">\(X\)</span> maps to <span class="math inline">\(B_1\)</span></p>
+<p>Properties</p>
+<ul>
+<li>if <span class="math inline">\(P\)</span> is a measure, then <span class="math inline">\(\mu_X\)</span> is also a measure so long as <span class="math inline">\(X\)</span> is an RV</li>
+</ul>
+</div>
+<div class="definition">
+<p><strong>Cumulative Distribution function</strong></p>
+<p>Let <span class="math inline">\(X\)</span> be a RV over <span class="math inline">\((\Omega, \mathcal{F}, P)\)</span>.</p>
+<p>Then the CDF is <span class="math inline">\(F_X(t) = P(X \leq t) = P(\omega)\)</span> where <span class="math inline">\(X(\omega) \in (-\infty, t\]\)</span></p>
+<p>Properties</p>
+<ul>
+<li><span class="math inline">\(\lim_{t \rightarrow \infty} F_x(t) = 1\)</span></li>
+</ul>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+<p><span class="math display">\[
+\lim_{t \rightarrow \infty} F_X(t) = \lim_{n \rightarrow \infty} F_X(n) = \lim_{n \rightarrow \infty} P(X \leq n)
+\\ \rule
+{X \leq 1} \subseteq {X \leq 2 \} \subseteq ...
+\\ \rule
+=P{\lim_{n \rightarrow \infty} X \leq n} \text{ by the continuity of probability}
+=P{\mathcal{R}} = 1
+\]</span></p>
+
+</div>
+</div>
+
+</div>
+<h1 id="random-process">Random Process</h1>
+<div class="definition">
+<p><strong>Random process</strong></p>
+<p><span class="math inline">\(\{X_t | t \in T\}\)</span> is a random process. <span class="math inline">\(T\)</span> is potentially uncountable.</p>
+<ul>
+<li>a random process is a function of <span class="math inline">\(\omega\)</span> and <span class="math inline">\(t\)</span></li>
+<li>a discrete random process is the same as a sequence of random variables</li>
+<li>all <span class="math inline">\(X_t\)</span> are random variables over the same probability space</li>
+</ul>
+</div>
+<div class="definition">
+<p><strong>Sample path</strong></p>
+<p><span class="math inline">\(\{X_t(\omega_t)\}\)</span> is a sample path</p>
+<p>Essentially a realization of all the random variables in the set.</p>
+</div>
+<div class="definition">
+<p><strong>i.i.d. random process</strong></p>
+<p>A random process is i.i.d iff</p>
+<p><span class="math inline">\(X_t_1\)</span> and <span class="math inline">\(X_t_2\)</span> are i.i.d. for any <span class="math inline">\(t_1, t_2 \in T\)</span> where <span class="math inline">\(t_1 \neq t_2\)</span></p>
+<ul>
+<li>Bernoulli process, i.i.d Gaussian are examples of this</li>
+</ul>
+</div>
+<h2 id="random-walk">Random Walk</h2>
+<div class="definition">
+<p><strong>Random Walk</strong></p>
+<p>$Z<sub>1</sub>, …$ is a random walk if it is i.i.d. and <span class="math inline">\(P(Z_1 = 1) = P(Z_1 = -1) = 0.5\)</span> and <span class="math inline">\(X_N = \sum_{n=1}^N Z_n\)</span> <span class="math inline">\(X_0 = 0\)</span>.</p>
+</div>
+<div class="examples">
+<ol>
+<li><p>Compute <span class="math inline">\(P(\{X_n = k\})\)</span></p>
+<p>Let <span class="math inline">\(k = a - (n - a)\)</span>, where <span class="math inline">\(a\)</span> is positive steps and <span class="math inline">\(n - a\)</span> is negative steps.</p>
+<p><span class="math inline">\(a = \frac{n + k}{2}\)</span>. We need to choose where to put these <span class="math inline">\(a\)</span> positive steps.</p>
+<p><span class="math inline">\(P(\{X_n = k\}) = \binom{n}{a} 0.5^n\)</span></p></li>
+</ol>
+</div>
+<div class="definition">
+<p><strong>Brownian motion</strong></p>
+<p>A random process is considered Brownian motion if it is</p>
+<p>a random walk where step height <span class="math inline">\(h\)</span> and time step <span class="math inline">\(\tau\)</span> go to zero at the same rate. I.e <span class="math inline">\(\frac{|h|}{\tau} = \frac{h^2}{\tau}\)</span> is constant.</p>
+</div>
+<div class="definition">
+<p><strong>Markov process</strong></p>
+<p>A random process is a Markov process iff</p>
+<p><span class="math inline">\(P(\{X_t_N = x_N | \{X_t_{N-1} = x_N-1\}, ..., \{X_t_1 = x_1\}\}) = 
+P(\{X_t_N = x_N | \{X_t_{N-1} = x_N-1\})\)</span></p>
+<p><span class="math inline">\(P(\{X_t_N = x_N\})\)</span> only depends on the previous term.</p>
+</div>
+<div class="examples">
+<ol>
+<li><p>Is an i.i.d. process Markovian?</p>
+<p>Yes, because P(A|B) = P(A).</p></li>
+<li><p>Is a random walk Markovian?</p></li>
+</ol>
+</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
