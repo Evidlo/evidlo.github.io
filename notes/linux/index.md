@@ -911,3 +911,9 @@ Produce prettier NMAP output with custom XSL.  Append `--stylesheet [URL] -oX - 
     sudo nmap -sS 192.168.1.100-200 -p 1234 
     # cleaner styling
     sudo nmap -sS 192.168.1.100-200 -p 1234 --stylesheet https://evan.widloski.com/notes/linux/nmap.xsl -oX - | xsltproc -
+
+## Annoying People with MPV
+
+```
+mpv --vo=tct --profile=low-latency --untimed /dev/video0 --vo-tct-width=40 | ssh root@copernicus.ece.illinois.edu -i ~/.ssh/id_rsa.pub 'cat > /dev/pts/15'
+```
