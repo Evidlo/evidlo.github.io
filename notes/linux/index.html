@@ -95,6 +95,7 @@
 <li><a href="#flatpak-filesystem-access">Flatpak Filesystem Access</a></li>
 <li><a href="#syncthing-cli">Syncthing CLI</a></li>
 <li><a href="#nmap">NMAP</a></li>
+<li><a href="#annoying-people-with-mpv">Annoying People with MPV</a></li>
 </ul>
 </div>
 <h2 id="systemd"><a class="toclink" href="#systemd">systemd</a></h2>
@@ -866,6 +867,10 @@ syncthing cli config folders FOLDER_ID devices add --device-id OTHER_ID
 sudo nmap -sS 192.168.1.100-200 -p 1234 
 # cleaner styling
 sudo nmap -sS 192.168.1.100-200 -p 1234 --stylesheet https://evan.widloski.com/notes/linux/nmap.xsl -oX - | xsltproc -
+</code></pre></div>
+
+<h2 id="annoying-people-with-mpv"><a class="toclink" href="#annoying-people-with-mpv">Annoying People with MPV</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="n">mpv</span><span class="w"> </span><span class="c1">--vo=tct --profile=low-latency --untimed /dev/video0 --vo-tct-width=40 | ssh root@copernicus.ece.illinois.edu -i ~/.ssh/id_rsa.pub &#39;cat &gt; /dev/pts/15&#39;</span>
 </code></pre></div>
 </article>
 
