@@ -3,7 +3,7 @@
 {% block main %}
     {%- macro entry(e) %}
         <li>
-            <a href="{% if 'link' in e %}{{ e.link }}{% else %}{{ e._path }}{% endif %}">
+            <a href="{% if 'link' in e %}{{ e.link }}{% else %}{{ e.path }}{% endif %}">
                 {{ e.title }}
             </a>
             {% if e.description %} - {{ e.description }}{% endif %}
