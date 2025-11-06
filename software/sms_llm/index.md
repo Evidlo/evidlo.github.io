@@ -136,6 +136,12 @@ And now for what you've been waiting for!  The first message in these screenshot
 
 ![British gentleman](conv2.png)
 
+![Cowboy](cowboy.png)
+
+![Cholmondeley Part 1](cholmondeley1.png)
+
+![Cholmondeley Part 2](cholmondeley2.png)
+
 ![A bug in the Python script generated 5 different responses to a single text, but the other person didn't seem to mind.](conv1.png)
 
 # Other Random Thoughts
