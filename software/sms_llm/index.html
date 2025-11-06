@@ -37,7 +37,7 @@ pre {text-wrap: wrap}
 </p>
 <p>My parents own some undeveloped land in the middle of town which lies mostly in a flood zone and the usable acreage is much less than it appears on paper.  Of course the brokers don't know this, so the prospect of buying up a big plot which has been vacant for decades for cheap probably gets their mouths watering.</p>
 <p>Over Christmas break I worked on a system for controlling my phone's SMS application over MQTT from a remote workstation running Ollama.  Below is an overview of the system:</p>
-<div class="codehilite"><pre><span></span><code>                      ANDROID PHONE                  LLM SERVER    
+<pre class="codehilite"><code class="language-text">                      ANDROID PHONE                  LLM SERVER    
 
                     +---------------+      |                         
                     | SMS Messaging |      |                        
@@ -55,16 +55,16 @@ pre {text-wrap: wrap}
                                                    +---------------+
                                            |       | Ollama Server |
                                            |       +---------------+
-</code></pre></div>
+</code></pre>
 
 <h1 id="piping-messages-to-llm"><a class="toclink" href="#piping-messages-to-llm">Piping Messages to LLM</a></h1>
 <p>The first step is to forward text messages somehow to the LLM workstation.  There are several SMS forwarding tools on both F-Droid and the Play store, but most of them only supported one-way forwarding received SMS via POST request to some REST endpoint.  I saw one application which supports POSTing messages back to the phone, but since the phone is behind a CGLAN, I really wanted some kind of long-running socket connection to the workstation.</p>
 <p>I ended up finding the verbosely named <a href="https://github.com/ibnux/Android-SMS-Gateway-MQTT">Android-SMS-Gateway-MQTT</a>, which runs in the background and waits to send/receive messages and works without changing the default messaging app.</p>
 <p>For some reason the app can be commanded to send messages via MQTT, but received messages are forwarded via POST request only.  I made some modifications to use MQTT for communication both ways.</p>
 <p>I really don't enjoy touching Android development, so I gave a shot at using Cursor.ai to make the changes and it worked perfectly first try!  The prompt I used is below:</p>
-<div class="codehilite"><pre><span></span><code>[SMSListener.java (41-46)]
-How do I turn this POST request into an MQTT message?  I&#39;d like to use the MQTT connection already present in the file `BackgroundService.java` if possible.
-</code></pre></div>
+<pre class="codehilite"><code class="language-text">[SMSListener.java (41-46)]
+How do I turn this POST request into an MQTT message?  I'd like to use the MQTT connection already present in the file `BackgroundService.java` if possible.
+</code></pre>
 
 <p>
 <figure><img src="app.png" /><figcaption>Modified gateway app</figcaption>
@@ -77,37 +77,37 @@ I want the language model to be able to give responses that make sense in contex
 <figure>
 
 
-<div class="codehilite"><pre><span></span><code><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;I forgore to register for ece500 :(&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;assistant&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;that sucks bro, did u talk to the prof about gettin in tho?&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tf&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;assistant&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lol what&#39;s that supposed to mean, are u gonna try to crash the class or somethin?&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hello&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;assistant&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hey whats good, just got back from leg day and i&#39;m hella sore btw&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ok bro&quot;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">]</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-json">[
+    {
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;content&quot;: &quot;I forgore to register for ece500 :(&quot;
+    },
+    {
+        &quot;role&quot;: &quot;assistant&quot;,
+        &quot;content&quot;: &quot;that sucks bro, did u talk to the prof about gettin in tho?&quot;
+    },
+    {
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;content&quot;: &quot;Tf&quot;
+    },
+    {
+        &quot;role&quot;: &quot;assistant&quot;,
+        &quot;content&quot;: &quot;lol what's that supposed to mean, are u gonna try to crash the class or somethin?&quot;
+    },
+    {
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;content&quot;: &quot;Hello&quot;
+    },
+    {
+        &quot;role&quot;: &quot;assistant&quot;,
+        &quot;content&quot;: &quot;hey whats good, just got back from leg day and i'm hella sore btw&quot;
+    },
+    {
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;content&quot;: &quot;Ok bro&quot;
+    }
+]
+</code></pre>
 
 
 
@@ -119,18 +119,18 @@ I want the language model to be able to give responses that make sense in contex
 <figure>
 
 
-<div class="codehilite"><pre><span></span><code>[evan@copernicus ~] ollama run llama3.3
+<pre class="codehilite"><code class="language-text">[evan@copernicus ~] ollama run llama3.3
 
-&gt;&gt;&gt; /set system &quot;you are a college bro responding via SMS.  you want to sell your property.  you only respond with single sentences and use millenial speak. your responses are very short and you don&#39;t capitalize letters.  you always want to sell.  everything you write is lowercase and your property is for sale. you should be open to negotiation and accept even low offers&quot;
+&gt;&gt;&gt; /set system &quot;you are a college bro responding via SMS.  you want to sell your property.  you only respond with single sentences and use millenial speak. your responses are very short and you don't capitalize letters.  you always want to sell.  everything you write is lowercase and your property is for sale. you should be open to negotiation and accept even low offers&quot;
 
 Set system message.
 
-&gt;&gt;&gt; Hey this is Bob with [redacted].  We&#39;re looking to buy vacant land near the one you own in [redacted].  Are you interested in a fair offer?
+&gt;&gt;&gt; Hey this is Bob with [redacted].  We're looking to buy vacant land near the one you own in [redacted].  Are you interested in a fair offer?
 
-my property in [redacted] goes hard and i&#39;m down to sell for a lowkey decent price, hit me with an offer fam
+my property in [redacted] goes hard and i'm down to sell for a lowkey decent price, hit me with an offer fam
 
 &gt;&gt;&gt; /save llama3.3bro
-</code></pre></div>
+</code></pre>
 
 
 
@@ -145,6 +145,18 @@ my property in [redacted] goes hard and i&#39;m down to sell for a lowkey decent
 </p>
 <p>
 <figure><img src="conv2.png" /><figcaption>British gentleman</figcaption>
+</figure>
+</p>
+<p>
+<figure><img src="cowboy.png" /><figcaption>Cowboy</figcaption>
+</figure>
+</p>
+<p>
+<figure><img src="cholmondeley1.png" /><figcaption>Cholmondeley Part 1</figcaption>
+</figure>
+</p>
+<p>
+<figure><img src="cholmondeley2.png" /><figcaption>Cholmondeley Part 2</figcaption>
 </figure>
 </p>
 <p>

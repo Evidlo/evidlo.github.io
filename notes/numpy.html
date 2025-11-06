@@ -20,22 +20,22 @@
     <h1 id="compute-dot-product-of-multidimensional-matrix-with-vector"><a class="toclink" href="#compute-dot-product-of-multidimensional-matrix-with-vector">Compute dot product of multidimensional matrix with vector</a></h1>
 <p>Supposed we have an (N, N, N, 3) matrix representing the (X, Y, Z) coordinates of all voxels in a rectangular 3D grid.</p>
 <p>In order to compute the dot product of each voxel coordinate with a vector, we can do:</p>
-<div class="codehilite"><pre><span></span><code>vector = np.array((1, 0, 0))
+<pre class="codehilite"><code>vector = np.array((1, 0, 0))
 np.tensordot(grid, vector, axes=1)
-</code></pre></div>
+</code></pre>
 
 <h1 id="update-xarray-dataarray-based-on-condition"><a class="toclink" href="#update-xarray-dataarray-based-on-condition">Update Xarray DataArray Based On Condition</a></h1>
 <p>In numpy, you can do this</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="n">xxx</span><span class="o">[</span><span class="n">condition</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span>
-</code></pre></div>
+<pre class="codehilite"><code>&gt;&gt;&gt; xxx[condition] = 123
+</code></pre>
 
 <p>This throws an error on Xarray DataArray</p>
-<div class="codehilite"><pre><span></span><code><span class="n">IndexError</span><span class="o">:</span><span class="w"> </span><span class="n">Unlabeled</span><span class="w"> </span><span class="n">multi</span><span class="o">-</span><span class="n">dimensional</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">cannot</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">indexing</span><span class="o">:</span><span class="w"> </span><span class="n">x</span>
-</code></pre></div>
+<pre class="codehilite"><code>IndexError: Unlabeled multi-dimensional array cannot be used for indexing: x
+</code></pre>
 
 <p>Instead, do</p>
-<div class="codehilite"><pre><span></span><code>&gt;&gt;&gt; xxx = xxx.where(~condition, 123)
-</code></pre></div>
+<pre class="codehilite"><code>&gt;&gt;&gt; xxx = xxx.where(~condition, 123)
+</code></pre>
 
 <h1 id="multiple-synced-animations"><a class="toclink" href="#multiple-synced-animations">Multiple Synced Animations</a></h1>
 <p>To sync multiple animation on different subplots:</p>
@@ -43,14 +43,14 @@ np.tensordot(grid, vector, axes=1)
 <li>Set all <code>aniXXX.event_source</code> to be the same.</li>
 <li>Call <code>.save(..., extra_anim=[ani1, ani2, ..., ani(N-1)])</code> on the last animation</li>
 </ol>
-<div class="codehilite"><pre><span></span><code><span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">ani</span> <span class="o">=</span> <span class="n">generate_animation</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<pre class="codehilite"><code class="language-python">ax1 = plt.subplot(1, 2, 1)
+ani = generate_animation(ax=ax1)
 
-<span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">ani2</span> <span class="o">=</span> <span class="n">generate_other_animation</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
-<span class="n">ani2</span><span class="o">.</span><span class="n">event_source</span> <span class="o">=</span> <span class="n">ani1</span><span class="o">.</span><span class="n">event_source</span>
-<span class="n">ani2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;out.gif&#39;</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">extra_anim</span><span class="o">=</span><span class="p">[</span><span class="n">ani1</span><span class="p">])</span>
-</code></pre></div>
+ax2 = plt.subplot(1, 2, 2)
+ani2 = generate_other_animation(ax=ax2)
+ani2.event_source = ani1.event_source
+ani2.save('out.gif', fps=15, extra_anim=[ani1])
+</code></pre>
   </article>
 
     </main>
