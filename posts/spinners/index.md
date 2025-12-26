@@ -52,6 +52,7 @@ Incandescent bulbs work the best, but even LED bulbs are enough to get the spinn
 
 # Gallery
 
+![Patterns cast on ceiling](ceiling.webp)
 ![Turbine](turbine.jpg)
 ![Propeller](propeller.jpg)
 ![Flying Wing](out2.gif)
