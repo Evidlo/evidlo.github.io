@@ -20,7 +20,7 @@ devserver: output
 	done
 
 publish: html
-	ghp-import -f -p -b master output
+	ghp-import -f -o -p -b master output
 
 clean:
 	rm output -rf
