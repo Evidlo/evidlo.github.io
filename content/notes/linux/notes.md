@@ -865,3 +865,22 @@ Add a new dummy interface called `wlan0` that is tied to the real interface `wlp
     sudo iw dev wlp3s0 interface add wlan0 type station
     
 Then use NetworkManager as normal to connect to another network with this new interface.
+
+## Caddy Config
+
+
+```
+:80 {
+	# Set this path to your site's directory.
+	root * /srv/www
+
+	# Enable the static file server with file listing
+	file_server browse
+
+	# Another common task is to set up a reverse proxy:
+	# reverse_proxy localhost:8080
+
+	# Or serve a PHP site through php-fpm:
+	# php_fastcgi localhost:9000
+}
+```
