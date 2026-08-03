@@ -2,7 +2,7 @@
 template: project.j2
 title: High Altitude Balloon Radio
 date: 2016-05-04
-description: HAB communications node for Purdue rocketry team
+description: HAB comms node for Purdue rocketry team
 ---
 
 [Project files](https://github.com/purdue-orbital/balloon/tree/ca629042153116074ea130b4dc4988381f901386)

@@ -2,7 +2,7 @@
 template: project.j2
 title: Powerline Transmission Prototype
 date: 2014-10-24
-description: powerline communications for Purdue ROV team
+description: powerline comms for Purdue ROV
 ---
 
 [Project files](http://github.com/evidlo/transmission)
