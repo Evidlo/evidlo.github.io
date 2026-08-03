@@ -25,7 +25,16 @@
     <article>
     <h2>Software Projects</h2>
     <ul>
-        {%- for project in glob('software/**/*.md')|fm|selectattr('date')|sort(attribute='date', reverse=true) -%}
+        {%- for project in glob('software/**/*.md')|fm|rejectattr('vibe')|selectattr('date')|sort(attribute='date', reverse=true) -%}
+            {{ entry(project) }}
+        {%- endfor -%}
+    </ul>
+    </article>
+
+    <article>
+    <h2>Vibe-Coded</h2>
+    <ul>
+        {%- for project in glob('software/**/*.md')|fm|selectattr('vibe')|selectattr('date')|sort(attribute='date', reverse=true) -%}
             {{ entry(project) }}
         {%- endfor -%}
     </ul>
