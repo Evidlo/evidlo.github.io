@@ -1,0 +1,29 @@
+{%- macro rss_item(page, category=None) -%}
+<item>
+    <title>{{ page.title }}</title>
+    <link>{% if 'link' in page %}{{ page.link }}{% else %}{{ page.path }}{% endif %}</link>
+    {%- if 'date' in page %}
+    <pubDate>{{ page.date }}</pubDate>
+    {%- endif %}
+    {%- if category %}
+    <category>{{ category }}</category>
+    {%- endif %}
+    {%- if 'description' in page %}
+    <description>{{ page.description }}</description>
+    {%- endif %}
+</item>
+{%- endmacro -%}
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>Evan Widloski</title>
+        <link>http://evanw.org/</link>
+        <description>Evan's projects</description>
+        {%- for page in glob('software/*.md')|fm %}
+        {{ rss_item(page, "software") | indent(8) }}
+        {%- endfor %}
+        {%- for page in glob('projects/**/*.md')|fm %}
+        {{ rss_item(page, "projects") | indent(8) }}
+        {%- endfor %}
+    </channel>
+</rss>

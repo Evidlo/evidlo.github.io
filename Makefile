@@ -10,18 +10,17 @@ devserver: output
 	# kill backgrounded process on exit
 	trap "exit" INT TERM
 	trap "kill 0" EXIT
-	# serve content
-	# httpwatcher --root output --watch content,templates --port 8000 --reload-delay 2 &
-	httpwatcher --root output --watch content,templates --port 8000 &
+	# build and serve
+	legoman --debug build
+	livereload output -t output -p 8000 -w 1 &
 	# wait for change and rebuild
-	legoman build
-	while :; do
-		inotifywait -r -e modify --format %w content templates
-		legoman build
+	inotifywait -mre modify,create --format %w%f . --exclude output | while read path
+	do
+		legoman --debug build $$path
 	done
 
 publish: html
-	ghp-import -f -p -b master output
+	ghp-import -f -o -p -b master output
 
 clean:
 	rm output -rf
