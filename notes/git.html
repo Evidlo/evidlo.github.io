@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Git Notes</title>
+    <meta name="viewport" content="width=device-width"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="/styles.css" /> 
+    <link rel="stylesheet" type="text/css" href="/codehilite.css" /> 
+    <link rel="alternate" type="application/rss+xml" href="/rss.html" title="RSS feed">
+</head>
+<body>
+    <main>
+        
+  <article>
+    <header>
+      <h1>Git Notes</h1>
+      <time datetime="2020">2020</time>
+    </header>
+    <h2 id="modifying-a-pull-request"><a class="toclink" href="#modifying-a-pull-request">Modifying a pull request</a></h2>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>pr_username<span class="o">]</span><span class="w"> </span>git@github.com:<span class="o">[</span>pr_username<span class="o">]</span>/<span class="o">[</span>reponame<span class="o">]</span>
+git<span class="w"> </span>fetch<span class="w"> </span><span class="o">[</span>pr_username<span class="o">]</span>
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span><span class="o">[</span>new_branch_name<span class="o">]</span><span class="w"> </span><span class="o">[</span>pr_username<span class="o">]</span>/master
+<span class="c1"># make your commits</span>
+git<span class="w"> </span>push<span class="w"> </span><span class="o">[</span>pr_username<span class="o">]</span><span class="w"> </span>HEAD:master
+</code></pre></div>
+
+<h2 id="pushing-to-multiple-remotes"><a class="toclink" href="#pushing-to-multiple-remotes">Pushing to multiple remotes</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span><span class="w"> </span><span class="n">remote</span><span class="w"> </span><span class="k">add</span><span class="w"> </span><span class="n">origin</span><span class="w"> </span><span class="nl">https</span><span class="p">:</span><span class="o">//</span><span class="k">user</span><span class="nv">@gitlab</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">myrepo</span><span class="w"> </span>
+<span class="n">git</span><span class="w"> </span><span class="n">remote</span><span class="w"> </span><span class="k">set</span><span class="o">-</span><span class="n">url</span><span class="w"> </span><span class="c1">--push --add origin https://user@github.com/myrepo </span>
+<span class="n">git</span><span class="w"> </span><span class="n">remote</span><span class="w"> </span><span class="k">set</span><span class="o">-</span><span class="n">url</span><span class="w"> </span><span class="c1">--push --add origin https://user@gitlab.com/myrepo</span>
+</code></pre></div>
+
+<h2 id="deleting-remote-branch"><a class="toclink" href="#deleting-remote-branch">Deleting Remote Branch</a></h2>
+<div class="codehilite"><pre><span></span><code># delete a local branch
+git branch -d foobar
+# delete a remote branch
+git push origin --delete foobar
+</code></pre></div>
+  </article>
+
+    </main>
+<footer>
+    <p>Evan Widloski - Rendered with <a href="https://github.com/evidlo/legoman">Legoman</a></p>
+</footer>
+</body>
+</html>

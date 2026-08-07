@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Numpy/Pytorch/Matplotlib Notes</title>
+    <meta name="viewport" content="width=device-width"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="/styles.css" /> 
+    <link rel="stylesheet" type="text/css" href="/codehilite.css" /> 
+    <link rel="alternate" type="application/rss+xml" href="/rss.html" title="RSS feed">
+</head>
+<body>
+    <main>
+        
+  <article>
+    <header>
+      <h1>Numpy/Pytorch/Matplotlib Notes</h1>
+      <time datetime="2023-12-03">2023-12-03</time>
+    </header>
+    <h1 id="compute-dot-product-of-multidimensional-matrix-with-vector"><a class="toclink" href="#compute-dot-product-of-multidimensional-matrix-with-vector">Compute dot product of multidimensional matrix with vector</a></h1>
+<p>Supposed we have an (N, N, N, 3) matrix representing the (X, Y, Z) coordinates of all voxels in a rectangular 3D grid.</p>
+<p>In order to compute the dot product of each voxel coordinate with a vector, we can do:</p>
+<div class="codehilite"><pre><span></span><code>vector = np.array((1, 0, 0))
+np.tensordot(grid, vector, axes=1)
+</code></pre></div>
+
+<h1 id="update-xarray-dataarray-based-on-condition"><a class="toclink" href="#update-xarray-dataarray-based-on-condition">Update Xarray DataArray Based On Condition</a></h1>
+<p>In numpy, you can do this</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="n">xxx</span><span class="o">[</span><span class="n">condition</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">123</span>
+</code></pre></div>
+
+<p>This throws an error on Xarray DataArray</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">IndexError</span>:<span class="w"> </span><span class="nv">Unlabeled</span><span class="w"> </span><span class="nv">multi</span><span class="o">-</span><span class="nv">dimensional</span><span class="w"> </span><span class="nv">array</span><span class="w"> </span><span class="nv">cannot</span><span class="w"> </span><span class="nv">be</span><span class="w"> </span><span class="nv">used</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">indexing</span>:<span class="w"> </span><span class="nv">x</span>
+</code></pre></div>
+
+<p>Instead, do</p>
+<div class="codehilite"><pre><span></span><code>&gt;&gt;&gt; xxx = xxx.where(~condition, 123)
+</code></pre></div>
+
+<h1 id="multiple-synced-animations"><a class="toclink" href="#multiple-synced-animations">Multiple Synced Animations</a></h1>
+<p>To sync multiple animation on different subplots:</p>
+<ol>
+<li>Set all <code>aniXXX.event_source</code> to be the same.</li>
+<li>Call <code>.save(..., extra_anim=[ani1, ani2, ..., ani(N-1)])</code> on the last animation</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ani</span> <span class="o">=</span> <span class="n">generate_animation</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">ani2</span> <span class="o">=</span> <span class="n">generate_other_animation</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<span class="n">ani2</span><span class="o">.</span><span class="n">event_source</span> <span class="o">=</span> <span class="n">ani1</span><span class="o">.</span><span class="n">event_source</span>
+<span class="n">ani2</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;out.gif&#39;</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">extra_anim</span><span class="o">=</span><span class="p">[</span><span class="n">ani1</span><span class="p">])</span>
+</code></pre></div>
+  </article>
+
+    </main>
+<footer>
+    <p>Evan Widloski - Rendered with <a href="https://github.com/evidlo/legoman">Legoman</a></p>
+</footer>
+</body>
+</html>

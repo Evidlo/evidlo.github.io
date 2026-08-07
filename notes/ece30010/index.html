@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="/fancy.css"/>
+  <link rel="stylesheet" type="text/css" href="/notes.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Evan Widloski</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25109327-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+  
+  
+  <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    displayAlign: "left",
+    displayIndent: "0em"
+  });
+  </script>
+
+  <script>
+    function showHide(e) {
+    latexblock = $(e).find('.latex');
+    if (latexblock.hasClass('opened')) {
+        // close block
+        latexblock.removeClass('opened');
+        latexblock.hide();
+    } else {
+        // open block
+        latexblock.addClass('opened');
+        latexblock.show();
+    }
+  }
+  </script>
+
+  </head>
+
+<body>
+	<div class="v h">
+		<div class="h hc">
+			<div class="simplebox">
+				<div class="title"></div>
+				<div class="body v">
+                    <ul>
+          <li><a href="#types-of-learning">Types of Learning</a></li>
+          <li><a href="#perceptron">Perceptron</a><ul>
+          <li><a href="#minimizing-error">Minimizing Error</a></li>
+          <li><a href="#delta-rule-learning">Delta Rule Learning</a></li>
+          <li><a href="#method-of-least-squares">Method of Least Squares</a><ul>
+          <li><a href="#properties-of-pseudo-inverse">Properties of Pseudo Inverse</a></li>
+          </ul></li>
+          </ul></li>
+          <li><a href="#nonseparability">Nonseparability</a></li>
+          <li><a href="#multilayer-networks">Multilayer Networks</a></li>
+          <li><a href="#exam-review">Exam Review</a></li>
+          <li><a href="#optimization">Optimization</a></li>
+          <li><a href="#levenberg-marquardt-algorithm">Levenberg-Marquardt Algorithm</a></li>
+          <li><a href="#conjugate-gradients">Conjugate Gradients</a></li>
+          <li><a href="#search">Search</a><ul>
+          <li><a href="#types">Types</a></li>
+          <li><a href="#simulated-annealing">Simulated Annealing</a></li>
+          </ul></li>
+          <li><a href="#genetic-algorithms">Genetic Algorithms</a><ul>
+          <li><a href="#crossing-over-methods">Crossing Over Methods</a></li>
+          <li><a href="#mutations">Mutations</a></li>
+          </ul></li>
+          <li><a href="#unsupervised-learning">Unsupervised Learning</a><ul>
+          <li><a href="#k-means-algorithm">K-means Algorithm</a></li>
+          </ul></li>
+          <li><a href="#pca">PCA</a></li>
+          <li><a href="#linear-separability">Linear Separability</a></li>
+          <li><a href="#linear-discriminant-analysis-lda">Linear Discriminant Analysis (LDA)</a></li>
+          <li><a href="#particle-swarm-optimization-pso">Particle Swarm Optimization (PSO)</a></li>
+          <li><a href="#distance">Distance</a></li>
+          </ul>
+                    <h1 id="types-of-learning">Types of Learning</h1>
+<div class="definition">
+<p><strong>supervised learning</strong> - input X and output Y are both known and analyzed</p>
+<p><strong>unsupervised learning</strong> - only input X is known (eg. clustering)</p>
+<p><strong>reinforcement learning</strong> - providing 'rewards' on correct output</p>
+<p><strong>evolutionary learning</strong> - many generations and adaptations of algorithms</p>
+</div>
+<ul>
+<li>bullet</li>
+<li>bullet 2</li>
+<li>bullet 3</li>
+</ul>
+<h1 id="perceptron">Perceptron</h1>
+<div class="definition">
+<p><strong>perceptron</strong> - a simulated neuron with weighted inputs, an output, and a threshold</p>
+</div>
+<p><a href="./network.png"><img src="./network.png" /></a></p>
+<p><span class="math inline">\(Y = WX + b\)</span></p>
+<p>where <span class="math inline">\(W\)</span> is the input weight, <span class="math inline">\(X\)</span> is the input, <span class="math inline">\(Y\)</span> is the output, and <span class="math inline">\(b\)</span> is bias.</p>
+<p>The inputs are weighted, summed, and shifted. This value is then mapped through a function, often a step function.</p>
+<h2 id="minimizing-error">Minimizing Error</h2>
+<div class="definition">
+<p><strong>Error</strong></p>
+<p><span class="math inline">\(E_i = t_i - y_i\)</span></p>
+<p><strong>Mean Square Error</strong> <span class="math inline">\(MSE = \frac{1}{N} \sum E_i^2\)</span></p>
+</div>
+<p>The goal of optimizing a perceptron is to minimize the mean square error. This is done by developing an algorithm which adjusts input weights based on output error.</p>
+<p><span class="math inline">\(w_{ij} = w_{ij} + \eta (t_{ij} - y_{ij}) x_1\)</span></p>
+<p>The function <span class="math inline">\(W = X^+Y\)</span> finds the weights that result in the smallest MSE for a given <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span></p>
+<p>where <span class="math inline">\(X^+ = (X^tX)^{-1}X^t\)</span></p>
+<h2 id="delta-rule-learning">Delta Rule Learning</h2>
+<p>The delta rule is used to determine how to adjust weights of a perceptron based on output error. The idea is to find the change in error with respect to weights, then move the weight in the opposite direction. This is called gradient descent.</p>
+<p>First we define the error as an absolute quantity.</p>
+<div class="definition">
+<p><strong>Error</strong></p>
+<p><span class="math inline">\(E(w) = \frac{1}{2}\left[Y - T \right]^2\)</span></p>
+<p>where <span class="math inline">\(Y\)</span> is the output of the activation function, and <span class="math inline">\(T\)</span> is the target</p>
+</div>
+<p>Note that the activation function must be differentiable.</p>
+<div class="definition">
+<p><strong>Change in a specific weight for a neuron</strong></p>
+<p><span class="math inline">\(\Delta w_{x} = - \alpha (y - t) f&#39;(\sum w_i x_i + b)\)</span></p>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Derivation
+</div>
+<div class="derivation latex" style="display:none;">
+
+<p><span class="math inline">\(\nabla E\)</span> gives the direction the weights should move to increase the error. We want to decrease the error by a small amount interatively, so we multiply by $ - <em>α</em>$</p>
+<p><span class="math inline">\(\Delta W = - \alpha \nabla E = - \alpha &lt; \frac{dE}{dw_1}, ..., \frac{dE}{dw_n} &gt;\)</span></p>
+<p>where <span class="math display">\[\begin{aligned}\frac{dE}{dw_x} &amp;= \frac{d}{dw_1}\left[ \frac{1}{2} (f(\sum w_ix_i + b) - t_x)^2 \right] \\
+&amp;= \left[ f(\sum w_ix_i + b) - t_x \right] f&#39;(\sum w_ix_i + b)x_x \end{aligned} \]</span></p>
+
+</div>
+</div>
+
+<h2 id="method-of-least-squares">Method of Least Squares</h2>
+<p><span class="math inline">\(E^2 = |Ax - y|^2\)</span> is to be minimized</p>
+<p><span class="math inline">\(x = A^+y\)</span>, where <span class="math inline">\(A^+ = [A^tA]^{-1}A^t\)</span> is called <span class="math inline">\(A\)</span> pseudo-inverse</p>
+<h3 id="properties-of-pseudo-inverse">Properties of Pseudo Inverse</h3>
+<ul>
+<li>the pseudo-inverse always exists</li>
+<li><span class="math inline">\(AA^+A = A\)</span></li>
+<li><span class="math inline">\(A^+AA^+ = A\)</span></li>
+</ul>
+<div class="examples">
+<ol>
+<li><p>Doing last example using pseudo-inverse:</p>
+<p><span class="math display">\[\left[ \begin{matrix} 1 &amp; 1 \\ 2 &amp; 1 \\ -1 &amp; 1 \end{matrix} \right] \left[ \begin{matrix} w \\ b \\ \end{matrix} \right] = \left[ \begin{matrix} 2 \\ 1 \\ 0 \end{matrix} \right] \]</span></p>
+<p>Let <span class="math display">\[A = \left[ \begin{matrix} 1 &amp; 1 \\ 2 &amp; 1 \\ -1 &amp; 1 \end{matrix} \right]\]</span>, <span class="math display">\[w = \left[ \begin{matrix} w \\ b \end{matrix}\right]\]</span>, <span class="math display">\[y =  \left[ \begin{matrix} 2 \\ 1 \\ 0 \end{matrix} \right]\]</span></p>
+<p><span class="math inline">\(w = A^+y\)</span> where <span class="math inline">\(A^+ = (A^tA)^{-1}A^t\)</span></p>
+<p><span class="math display">\[w = \left[\begin{matrix} 0.4286 \\ 0.7143 \end{matrix} \right]\]</span></p></li>
+</ol>
+</div>
+<h1 id="nonseparability">Nonseparability</h1>
+<p><strong>ipe</strong></p>
+<div class="definition">
+<p><strong>Linear Nonseparable</strong></p>
+<p>When a set of data cannot be accurately clustered with linear separation, it is called linearly nonseparable</p>
+</div>
+<p>Sometimes, the data can be transformed with an extra dimension so that it becomes linearly separable.</p>
+<p><a href="./nonseparable.png"><img src="./nonseparable.png" /></a></p>
+<h1 id="multilayer-networks">Multilayer Networks</h1>
+<p><span class="math inline">\(y_m(k) = \sum_{j=0}^{N_{m-1}} w_m(k,j)z_{m-1}(j)\)</span></p>
+<p><span class="math inline">\(z_m(k) = f(y_m(k))\)</span></p>
+<p>Error function: <span class="math inline">\(E_T = \frac{1}{2L}\sum_{l=0}^{L-1} \sum_{k=0}^{N_m-1}(d_l(k) - o_l(k))^2\)</span></p>
+<p>Begin by training output layer, since we know the desired output for only this layer.</p>
+<ol>
+<li><p>Assign random values to all weights</p></li>
+<li><p>Run X through the system to get Y at the output layer</p></li>
+<li><p>Use <span class="math inline">\(\delta_f(i) = (d_f(i) - o_f(i) * f_f(y(i))\)</span></p></li>
+<li><p>Back propogate error: <span class="math inline">\(\delta_{f-1}(i) = f_i&#39;(y_n(i))\sum_{k=1}^{N_{m+1}}\delta_{m+1}(k)w_{m+1}(k,i)\)</span></p></li>
+<li><p>Change weights: <span class="math inline">\(\Deltaw_m(i,j) = \alpha\delta_m(i) z_{m-1}(i)\)</span></p></li>
+<li><p>Repeat for all output pairs.</p></li>
+<li><p>Repeat entire procedure until weights settle.</p></li>
+</ol>
+<h1 id="exam-review">Exam Review</h1>
+<ul>
+<li>sequential training
+<ul>
+<li>one input comes in, the output is calculated, and the weights are update immediately</li>
+</ul></li>
+<li>batch training
+<ul>
+<li>all inputs come in, all outputs are calculated, and weights are updated at the end</li>
+</ul></li>
+<li>adaline</li>
+<li>mlp learning algorithm</li>
+<li>error correction
+<ul>
+<li>delta rule</li>
+<li>gradient descent</li>
+<li>least mean square error</li>
+</ul></li>
+<li>exponential smoothing</li>
+</ul>
+<h1 id="optimization">Optimization</h1>
+<div class="definition">
+<p><strong>Taylor Expansion</strong></p>
+<p>$$ f(x) = f(x<sub>0</sub>) + ∇ f(x)</p>
+</div>
+<div class="definition">
+<p><strong>Jacobian Matrix</strong></p>
+<p><span class="math display">\[\mathbf J = \frac{d\mathbf f}{d\mathbf x} = \begin{bmatrix}
+    \dfrac{\partial \mathbf{f}}{\partial x_1} &amp; \cdots &amp; \dfrac{\partial \mathbf{f}}{\partial x_n} \end{bmatrix}
+= \begin{bmatrix}
+    \dfrac{\partial f_1}{\partial x_1} &amp; \cdots &amp; \dfrac{\partial f_1}{\partial x_n}\\
+    \vdots &amp; \ddots &amp; \vdots\\
+    \dfrac{\partial f_m}{\partial x_1} &amp; \cdots &amp; \dfrac{\partial f_m}{\partial x_n} \end{bmatrix}\]</span></p>
+<p>where <span class="math inline">\(f(x) = \langle f_1(x_1,\hdots,x_n),\hdots,f_m(x_1,\hdots,x_n) \rangle\)</span></p>
+</div>
+<div class="definition">
+<p><strong>Hessian Matrix</strong></p>
+<p><span class="math display">\[\bold H = \begin{bmatrix}
+  \dfrac{\partial^2 f}{\partial x_1^2} &amp; \dfrac{\partial^2 f}{\partial x_1\,\partial x_2} &amp; \cdots &amp; \dfrac{\partial^2 f}{\partial x_1\,\partial x_n} \\[2.2ex]
+  \dfrac{\partial^2 f}{\partial x_2\,\partial x_1} &amp; \dfrac{\partial^2 f}{\partial x_2^2} &amp; \cdots &amp; \dfrac{\partial^2 f}{\partial x_2\,\partial x_n} \\[2.2ex]
+  \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\[2.2ex]
+  \dfrac{\partial^2 f}{\partial x_n\,\partial x_1} &amp; \dfrac{\partial^2 f}{\partial x_n\,\partial x_2} &amp; \cdots &amp; \dfrac{\partial^2 f}{\partial x_n^2}
+\end{bmatrix}\]</span></p>
+</div>
+<div class="theorem">
+<p><strong>Newton's Method</strong></p>
+<p><span class="math inline">\(P_k = -(\nabla^2f(x_k))^{-1}\nabla f(x_k)\)</span></p>
+</div>
+<h1 id="levenberg-marquardt-algorithm">Levenberg-Marquardt Algorithm</h1>
+<div class="theorem">
+<p><strong>Singular Value Decomposition</strong></p>
+<p>Let <span class="math inline">\(A\)</span> be a mxn matrix.</p>
+<p>Then <span class="math inline">\(A = USV^t\)</span></p>
+<p>where <span class="math inline">\(U\)</span> is an mxm orthogonal matrix, <span class="math inline">\(V\)</span> is an nxn orthogonal matrix, and</p>
+<p><span class="math display">\[S = \left[ \begin{matrix} s_1 &amp; \hdots &amp; 0 \\ \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; \hdots &amp; s_n \end{matrix} \right]^n\]</span></p>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Derivation
+</div>
+<div class="derivation latex" style="display:none;">
+
+<p><span class="math inline">\(\nabla f(x) = J^t(x)r(x)\)</span></p>
+<p><span class="math inline">\(\nabla^2 f(x) = J^t(x)J(x) + \sum_{j=1}^m r_j(x) \nabla^2 r_j(x)\)</span></p>
+<p><span class="math inline">\((J^tJ + vI)\Delta x = J^tr(x)\)</span></p>
+<p><span class="math inline">\(\Delta x = (J^tJ - vI)^{-1}J^tr(x)\)</span></p>
+<p>where <span class="math inline">\(v\)</span> increases or decreases with each iteration.</p>
+
+</div>
+</div>
+
+<div class="examples">
+<p>Let <span class="math inline">\(f(x) = ax_1^2 + bx_2^2 + cx_3^2\)</span></p>
+<ol>
+<li><p>Determine Jordanian. (same as gradient when <span class="math inline">\(f\)</span> is scalar</p>
+<p><span class="math inline">\(\nabla f(x) = \langle 2ax_1, 2bx_2, 2cx_3 \rangle\)</span></p>
+<p>Determine Hessian</p>
+<p><span class="math display">\[H = \left[ \begin{matrix} 2a &amp; 0 &amp; 0 \\ 0 &amp; 2b &amp; 0 \\ 0 &amp; 0 &amp; 2c \end{matrix} \right]\]</span></p>
+<p>Determine residual, <span class="math inline">\(r(x) = [ ax_1^2 bx_2^2 cx_3^2 ]\)</span></p>
+<p><span class="math inline">\((J^tJ)dx = -J^tr\)</span></p>
+<p><span class="math display">\[-J^tr = \begin{matrix} ax_1 &amp; 0 &amp; 0 \\ 0 &amp; bx_2 &amp; 0 \\ 0 &amp; cx_2 &amp; 0 \end{matrix}\]</span></p>
+<p><span class="math inline">\(\Delta x = -[J^tJ + rI]^{-1} J^t r\)</span></p>
+<p><span class="math inline">\(x(n+1) = x(x) + \Delta x\)</span></p></li>
+<li><p>Let <span class="math inline">\(f(x) = 100(x_2 - x_1^2)^2 + (1 - x_1)^2\)</span>, Rosenbrock's function</p>
+<p><span class="math inline">\(r = \left[ \begin{matrix} 10(x_2 - x_1^2) \\ 1 - x_2 \end{matrix} \right]\)</span></p>
+<p><span class="math inline">\(J = \left[ \begin{matrix} -20x_1 &amp; 10 \\ -1 &amp; 0 \end{matrix} \right]\)</span></p>
+<p>then the answer can be calculated with</p>
+<p><span class="math inline">\(\Delta x = -[J^tJ + rI]^{-1}J^tr\)</span></p></li>
+</ol>
+</div>
+<h1 id="conjugate-gradients">Conjugate Gradients</h1>
+<p>Faster descent than gradient descent.</p>
+<div class="examples">
+<ol>
+<li><p>Let <span class="math inline">\(f(x) = 0.5x_1^2 + 0.2x_2^2 + 0.6x_3^2\)</span></p>
+<p>$<em>α</em> = .931</p>
+<p><span class="math display">\[x(1) = \left( \begin{matrix} -2 \\ 2 \\ 0 \end{matrix} \right) + .931 \left( \begin{matrix} 2 \\ -.8 \\ 2.4 \right) = \left( \begin{matrix} -.138 \\ 1.255 \\ 2.35 \end{matrix} \right)\]</span></p>
+<p><span class="math inline">\(\Beta = 0.0337\)</span></p>
+$p(1) = ( \begin{matrix} .138<br />
+</li>
+</ol>
+</div>
+<h1 id="search">Search</h1>
+<h2 id="types">Types</h2>
+<div class="definition">
+<p><strong>brute force</strong> - evaluate every possible solution <strong>greedy search</strong> - 'cheapest link' - choose the cheapest path from the current point <strong>hill climbing</strong> - randomly pick a solution/path. If the error decreases, accept this change. Otherwise, discard it.</p>
+</div>
+<h2 id="simulated-annealing">Simulated Annealing</h2>
+<div class="definition">
+<p><strong>Algorithm</strong></p>
+<p>Let <span class="math inline">\(E_n\)</span> be the current error, called energy, T be be a changing scaling value, called temperature.</p>
+<p>If <span class="math inline">\(E_n - E_{n-1} &lt; 0\)</span>, accept.</p>
+<p>Else if <span class="math display">\[e^{\frac{E_{n-1} - E_n}{T}}\]</span> is bigger than a random value between x and 1, accept. (x is usally 0.8)</p>
+<p><span class="math inline">\(T \leftarrow T\)</span>, for <span class="math inline">\(0 &lt; c \leq 1\)</span></p>
+<p>Else, reject change.</p>
+</div>
+<p>The simulated annealing algorithm is a type of hill climbing. It is different from steepest descent in that small positive changes in error are allowed in the hopes that local minima can be escaped.</p>
+<h1 id="genetic-algorithms">Genetic Algorithms</h1>
+<p>A genetic algorithm is an iterative process which modifies solution parameters in a random way in each iteration.</p>
+<div class="definition">
+<p><strong>chromosome</strong> - parameters or weights to be changed <strong>organism</strong> - a set of parameters <strong>child</strong> - an organism derived from another organism</p>
+</div>
+<p>Most genetic algorithms select the most effective organisms in a single iteration then randomise and combine their chromosomes (crossing over).</p>
+<h2 id="crossing-over-methods">Crossing Over Methods</h2>
+<p>Let <span class="math inline">\(C = \{p_1, ..., p_n\}\)</span></p>
+<ul>
+<li><p><strong>proportional</strong> - <span class="math inline">\(C_{new} = \beta C_{p1} + (1 - \beta C_{p2})\)</span> for <span class="math inline">\(0 \leq \beta \leq 1\)</span></p></li>
+<li><p><strong>difference</strong> - <span class="math inline">\(C_{new} = C_{p1} + \beta (C_{p1} - C_{p2})\)</span> for <span class="math inline">\(0 \leq \beta \leq 1\)</span></p></li>
+<li><p><strong>uniform crossover</strong> - one of the parent chromosomes is randomly selected and transferred to the child</p></li>
+</ul>
+<h2 id="mutations">Mutations</h2>
+<p>Mutations increase variability between generations and decrease the chance that organisms will converge on a local extrema, rather than the global one. Typically, a percentage called the <strong>mutation rate</strong> specifies the fraction of parameters to mutate either through replacement by random number or bit flipping.</p>
+<h1 id="unsupervised-learning">Unsupervised Learning</h1>
+<div class="definition">
+<p><strong>unsupervised learning</strong></p>
+<p>Training data is only the inputs. There are no error/cost functions to determine the fitness of parameters.</p>
+</div>
+<p>The most common unsupervised learning is clustering, which is the process of separating inputs into groups (or clusters) of similar input.</p>
+<p>Several implementations of clustering are given below.</p>
+<h2 id="k-means-algorithm">K-means Algorithm</h2>
+<div class="definition">
+<ol>
+<li>Pick N cluster centers and assign them to random coordinates. (choosing the number of cluster centers is a problem of itself)</li>
+<li>Assign each datapoint to the nearest cluster.</li>
+<li>For each cluster, move it to the average location of all datapoints assigned to it.</li>
+<li>Repeat 2-3 until clusters stop moving.</li>
+<li>The system is now trained and ready for classifying input.</li>
+</ol>
+</div>
+<ul>
+<li>covariance matrix</li>
+<li>semisupervised learning</li>
+<li>lloyds algorithm</li>
+<li>linda buzo gray algorithm (LBG)</li>
+</ul>
+<h1 id="pca">PCA</h1>
+<p>Determine mean <span class="math inline">\(m_x = \frac{1}{K} \sum_{i=1}^K x_i\)</span></p>
+<p><span class="math inline">\(C_x = \frac{1}{K-1} \sum_{k=1}^k (x_k - m_x)(x_k - m_x)^t\)</span> where <span class="math inline">\(K\)</span> is num pixels <span class="math inline">\(y = A(x - m_x)\)</span> where <span class="math inline">\(A\)</span> is KLT transform</p>
+<p>Define <span class="math inline">\(Y&#39;\)</span> by setting some parts of <span class="math inline">\(Y\)</span> to 0</p>
+<h1 id="linear-separability">Linear Separability</h1>
+<p>It is useful to know if a dataset can be easily separated by a line so that we can choose the correct method for classsification. This is called linear separability.</p>
+<div class="definition">
+<p><strong>Linear Separability</strong></p>
+<p><span class="math inline">\(\text{separability} = S_B/S_W\)</span>,</p>
+<p>where <span class="math inline">\(S_W = \sum_\text{class} p_c (x_j - \mu)(x_j - \mu)^T\)</span> is within-class scatter</p>
+<p><span class="math inline">\(S_B = \sum_\text{class} (\mu_c - \mu)(\mu_c - \mu)^T\)</span> is between-class scatter</p>
+</div>
+<p>Rayleigh Quotient rule</p>
+<h1 id="linear-discriminant-analysis-lda">Linear Discriminant Analysis (LDA)</h1>
+<p>LDA is used as a preprocessing algorithm to simplify labeled data before it is fed into a machine learning algorithm. It looks at which parameters have the largest effect on the class for a datapoint, then combines parameters and reduces dimensionality.</p>
+<h1 id="particle-swarm-optimization-pso">Particle Swarm Optimization (PSO)</h1>
+<p>PSO is an iterative algorithm which models the movements of birds or fish in a swarm. Namely, the movements of individuals within the population are influenced by both what the individual perceives as the best move, and what the swarm perceives as a best move. This components are then weighted and summed together to determine how the individual should move.</p>
+<div class="definition">
+<p><span class="math inline">\(v_\text{new} = v_\text{old} + \Gamma_l \times r_l \times (p_\text{local best} - p_\text{old}) + \Gamma_g \times r_g \times (p_\text{global best} - p_\text{old})\)</span></p>
+<p><span class="math inline">\(p_\text{new} = p_\text{old} + v_\text{new}\)</span></p>
+<p>where</p>
+<p><span class="math inline">\(v\)</span> - particle velocity <span class="math inline">\(p\)</span> - particle position (parameters/weights) <span class="math inline">\(r_l, r_g\)</span> - uniform random numbers <span class="math inline">\(\Gamma_l, \Gamma_g\)</span> - learning factor <span class="math inline">\(p_\text{global best}\)</span> - best position ever found by any particle <span class="math inline">\(p_\text{local best}\)</span> - best position ever found by this particle</p>
+</div>
+<p><span class="math inline">\(f(x_i,z_i) = w_1d_{max}(z_i,x_i) + w_2(z_{max} - d_{min}(x_i))\)</span></p>
+<p>z<sub>max</sub> - max pixel val</p>
+<h1 id="distance">Distance</h1>
+<p><span class="math inline">\(d(a,b) = \sqrt{\sum_{k=1}^N (a_k - b_k)^2}\)</span></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

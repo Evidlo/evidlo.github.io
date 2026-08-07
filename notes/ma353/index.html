@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="/fancy.css"/>
+  <link rel="stylesheet" type="text/css" href="/notes.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Evan Widloski</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25109327-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+  
+  
+  <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    displayAlign: "left",
+    displayIndent: "0em"
+  });
+  </script>
+
+  <script>
+    function showHide(e) {
+    latexblock = $(e).find('.latex');
+    if (latexblock.hasClass('opened')) {
+        // close block
+        latexblock.removeClass('opened');
+        latexblock.hide();
+    } else {
+        // open block
+        latexblock.addClass('opened');
+        latexblock.show();
+    }
+  }
+  </script>
+
+  </head>
+
+<body>
+	<div class="v h">
+		<div class="h hc">
+			<div class="simplebox">
+				<div class="title">MA353 - Linear Algebra II</div>
+				<div class="body v">
+                    <ul>
+          <li><a href="#vectorspaces-and-subspaces">Vectorspaces and Subspaces</a><ul>
+          <li><a href="#properties-of-vectorspaces">Properties of Vectorspaces</a></li>
+          <li><a href="#subspace">Subspace</a></li>
+          </ul></li>
+          <li><a href="#span-and-linear-dependence">Span and Linear Dependence</a><ul>
+          <li><a href="#subset-dependence">Subset Dependence</a></li>
+          </ul></li>
+          <li><a href="#basis-and-dimension">Basis and Dimension</a></li>
+          <li><a href="#dimension-of-subspace">Dimension of Subspace</a><ul>
+          <li><a href="#properties">Properties</a><ul>
+          <li><a href="#sum">Sum</a></li>
+          <li><a href="#direct-sum">Direct Sum</a></li>
+          </ul></li>
+          </ul></li>
+          <li><a href="#linear-transformations">Linear Transformations</a><ul>
+          <li><a href="#properties-1">Properties</a></li>
+          </ul></li>
+          <li><a href="#kernel-and-image">Kernel and Image</a></li>
+          </ul>
+                    <h1 id="vectorspaces-and-subspaces">Vectorspaces and Subspaces</h1>
+<div class="definition">
+<p><strong>vectorspace</strong></p>
+<p>A set of vectors V is a vectorspace if:</p>
+<ul>
+<li>closed under addition and scalar multiplication - <span class="math inline">\(\overrightarrow{v} + \overrightarrow{w} \in V\)</span>, <span class="math inline">\(c \overrightarrow{v} \in V\)</span></li>
+<li>an identity is defined - <span class="math inline">\(1 \cdot \overrightarrow{v} = \overrightarrow{v}\)</span></li>
+</ul>
+</div>
+<h2 id="properties-of-vectorspaces">Properties of Vectorspaces</h2>
+<ul>
+<li>commutative - <span class="math inline">\(\overrightarrow{v} + \overrightarrow{w} = \overrightarrow{w} + \overrightarrow{v}\)</span></li>
+<li>distributive - <span class="math inline">\((a + b)\overrightarrow{v} = a\overrightarrow{v} + b \overrightarrow{v}\)</span> and <span class="math inline">\(a(\overrightarrow{v} + \overrightarrow{w}) = a \overrightarrow{v} + b \overrightarrow{w}\)</span></li>
+<li><span class="math inline">\(- \overrightarrow{v} + \overrightarrow{v} = 0\)</span></li>
+<li><span class="math inline">\(0 + \overrightarrow{v} = \overrightarrow{v}\)</span></li>
+</ul>
+<div class="theorem">
+<p>0 in a vectorspace is unique.</p>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+<p>Suppose <span class="math inline">\(0,0&#39; \in V\)</span>, such that <span class="math inline">\(0 + \overrightarrow{v} = \overrightarrow{v}\)</span> and <span class="math inline">\(0&#39; + \overrightarrow{v} = \overrightarrow{v}\)</span></p>
+<p>Then <span class="math inline">\(0 + \overrightarrow{v} = 0&#39; + \overrightarrow{v} \longrightarrow 0 = 0&#39;\)</span></p>
+
+</div>
+</div>
+
+<h2 id="subspace">Subspace</h2>
+<div class="definition">
+<p><strong>subspace</strong></p>
+<p>Let <span class="math inline">\(W,V\)</span> be vectorspaces. If <span class="math inline">\(W \subseteq V\)</span>, then <span class="math inline">\(W\)</span> is a subspace.</p>
+<p>Equivalently, <span class="math inline">\(W\)</span> is a subspace <span class="math inline">\(W \subseteq V\)</span> and:</p>
+<ol>
+<li><span class="math inline">\(0 \in W\)</span></li>
+<li><span class="math inline">\(\overrightarrow{v} + \overrightarrow{w} \in W\)</span> for <span class="math inline">\(\overrightarrow{v},\overrightarrow{w} \in W\)</span></li>
+<li><span class="math inline">\(a \overrightarrow{v} \in W\)</span> for <span class="math inline">\(\overrightarrow{v} \in W, a \in \mathbb{R}\)</span></li>
+</ol>
+</div>
+<div class="theorem">
+<p>The intersection of subspaces is a subspace.</p>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+<p>Let <span class="math inline">\(W_1, W_2\)</span> be subspaces of <span class="math inline">\(V\)</span>. Show <span class="math inline">\(W_1 \cap W_2\)</span> is also a subspace of <span class="math inline">\(V\)</span></p>
+<ol>
+<li><span class="math inline">\(0 \in W_1, W_2\)</span>, so <span class="math inline">\(0 \in W_1 \cap W_2\)</span></li>
+<li>Let <span class="math inline">\(\overrightarrow{v}, \overrightarrow{w} \in W_1 \cap W_2\)</span>. Then <span class="math inline">\(\overrightarrow{v}, \overrightarrow{w} \in W_1, W_2\)</span>. By property of closed addition, <span class="math inline">\(\overrightarrow{v} + \overrightarrow{w} \in W_1 \cap W_2\)</span></li>
+<li>Let <span class="math inline">\(a \in \mathbb{R}\)</span>, <span class="math inline">\(\overrightarrow{v} \in W_1 \cap W_2\)</span>. Then <span class="math inline">\(\overrightarrow{v} \in W_1, W_2\)</span>. By property of closed scalar multiplication, <span class="math inline">\(a \overrightarrow{w} \in W_1 \cap W_2\)</span></li>
+</ol>
+
+</div>
+</div>
+
+<div class="theorem">
+<p>Sum of vectorspaces is also a vectorspace.</p>
+<p><span class="math inline">\(W_1 + W_2 \equiv \{w_1 + w_2 | w_1 \in W_1, w_2 \in W_2\}\)</span></p>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+<p>Let <span class="math inline">\(W_1, W_2\)</span> be subspaces of <span class="math inline">\(V\)</span>. Show <span class="math inline">\(W_1 + W_2\)</span> is also a vectorspace.</p>
+<ol>
+<li><span class="math inline">\(0 \in W_1, W_2\)</span>, so <span class="math inline">\(0 \in W_1 + W_2\)</span></li>
+<li><p>Let <span class="math inline">\(\overrightarrow{v}, \overrightarrow{w} \in W_1 + W_2\)</span>,</p>
+<p>where <span class="math inline">\(\overrightarrow{v} = \overrightarrow{v_1} + \overrightarrow{v_2}\)</span>, <span class="math inline">\(\overrightarrow{w} = \overrightarrow{w_1} + \overrightarrow{w_2}\)</span>, <span class="math inline">\(\overrightarrow{v_1}, \overrightarrow{w_1} \in W_1\)</span>, <span class="math inline">\(\overrightarrow{v_2, \overrightarrow{w_2} \in W_2\)</span></p>
+<p>Then <span class="math inline">\(\overrightarrow{v} + \overrightarrow{w} = \overrightarrow{v_1} + \overrightarrow{w_1} + \overrightarrow{v_2} + \overrightarrow{w_2}\)</span>.</p>
+<p>Since <span class="math inline">\(\overrightarrow{v_1} + \overrightarrow{w_1} \in W_1\)</span> and <span class="math inline">\(\overrightarrow{v_2} + \overrightarrow{w_2} \in W_2\)</span>,</p>
+then <span class="math inline">\(\overrightarrow{v} + \overrightarrow{w} \in W_1 + W_2\)</span></li>
+<li><p><span class="math inline">\(a \overrightarrow{v} = a \overrightarrow{v_1} + a \overrightarrow{v_2}\)</span></p>
+<p>Since <span class="math inline">\(a \overrightarrow{v_1} \in W_1\)</span> and <span class="math inline">\(a \overrightarrow{v_2} \in W_2\)</span>, <span class="math inline">\(a \overrightarrow{v} \in W_1 + W_2\)</span></p></li>
+</ol>
+
+</div>
+</div>
+
+<h1 id="span-and-linear-dependence">Span and Linear Dependence</h1>
+<div class="definition">
+<p><strong>span</strong></p>
+<p>The span of a set <span class="math inline">\(S\)</span> is all possible linear combinations of the set.</p>
+<p>Let <span class="math inline">\(S = {v_1, ..., v_n}\)</span></p>
+<p><span class="math inline">\(\text{span} (S) = \{c_1 v_1 + ... + c_n v_n | c_1,...,c_n \in \mathbb{R}\}\)</span></p>
+</div>
+<div class="theorem">
+<p>Let <span class="math inline">\(S\)</span> be a set, <span class="math inline">\(W\)</span> be a vectorspace.</p>
+<p>If <span class="math inline">\(S \subseteq W\)</span>, then <span class="math inline">\(\text{span} (S) \subseteq W\)</span></p>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+<p>Let <span class="math inline">\(\overrightarrow{v} = c_1 s_1 + ... + c_n s_n \in \text{span} (S)\)</span></p>
+<p>Since <span class="math inline">\(S\)</span> is in <span class="math inline">\(W\)</span>, by the properties of closed addition and scalar multiplication, <span class="math inline">\(c_1 s_1 + ... + c_n s_n\)</span> is also in <span class="math inline">\(W\)</span></p>
+
+</div>
+</div>
+
+<div class="theorem">
+<p>The span of subspaces <span class="math inline">\(W_1 \cup W_2 = W_1 + W_2\)</span>.</p>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+<p>-&gt; Since <span class="math inline">\(W_1 \cup W_2 \subseteq W_1 + W_2\)</span>, <span class="math inline">\(\text{span} (W_1 \cup W_2) \subseteq W_1 + W_2\)</span> (since vectorspace containing set <span class="math inline">\(S\)</span> also contains <span class="math inline">\(\text{span} (S)\)</span></p>
+<p>&lt;- Let <span class="math inline">\(\overrightarrow{v} \in W_1\)</span>, <span class="math inline">\(\overrightarrow{w} \in W_2\)</span></p>
+<p>Since <span class="math inline">\(\overrightarrow{v}, \overrightarrow{w} \in W_1 \cup W_2\)</span>,</p>
+<p><span class="math inline">\(\overrightarrow{v} + \overrightarrow{w} \in W_1 \cup W_2\)</span> and <span class="math inline">\(\overrightarrow{v} + \overrightarrow{w} \in \text{span} (W_1 \cup W_2)\)</span></p>
+<p>therefore <span class="math inline">\(W_1 + W_2 \subseteq \text{span} (W_1 \cup W_2)\)</span></p>
+
+</div>
+</div>
+
+<div class="definition">
+<p><strong>linear independence</strong></p>
+<p>A set <span class="math inline">\(S = \{s_1, ..., s_n\}\)</span> is linearly independent if <span class="math inline">\(c_1, ..., c_n = 0\)</span> is the only solution to <span class="math inline">\(c_1 s_1 + ... + c_n s_n = 0\)</span></p>
+<p>Equivalently, a set is linearly independent if every element cannot be expressed as a combination of the other elements.</p>
+</div>
+<div class="examples">
+<ol>
+<li><p>Is the set <span class="math inline">\(S = \{1 + x + x^2 + x^3, x + x^2 + x^3, x^2 + x^3, x^3\}\)</span> linearly independent?</p>
+<span class="math display">\[\begin{eqnarray*}
+   c_1(1 + x + x^2 + x^3) + c_2 ( x + x^2 + x^3) + c_3 ( x^2 + x^3) + c_4 x^3 = 0 \\
+   c_1 + (c_1 + c_2)x + (c_1 + c_2 + c_3)x^2 + (c_1 + c_2 + c_3 + c_4)x^3 = 0 \\
+   c_1 = 0 \\
+   (c_1 + c_2)x = 0 \\
+   (c_1 + c_2 + c_3)x^2 = 0 \\
+   (c_1 + c_2 + c_3 + c_4)x^3 = 0
+\end{eqnarray*}
+\]</span></li>
+</ol>
+</div>
+<h2 id="subset-dependence">Subset Dependence</h2>
+<div class="theorem">
+<p>If <span class="math inline">\(S_1 \subseteq S_2\)</span> and <span class="math inline">\(S_1\)</span> is dependent, then <span class="math inline">\(S_2\)</span> is dependent.</p>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+<p>Let <span class="math inline">\(S_1 = \{\overrightarrow{v_1}, ...,\overrightarrow{v_m}\}\)</span> be dependent and <span class="math inline">\(S_1 \subseteq S_2\)</span></p>
+<p>Then at least one <span class="math inline">\(c\)</span> is nonzero in <span class="math inline">\(c_1 \overrightarrow{v_1} + ... + c_m \overrightarrow{v_m} = 0\)</span>.</p>
+<p>Then at least one <span class="math inline">\(c\)</span> is nonzero in <span class="math inline">\(c_1 \overrightarrow{v_1} + ... + c_m \overrightarrow{v_m} + ... + c_n \overrightarrow{n} = 0\)</span>.</p>
+<p>so <span class="math inline">\(S_2\)</span> is linearly dependent.</p>
+
+</div>
+</div>
+
+<div class="theorem">
+<p>If <span class="math inline">\(S_1 \subseteq S_2\)</span> and <span class="math inline">\(S_2\)</span> is independent, then <span class="math inline">\(S_1\)</span> is also independent.</p>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+<p>Let <span class="math inline">\(S_2 = \{\overrightarrow{v_1}, ...,\overrightarrow{v_n}\}\)</span> be independent and <span class="math inline">\(S_1 \subseteq S_2\)</span></p>
+<p>Then all <span class="math inline">\(c\)</span> must be zero in <span class="math inline">\(c_1 \overrightarrow{v_1} + ... + ... + c_m \overrightarrow{v_m} + ... + c_n \overrightarrow{v_n} = 0\)</span>.</p>
+<p>Then all <span class="math inline">\(c\)</span> must be zero in <span class="math inline">\(c_1 \overrightarrow{v_1} + ... + c_m \overrightarrow{v_m} = 0\)</span>.</p>
+<p>so <span class="math inline">\(S_1\)</span> is linearly independent.</p>
+
+</div>
+</div>
+
+<h1 id="basis-and-dimension">Basis and Dimension</h1>
+<div class="definition">
+<p>A set <span class="math inline">\(B\)</span> is called a basis of vectorspace <span class="math inline">\(V\)</span> if</p>
+<ul>
+<li><p>it is linearly independent and a generating set (<span class="math inline">\(V \subseteq \text{span} (B)\)</span>)</p>
+<p>or</p></li>
+<li><p><span class="math inline">\(B\)</span> is the smallest set of <span class="math inline">\(V\)</span> such that <span class="math inline">\(\text{span} (B) = V\)</span></p>
+<p>or</p></li>
+<li><p>every vector in <span class="math inline">\(V\)</span> can be expressed uniquely from linear combinations of <span class="math inline">\(B\)</span></p></li>
+</ul>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+<p>Show that every vector in <span class="math inline">\(V\)</span> can be expressed uniquely in terms of the basis <span class="math inline">\(B\)</span></p>
+<p>Let <span class="math inline">\(\beta\)</span> be a basis of <span class="math inline">\(V\)</span> and <span class="math inline">\(\overrightarrow{V} \in V\)</span></p>
+<p><span class="math inline">\(\overrightarrow{v} = c_1 b_1 + ... + c_n b_n, \overrightarrow{v} = c_1&#39; b_1 + ... c_n&#39; b_n\)</span> for <span class="math inline">\(c_1, ..., c_n, c_1&#39;, ..., c_n&#39;\)</span></p>
+<p>then <span class="math inline">\(c_1 b_1 + ... + c_n b_n = c_1&#39; b_1 + ... + c_n&#39; b_n\)</span></p>
+<p><span class="math inline">\(0 = (c_1 - c_1&#39;)b_1 + ... + (c_n - c_n&#39;)b_n\)</span></p>
+<p>Since <span class="math inline">\(B\)</span> is linearly independent, <span class="math inline">\(c_1 = c_1&#39;, ..., c_n = c_n&#39;\)</span>.</p>
+<p>Each vector is uniquely expressed in terms of <span class="math inline">\(B\)</span></p>
+
+</div>
+</div>
+
+<div class="theorem">
+<p>Let <span class="math inline">\(L\)</span> be an independent set of <span class="math inline">\(V\)</span> with <span class="math inline">\(m\)</span> elements. <strong>An indepenent set can be extended to create a generating set</strong></p>
+</div>
+<div class="theorem">
+<p>Every basis of a finite vectorspace has the same number of elements.</p>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+<p>Let <span class="math inline">\(B_1, B_2\)</span> be bases of <span class="math inline">\(V\)</span> where <span class="math inline">\(\dim (B_1) = n, \dim(B_2) = m\)</span></p>
+<p>Since <span class="math inline">\(B_1\)</span> is a generating set and <span class="math inline">\(B_2\)</span> is an independent set, <span class="math inline">\(|B_1| \geq |B_2|\)</span></p>
+<p>Since <span class="math inline">\(B_2\)</span> is a generating set and <span class="math inline">\(B_1\)</span> is an independent set, <span class="math inline">\(|B_2| \geq |B_1|\)</span></p>
+<p>So <span class="math inline">\(|B_1| = |B_2|\)</span></p>
+
+</div>
+</div>
+
+<div class="theorem">
+<p>For every vectorspace of dimension <span class="math inline">\(n\)</span></p>
+<ol>
+<li><p><span class="math inline">\(\dim(\text{generating set}) \geq n\)</span></p></li>
+<li><p><span class="math inline">\(\dim(\text{independent set}) \leq n\)</span></p></li>
+</ol>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+<ol>
+<li><p>Let <span class="math inline">\(G\)</span> be a generating set and <span class="math inline">\(B\)</span> be a basis of some vectorspace of dimension <span class="math inline">\(n\)</span></p>
+<p>Since <span class="math inline">\(G\)</span> is a generating set and <span class="math inline">\(B\)</span> is independent, <span class="math inline">\(|G| \geq |B| = n\)</span></p></li>
+<li><p>Let <span class="math inline">\(L\)</span> be a linearly independent set and <span class="math inline">\(B\)</span> be a basis of some vectorspace of dimension <span class="math inline">\(n\)</span></p>
+<p>Since <span class="math inline">\(L\)</span> is a linearly independent set and <span class="math inline">\(B\)</span> is a generating set, <span class="math inline">\(|L| \leq |B| = n\)</span></p></li>
+</ol>
+
+</div>
+</div>
+
+<div class="theorem">
+<p>For a vectorspace <span class="math inline">\(V\)</span> of dimension <span class="math inline">\(n\)</span></p>
+<ol>
+<li><p>A generating set with <span class="math inline">\(n\)</span> elements is a basis of <span class="math inline">\(V\)</span></p></li>
+<li><p>An independent set with <span class="math inline">\(n\)</span> elements is a basis of <span class="math inline">\(V\)</span></p></li>
+</ol>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+
+</div>
+</div>
+
+<div class="theorem">
+<p>For a vectorspace <span class="math inline">\(V\)</span> of dimension <span class="math inline">\(n\)</span></p>
+<ol>
+<li><p>A generating set with dimension greater than <span class="math inline">\(n\)</span> can be reduced to be a basis.</p></li>
+<li><p>An independent set with dimension less than <span class="math inline">\(n\)</span> can be extended to be a basis.</p></li>
+</ol>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+
+</div>
+</div>
+
+<h1 id="dimension-of-subspace">Dimension of Subspace</h1>
+<div class="theorem">
+<p>Let <span class="math inline">\(W\)</span> be a subspace of <span class="math inline">\(V\)</span>. If the dimensions of <span class="math inline">\(W\)</span> equals <span class="math inline">\(V\)</span>, then <span class="math inline">\(V = W\)</span>. If the dimension of <span class="math inline">\(W\)</span> is zero, then <span class="math inline">\(W = \{0\}\)</span></p>
+<p><strong>Corollary</strong></p>
+<p>A basis <span class="math inline">\(B\)</span> of <span class="math inline">\(W\)</span> can be extended to be a basis of <span class="math inline">\(V\)</span>.</p>
+</div>
+<h2 id="properties">Properties</h2>
+<h3 id="sum">Sum</h3>
+<p><span class="math inline">\(\dim(W_1 + W_2) = \dim (W_1) + \dim (W_2) - \dim (W_1 \cap W_2)\)</span></p>
+<div class="examples">
+<ol>
+<li><p>Line and coincident plane</p>
+<p><a href="./subspace_dim1.png"><img src="./subspace_dim1.png" /></a></p>
+<p><span class="math inline">\(\dim(\text{line + plane}) = 2 = \dim(\text{line}) + \dim(\text{plane}) - \text{dim(line} \cap \text{plane)}\)</span></p>
+<p>where <span class="math inline">\(\text{dim(plane)} - \text{dim(line} \cap \text{plane)} = 1\)</span></p></li>
+<li><p>Line and noncoincident plane</p>
+<p><a href="./subspace_dim2.png"><img src="./subspace_dim2.png" /></a></p>
+<p><span class="math inline">\(\dim(\text{line + plane}) = 3 = \dim(\text{line}) + \dim(\text{plane}) - \dim(\text{line} \cap \text{plane)}\)</span></p>
+<p>where <span class="math inline">\(\dim(\text{plane}) - \dim(\text{line} \cap \text{plane)} = 0\)</span></p></li>
+</ol>
+</div>
+<h3 id="direct-sum">Direct Sum</h3>
+<p><span class="math inline">\(W_1 + W_2 = W_1 \oplus W_2\)</span> iff <span class="math inline">\(\text{dim} (W_1 + W_2) = \text{dim} (W_1) + \text{dim} (W_2)\)</span></p>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Proof
+</div>
+<div class="proof latex" style="display:none;">
+
+<p><span class="math inline">\(\Rightarrow\)</span> Assume <span class="math inline">\(W_1 + W_2 = W_1 \oplus W_2\)</span>.</p>
+<p>Then <span class="math inline">\(W_1 \cap W_2 = \{0\}\)</span>, so <span class="math inline">\(\text{dim} (W_1 \cap W_2) = 0\)</span></p>
+<p>Then by the sum property, <span class="math inline">\(\text{dim} (W_1 + W_2) = \text{dim} (W_1) + \text{dim} (W_2)\)</span></p>
+<p><span class="math inline">\(\Leftarrow\)</span> Assume <span class="math inline">\(\text{dim} ( W_1 + W_2) = \text{dim} (W_1) + \text{dim} (W_2)\)</span></p>
+<p>Then <span class="math inline">\(\text{dim} (W_1 \cap W_2) = 0\)</span>, so <span class="math inline">\(W_1 \cap W_2 = \{0\}\)</span></p>
+<p>therefore <span class="math inline">\(W_1 + W_2 = W_1 \oplus W_2\)</span></p>
+
+</div>
+</div>
+
+<h1 id="linear-transformations">Linear Transformations</h1>
+<div class="definition">
+<p>A linear transformation is a mapping <span class="math inline">\(T:V \rightarrow W\)</span> from one vectorspace to another such that</p>
+<ul>
+<li><p>addition is preserved</p>
+<ul>
+<li>Let <span class="math inline">\(a,b \in V\)</span>. <span class="math inline">\(T(a) + T(b) = T(a + b)\)</span></li>
+</ul></li>
+<li><p>scalar multiplication is preserved</p>
+<ul>
+<li>Let <span class="math inline">\(a \in \mathbb{R}, x \in V\)</span>, <span class="math inline">\(T(ax) = aT(x)\)</span></li>
+</ul></li>
+</ul>
+</div>
+<h2 id="properties-1">Properties</h2>
+<ul>
+<li><span class="math inline">\(T(\overrightarrow{0}) = \overrightarrow{0}\)</span>
+<ul>
+<li>proof: <span class="math inline">\(T(\overrightarrow{0}) = T(0*\over{v}) = 0T(\overrightarrow{v}) = \overrightarrow{0}\)</span></li>
+</ul></li>
+<li><span class="math inline">\(T(\overrightarrow{u} - \overrightarrow{v}) = T(\overrightarrow{u}) - T(\overrightarrow{v})\)</span>
+<ul>
+<li>proof: <span class="math inline">\(T(\overrightarrow{u} - \overrightarrow{v}) = T(\overrightarrow{u}) + T(-1 \overrightarrow{v}) = T(\overrightarrow{u}) - T(\overrightarrow{v})\)</span></li>
+</ul></li>
+</ul>
+<div class="examples">
+<ol>
+<li><p>For <span class="math inline">\(T:P_n(\mathbb{R}) \rightarrow P_{n-1}(\mathbb{R})\)</span> where <span class="math inline">\(T(f) = f&#39;\)</span> for <span class="math inline">\(f \in P_n(\mathbb{R})\)</span>. Show <span class="math inline">\(T\)</span> is linear.</p>
+<p>Let <span class="math inline">\(a,b \in \mathbb{R}\)</span>, <span class="math inline">\(f,g \in P_n(\mathbb{R})\)</span>.</p>
+<p><span class="math inline">\(T(af + bg) = (af + bg)&#39; = af&#39; + bg&#39; = aT(f) + bT(g)\)</span></p></li>
+</ol>
+</div>
+<div class="definition">
+<p><strong>Identity Transformation</strong></p>
+<p>A mapping <span class="math inline">\(T:v \rightarrow W\)</span> such that <span class="math inline">\(T(\overrightarrow{v} = \overrightarrow{v}\)</span> for <span class="math inline">\(\overrightarrow{v} \in V\)</span> #end<sub>definition</sub></p>
+<p>#+begin<sub>definition</sub> <strong>Zero Transformation</strong></p>
+<p>A mapping <span class="math inline">\(T:V \rightarrow W\)</span> such that <span class="math inline">\(T(\overrightarrow{v}) = \overrightarrow{0}\)</span> for <span class="math inline">\(\overrightarrow{v} in V\)</span></p>
+</div>
+<h1 id="kernel-and-image">Kernel and Image</h1>
+<div class="definition">
+<p><strong>Kernel</strong></p>
+<p>The kernel (<span class="math inline">\(\ker(T)\)</span> or <span class="math inline">\(N(T)\)</span>) of a transformation <span class="math inline">\(T:V \rightarrow W\)</span> is the set of vectors in <span class="math inline">\(V\)</span> that map to <span class="math inline">\(\overrightarrow{0}\)</span> in <span class="math inline">\(W\)</span></p>
+<p><a href="./kernel.png"><img src="./kernel.png" /></a></p>
+</div>
+<div class="definition">
+<p><strong>Image</strong></p>
+<p>The image (<span class="math inline">\(Im(T)\)</span> or <span class="math inline">\(R(T)\)</span>) of a transformation <span class="math inline">\(T:V \rightarrow W\)</span> is the set of vectors in <span class="math inline">\(W\)</span> mapped to by vecotrs in <span class="math inline">\(V\)</span>.</p>
+<p><a href="./image.png"><img src="./image.png" /></a></p>
+</div>
+<div class="examples">
+<ol>
+<li><p>Prove the kernel of <span class="math inline">\(T\)</span> is a subspace of <span class="math inline">\(V\)</span>. (show <span class="math inline">\(0 \in \ker(T)\)</span>, <span class="math inline">\(\ker(T)\)</span> closed for addition, <span class="math inline">\(\ker(T)\)</span> closed for scalar multiplication</p>
+<ol>
+<li><p>By definition <span class="math inline">\(T(0) = 0\)</span>, so <span class="math inline">\(0 \in \ker(T)\)</span></p></li>
+<li><p>For <span class="math inline">\(\overrightarrow{u}, \overrightarrow{v} \in \ker(T)\)</span>, we have <span class="math inline">\(T(\overrightarrow{u}) = T(\overrightarrow{v}) = 0\)</span></p>
+<p><span class="math inline">\(T(\overrightarrow{u} + \overrightarrow{v}) = T(\overrightarrow{u}) + T(\overrightarrow{v}) = 0\)</span></p>
+<p>so <span class="math inline">\(\overrightarrow{u} + \overrightarrow{v} \in \ker(T)\)</span></p></li>
+<li><p>For <span class="math inline">\(a \in R\)</span>, <span class="math inline">\(v \in \ker(T)\)</span> we have <span class="math inline">\(T(\overrightarrow{v}) = 0\)</span></p>
+<span class="math inline">\(T(a\overrightarrow{v}) = aT(\overrightarrow{v}) = 0\)</span>, so <span class="math inline">\(a \overrightarrow{v} \in \ker(T)\)</span></li>
+</ol></li>
+<li><p>Let <span class="math inline">\(T:\mathbb{R}_3 \to \mathbb{R}_2\)</span>, where <span class="math display">\[T \left( \begin{matrix} a\\b\\c \end{matrix} \right) = \left( \begin{matrix} a-b \\ 0 \\ 2c \end{matrix} \right)\]</span>. Find the kernel of <span class="math inline">\(T\)</span></p>
+<p><span class="math display">\[\ker(T) = \left\{ \left( \begin{matrix} a\\b\\c \end{matrix} \right) \middle| T \left( \begin{matrix} a\\b\\c \end{matrix} \right) = 0 \right\}\]</span></p>
+<p><span class="math display">\[\left( \begin{matrix} a-b \\ 0 \\ 2c \end{matrix} \right) = 0\]</span>, so <span class="math inline">\(a = b\)</span> and <span class="math inline">\(c = 0\)</span></p>
+<p><span class="math display">\[\ker(T) = \left\{ \left( \begin{matrix} a\\a\\0 \end{matrix} \right) \middle| a \in \mathbb{R} \right\}\]</span></p></li>
+<li><p>Find the image of <span class="math inline">\(T\)</span>.</p>
+<p><span class="math display">\[Im(T) = \left\{ T(\overrightarrow{v}) \middle| \overrightarrow{v} \in \mathbb{R}_3 \right\} = \left\{ \left( \begin{matrix} a-b \\ 0 \\ 2c \end{matrix} \right) \middle| a,b,c \in \mathbb{R} \right\} = \left\{ \left( \begin{matrix} a\\ 0 \\ b \end{matrix} \right) \middle| a,b \in \mathbb{R} \right\}\]</span></p></li>
+</ol>
+</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

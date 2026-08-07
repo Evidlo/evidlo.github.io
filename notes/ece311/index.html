@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="/fancy.css"/>
+  <link rel="stylesheet" type="text/css" href="/notes.css"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Evan Widloski</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25109327-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+  
+  
+  <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    displayAlign: "left",
+    displayIndent: "0em"
+  });
+  </script>
+
+  <script>
+    function showHide(e) {
+    latexblock = $(e).find('.latex');
+    if (latexblock.hasClass('opened')) {
+        // close block
+        latexblock.removeClass('opened');
+        latexblock.hide();
+    } else {
+        // open block
+        latexblock.addClass('opened');
+        latexblock.show();
+    }
+  }
+  </script>
+
+  </head>
+
+<body>
+	<div class="v h">
+		<div class="h hc">
+			<div class="simplebox">
+				<div class="title">ECE311 - Electromagnetism</div>
+				<div class="body v">
+                    <ul>
+          <li><a href="#calc-iii-review">Calc III Review</a><ul>
+          <li><a href="#history-of-vectors">History of Vectors</a></li>
+          <li><a href="#gradient">Gradient</a></li>
+          <li><a href="#divergence">Divergence</a></li>
+          <li><a href="#laplacian">Laplacian</a></li>
+          </ul></li>
+          <li><a href="#dipoles">Dipoles</a><ul>
+          <li><a href="#bound-charges">Bound charges</a></li>
+          <li><a href="#coulombs-law-in-dielectric">Coulomb's Law in Dielectric</a></li>
+          </ul></li>
+          <li><a href="#current-and-conductivity">Current and Conductivity</a><ul>
+          <li><a href="#current-flow-from-applied-voltage">Current flow from applied voltage</a></li>
+          <li><a href="#resistances-in-series">Resistances in series</a></li>
+          </ul></li>
+          <li><a href="#capacitance">Capacitance</a><ul>
+          <li><a href="#capacitance-of-parallel-plate-capacitor">Capacitance of parallel plate capacitor</a></li>
+          <li><a href="#capacitances-in-parallel">Capacitances in parallel</a></li>
+          <li><a href="#energy-in-capacitor">Energy in Capacitor</a></li>
+          <li><a href="#changing-capacitor-shape">Changing capacitor shape</a></li>
+          <li><a href="#examples">Examples</a></li>
+          </ul></li>
+          <li><a href="#amperes-force-law">Ampere's Force Law</a></li>
+          <li><a href="#force-between-straight-wires">Force between straight wires</a></li>
+          <li><a href="#amperes-circuital-law">Ampere's Circuital Law</a><ul>
+          <li><a href="#magnetic-field-intensity-of-single-wire">Magnetic field intensity of single wire</a></li>
+          <li><a href="#magnetic-field-intensity-of-slab-of-current">Magnetic field intensity of slab of current</a></li>
+          <li><a href="#magnetic-field-intensity-of-cylinder-of-current">Magnetic field intensity of cylinder of current</a></li>
+          </ul></li>
+          <li><a href="#point-form-of-amperes-circuital-law">Point form of Ampere's circuital law</a></li>
+          <li><a href="#mass-spectrometer">Mass spectrometer</a></li>
+          <li><a href="#magnetic-field-through-a-boundary">Magnetic field through a boundary</a></li>
+          <li><a href="#faradays-law-change-in-magnetic-flux">Faraday's law (change in magnetic flux)</a></li>
+          <li><a href="#lenzs-law">Lenz's Law</a></li>
+          <li><a href="#power-and-energy-in-an-inductor">Power and Energy in an inductor</a></li>
+          <li><a href="#transformers">Transformers</a></li>
+          <li><a href="#solenoid">Solenoid</a></li>
+          <li><a href="#youngs-experiment">Young's Experiment</a></li>
+          <li><a href="#electromagnetic-waves">Electromagnetic Waves</a><ul>
+          <li><a href="#plane-waves-in-lossless-media">Plane Waves in Lossless Media</a></li>
+          <li><a href="#plane-waves-in-lossy-media">Plane Waves in Lossy Media</a></li>
+          <li><a href="#skin-depth">Skin depth</a></li>
+          </ul></li>
+          <li><a href="#reflection">Reflection</a></li>
+          </ul>
+                    <h1 id="calc-iii-review">Calc III Review</h1>
+<h2 id="history-of-vectors">History of Vectors</h2>
+<p>More than 10 vector systems developed between 1790 and 1850</p>
+<p><strong>quaternions</strong> - scalar + vector - William Hamilton</p>
+<p><strong>modern vectors</strong> - direction + magnitude - Gibbs and Heaviside</p>
+<p><strong>field</strong> - function which assigns quantity to points in space</p>
+<p><strong>scalar</strong> - ex. temperature in space <strong>vector</strong> - ex. electromagnetic field</p>
+<p><strong>spherical coordinates</strong> <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/3D_Spherical_2.svg/240px-3D_Spherical_2.svg.png"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/3D_Spherical_2.svg/240px-3D_Spherical_2.svg.png" /></a></p>
+<p><strong>cylindrical coordinates</strong> <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Coord_system_CY_1.svg/240px-Coord_system_CY_1.svg.png"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Coord_system_CY_1.svg/240px-Coord_system_CY_1.svg.png" /></a></p>
+<h2 id="gradient">Gradient</h2>
+<p>The change in each direction of a field</p>
+<p><strong>cartesian coordinates</strong></p>
+<p><span class="math display">\[\overrightarrow{\nabla} F = \frac{d}{dx} F_x \hat{a_x} + \frac{d}{dy} F_y \hat{a_y} + \frac{d}{dz} F_z \hat{a_z}\]</span></p>
+<h2 id="divergence">Divergence</h2>
+<p>The measure of outflow of a field in an infinitesimal volume around some point</p>
+<p><span class="math display">\[ \nabla F = \lim_{V \to 0} \iint_S \frac{F \times n}{V} dS \]</span></p>
+<h2 id="laplacian">Laplacian</h2>
+<p><span class="math display">\[\nabla \cdot \overrightarrow{\nabla} F \]</span></p>
+<h1 id="dipoles">Dipoles</h1>
+<h2 id="bound-charges">Bound charges</h2>
+<p><span class="math inline">\(\overrightarrow{E_D} = \frac{\overrightarrow{D} - \overrightarrow{P}}{\varepsilon_0}\)</span></p>
+<p><span class="math display">\[ \begin{aligned}
+\overrightarrow{P} &amp;= \varepsilon_0 x_e \overrightarrow{E} \\
+&amp;= \varepsilon_0(1 + x_e)\overrightarrow{E}
+\end{aligned} \]</span></p>
+<p><span class="math display">\[ \begin{aligned}
+\overrightarrow{D} &amp; = \varepsilon_0 \overrightarrow{E} + \varepsilon_0 x_e \overrightarrow{E} \\
+&amp; = \varepsilon_0 (1 + x_e) \overrightarrow{E} \\
+&amp; = \varepsilon_0 \varepsilon_r \overrightarrow{E}
+\end{aligned} \]</span></p>
+<h2 id="coulombs-law-in-dielectric">Coulomb's Law in Dielectric</h2>
+<p><span class="math display">\[ \begin{aligned}
+\overrightarrow{D} &amp;= \frac{q_2}{4\pi r^2} \hat{a_r}^2 \\
+\overrightarrow{E} &amp;= \frac{q_2}{4\pi \varepsilon_0 \varepsilon_r r^2} \hat{a_r}^2 \\
+\overrightarrow{F_{1,2}} &amp;= \frac{q_2 q_1}{4\pi \varepsilon_0 \varepsilon_r r^2} \hat{a_r}^2
+\end{aligned} \]</span></p>
+<h1 id="current-and-conductivity">Current and Conductivity</h1>
+<div class="definition">
+<p>The <strong>current density</strong> <span class="math inline">\(J\)</span> in a conductive material is the amount of current flowing perdendicular through a unit area</p>
+<p><span class="math inline">\(J = u \rho_c q\)</span></p>
+<p>where <span class="math inline">\(u\)</span> is the velocity of the particles, <span class="math inline">\(\rho_c\)</span> is the density of the particles, and <span class="math inline">\(q\)</span> is the charge per particle</p>
+</div>
+<div class="definition">
+<p>The <strong>conductivity</strong> <span class="math inline">\(\sigma\)</span> of a material relates the strength of the electric field to the current flowing per cross sectional area</p>
+<p><span class="math inline">\(\overrightarrow{J} = \sigma \overrightarrow{E}\)</span></p>
+</div>
+<h2 id="current-flow-from-applied-voltage">Current flow from applied voltage</h2>
+<p>Let a voltage <span class="math inline">\(V\)</span> be applied to a conductive block with cross-sectional area <span class="math inline">\(A\)</span> and length <span class="math inline">\(d\)</span>.</p>
+<p>Then the total current flow is <span class="math inline">\(I = \frac{\sigma V A}{d}\)</span></p>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Derivation
+</div>
+<div class="derivation latex" style="display:none;">
+
+<p>There is a uniform electric field, so <span class="math inline">\(V = - \int_0^d \overrightarrow{E} dl\)</span></p>
+<p><span class="math inline">\(\|E| = \frac{V}{d}\)</span></p>
+<p><span class="math inline">\(I = J A = \sigma |E| A = \frac{\sigma V A}{d}\)</span></p>
+
+</div>
+</div>
+
+<h2 id="resistances-in-series">Resistances in series</h2>
+<p>Let a conductive block have cross-sectional area <span class="math inline">\(A\)</span> and length <span class="math inline">\(2d\)</span>. There are two conductive regions in series with conductivities <span class="math inline">\(\sigma_1, \sigma_2\)</span></p>
+<p><span class="math inline">\(R_{tot} = R_1 + R_2 = \frac{d}{A \sigma_1} + \frac{d}{A \sigma_2}\)</span></p>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Derivation
+</div>
+<div class="derivation latex" style="display:none;">
+
+<p>From symmetry, we know <span class="math inline">\(\overrightarrow{J}\)</span> is the same in both regions of the block</p>
+<p><span class="math inline">\(\overrightarrow{J} = \sigma_1 \overrightarrow{E_1} = \sigma_2 \overrightarrow{E_2}\)</span></p>
+<p><span class="math inline">\(\overrightarrow{E_2} = \frac{\sigma_1}{\sigma_2} \overrightarrow{E_1}\)</span></p>
+<p><span class="math inline">\(V = - \int_0^d \overrightarrow{E_1} dl - \int_d^{2d} \frac{\sigma_1}{\sigma_2} \overrightarrow{E_1} dl = - d E_1 - d \frac{\sigma_1}{\sigma_2} \overrightarrow{E_1}\)</span></p>
+<p><span class="math display">\[\frac{V}{I} = R_{tot} = - \frac{d E_1}{I} - \frac{d \frac{\sigma_1}{\sigma_2} E_1}{I} = - \frac{d \sigma_1 J}{JA} - \frac{d \frac{\sigma_1}{\sigma_2} \sigma_2 J}{JA} = \frac{d}{A \sigma_1} + \frac{d}{A \sigma_2} = R_1 + R_2\]</span></p>
+
+</div>
+</div>
+
+<h1 id="capacitance">Capacitance</h1>
+<p>For a charged body, the work required to approach the body scales with charge,</p>
+<p>so the ratio between charge and voltage is constant, called <strong>capacitance</strong></p>
+<p><span class="math inline">\(C = \frac{Q}{V}\)</span></p>
+<h2 id="capacitance-of-parallel-plate-capacitor">Capacitance of parallel plate capacitor</h2>
+<p><a href="./capacitor.png"><img src="./capacitor.png" /></a></p>
+<p><span class="math inline">\(C = \frac{Q}{V} = \frac{\varepsilon_0 \varepsilon_r A}{d}\)</span></p>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Derivation
+</div>
+<div class="derivation latex" style="display:none;">
+
+<p><span class="math inline">\(\overrightarrow{D} = \frac{Q}{A} \hat{a_x}\)</span></p>
+<p><span class="math display">\[\overrightarrow{E} = \frac{\overrightarrow{D}}{\varepsilon_0 \varepsilon_r}
+= \frac{Q}{\varepsilon_0 \varepsilon_r A} \hat{a_x}\]</span></p>
+<p><span class="math display">\[ \begin{aligned}
+V &amp;= - \int_0^d \overrightarrow{E} \overrightarrow{dl} = \int_0^d \frac{Q}{\varepsilon_0 \varepsilon_r} \hat{a_x} \overrightarrow{dx} \\
+&amp;= \frac{Q}{\varepsilon_0 \varepsilon_r A} d
+\end{aligned} \]</span></p>
+<p><span class="math inline">\(C = \frac{Q}{V} = \frac{\varepsilon_0 \varepsilon_r A}{d}\)</span></p>
+
+</div>
+</div>
+
+<h2 id="capacitances-in-parallel">Capacitances in parallel</h2>
+<p><a href="./parallel_caps.png"><img src="./parallel_caps.png" /></a></p>
+<p><span class="math inline">\(C_T = C_1 + C_2\)</span></p>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Derivation
+</div>
+<div class="derivation latex" style="display:none;">
+
+<p><span class="math display">\[V = - \int_0^d \overrightarrow{E_1} \overrightarrow{dl} = - \int_0^d \overrightarrow{E_2} \overrightarrow{dl}
+\Rightarrow E_1 = E_2 = E\]</span></p>
+<p>Since the electric field is approximately constant between plates <span class="math inline">\(E = \frac{V}{D}\)</span></p>
+<p><span class="math display">\[D_1 = \frac{Q_1}{A_1} = \varepsilon_1 E \\
+\Rightarrow Q_1 = A_1 \varepsilon_1 E = A_1 \varepsilon_1 \frac{V}{d}\]</span></p>
+<p><span class="math display">\[D_2 = \frac{Q_2}{A_2} = \varepsilon_2 E \\
+\Rightarrow Q_2 = A_2 \varepsilon_2 E = A_2 \varepsilon_2 \frac{V}{d}\]</span></p>
+<p><span class="math inline">\(C_T = \frac{Q_1 + Q_2}{V} = \frac{A_1 \varepsilon_1}{d} + \frac{A_2 \varepsilon_2}{d} = C_1 + C_2\)</span></p>
+
+</div>
+</div>
+
+<h2 id="energy-in-capacitor">Energy in Capacitor</h2>
+<p><span class="math inline">\(W = \frac{1}{2} CV^2\)</span></p>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Derivation
+</div>
+<div class="derivation latex" style="display:none;">
+
+<p>Sum the work required to move each charge across the capacitor</p>
+<p><span class="math display">\[ \begin{aligned}
+W &amp; = \int dw = \int V(t) dq = \int_0^Q \frac{q(t)}{C} dq \\
+&amp; = \frac{1}{C} [\frac{1}{2} q(t)^2]_0^Q = \frac{Q^2}{2C} \\
+&amp; = \frac{(CV)^2}{2C} = \frac{1}{2}CV^2
+\end{aligned} \]</span></p>
+
+</div>
+</div>
+
+<h2 id="changing-capacitor-shape">Changing capacitor shape</h2>
+<p>Assume a capacitor is charged to some voltage, and the voltage is removed. The charge on the plates will remain, regardless of how the plates are moved.</p>
+<p>If the distance between the plates is doubled, <span class="math inline">\(\overrightarrow{E}\)</span> remains constant, so:</p>
+<p><span class="math inline">\(V = - \int_0^d \overrightarrow{E} dl = dE\)</span> -&gt; <span class="math inline">\(V = - \int_0^{2d} \overrightarrow{E} dl = 2dE\)</span></p>
+<p>and the voltage is doubled.</p>
+<h2 id="examples">Examples</h2>
+<div class="examples">
+<ol>
+<li><p>Solve for <span class="math inline">\(E_2\)</span></p>
+<p><a href="./series_caps.png"><img src="./series_caps.png" /></a></p>
+<p><span class="math inline">\(D = \frac{Q}{A} = E_1 \varepsilon_1 = E_2 \varepsilon_2\)</span></p>
+<p><span class="math inline">\(E_1 = E_2 \frac{\varepsilon_2}{\varepsilon_1}\)</span></p>
+<p><span class="math display">\[ \begin{aligned}
+  V &amp; = - \int_{d_1} \overrightarrow{E_1} \overrightarrow{dl} - \int_{d_2} \overrightarrow{E_2} \overrightarrow{dl} \\
+  &amp; = - \int_{d_1} \overrightarrow{E_2} \frac{\varepsilon_2}{\varepsilon_1} \overrightarrow{dl} - \int_{d_2} \overrightarrow{E_2} \overrightarrow{dl} \\
+  &amp; = d_2 E_2 + d_1 E_2 \frac{\varepsilon_2}{\varepsilon_1}
+  \end{aligned} \]</span></p>
+<p><span class="math display">\[E_2 = \frac{V}{d_2 + d_1 \frac{\varepsilon_2}{\varepsilon_1}}\]</span></p></li>
+<li><p>A metal sphere of radius 1m is surrounded everywhere by a dielectric with <span class="math inline">\(\varepsilon_r = 3\)</span>. Find the capacitance of the sphere.</p>
+<p><a href="./sphere_cap.png"><img src="./sphere_cap.png" /></a></p>
+<p>Assume a charge <span class="math inline">\(Q\)</span> on the sphere.</p>
+<p><span class="math inline">\(\overrightarrow{D} = \frac{Q}{4 \pi r^2} \hat{a_{\rho}}\)</span> (from Gauss's equation)</p>
+<p><span class="math display">\[\overrightarrow{E} = \frac{\overrightarrow{D}}{\varepsilon_0 \varepsilon_r} = \frac{Q}{4 \pi \varepsilon_0 \varepsilon_r r^2} \hat{a_{\rho}}\]</span></p>
+<p><span class="math display">\[V = V(1) - V(\infty) = \frac{Q}{4 \pi \varepsilon_0 \varepsilon_r (1)^2}\]</span></p>
+<p><span class="math display">\[C = \frac{Q}{V} = 4 \pi \varepsilon_0 \varepsilon_r = 12 \pi \varepsilon_0\]</span></p></li>
+</ol>
+</div>
+<h1 id="amperes-force-law">Ampere's Force Law</h1>
+<p>Magnetic field from point current</p>
+<div class="definition">
+<p><strong>Magnetic Field Intensity</strong></p>
+<p>Contribution from point current</p>
+<p><span class="math display">\[\overrightarrow{dH} = \frac{I \overrightarrow{dl} \times \hat{r&#39;}}{4 \pi R^2} \frac{A}{m}\]</span></p>
+<p>where <span class="math inline">\(\hat{r&#39;}\)</span> is the vector pointing from the point current to <span class="math inline">\(\overrightarrow{r}\)</span></p>
+<p><span class="math display">\[\overrightarrow{H} = \oint \overrightarrow{dH} \frac{A}{m}\]</span></p>
+</div>
+<p><span class="math display">\[dF = \mu_0 I_1 \overrightarrow{dl_1} \times \overrightarrow{dH}\]</span></p>
+<h1 id="force-between-straight-wires">Force between straight wires</h1>
+<div class="definition">
+<p><strong>Magnetic flux density</strong></p>
+<p><span class="math display">\[\overrightarrow{B(\rho)} = \frac{I}{2 \pi \rho} \hat{r&#39;}\]</span></p>
+<p>Units are in <span class="math inline">\(\frac{Vs}{m^2} = \frac{Wb}{m^2} = T = 10,000 G\)</span></p>
+</div>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Derivation
+</div>
+<div class="derivation latex" style="display:none;">
+
+<p><span class="math display">\[d \overrightarrow{B}(\overrightarrow{r}) = \frac{I \overrightarrow{dl} \times \hat{r&#39;}}{4 \pi R^2}\]</span></p>
+<p><span class="math display">\[ \overrightarrow{B}(r) = \int_{-\infty}^{\infty} \frac{I \overrightarrow{dl} \times \hat{r&#39;}}{4 \pi R^2} = \]</span></p>
+
+</div>
+</div>
+
+<div class="examples">
+<ol>
+<li><p>Find the force between two parallel wires with opposite currents</p>
+<p><a href="./parallelwires.png"><img src="./parallelwires.png" /></a></p>
+<p><span class="math display">\[\overrightarrow{dF_1} = \mu_0 -I_1 \overrightarrow{dl} \times \frac{I_2}{2 \pi R} \hat{r&#39;}\]</span></p>
+<p><span class="math display">\[\overrightarrow{F_1} = \int_0^L \mu_0 (-I_1 dz \hat{a_z}) \times \frac{I_2}{2 \pi R} a_{\phi} = - \frac{\mu_0 I_1 I_2 L}{4 \pi R} \hat{r&#39;}\]</span></p></li>
+</ol>
+</div>
+<h1 id="amperes-circuital-law">Ampere's Circuital Law</h1>
+<p>Around current</p>
+<p><a href="./magflux_integral1.png"><img src="./magflux_integral1.png" /></a></p>
+<p><span class="math inline">\(\oint H \cdot \overrightarrow{dl} = I\)</span></p>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Derivation
+</div>
+<div class="derivation latex" style="display:none;">
+
+<p><span class="math display">\[ \begin{aligned} 
+\oint H \cdot \overrightarrow{dl} &amp; = \oint \frac{I}{2 \pi \rho} \hat{a_{\phi}} \cdot ( d\rho \hat{a_{\rho}} + \rho d\phi \hat{a_{\phi}} + dz \hat{a_z}) \\ 
+&amp; = \oint \frac{I}{2 \phi \rho} \rho d\phi 
+\end{aligned} \]</span></p>
+
+</div>
+</div>
+
+<p>Outside of current</p>
+<p><a href="./magflux_integral.png"><img src="./magflux_integral.png" /></a></p>
+<p><span class="math inline">\(\oint H \cdot \overrightarrow{dl} = 0\)</span></p>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Derivation
+</div>
+<div class="derivation latex" style="display:none;">
+
+<p><span class="math display">\[ \begin{aligned}   
+\oint H \cdot \overrightarrow{dl} &amp; = \oint \frac{I}{2 \phi \rho} \rho d\phi \\
+&amp; = \int_{\phi_1}^{\phi_1} \frac{I}{2 \phi \rho} \rho d\phi + \int_{\phi_1}^{\phi_2} \frac{I}{2 \phi \rho} \rho d\phi + \int_{\phi_2}^{\phi_2} \frac{I}{2 \phi \rho} \rho d\phi + \int_{\phi_2}^{\phi_1} \frac{I}{2 \phi \rho} \rho d\phi \\
+&amp; = 0
+\end{aligned} \]</span></p>
+
+</div>
+</div>
+
+<h2 id="magnetic-field-intensity-of-single-wire">Magnetic field intensity of single wire</h2>
+<p><span class="math inline">\(H(\rho) = \frac{I}{\rho 2 \pi}\)</span></p>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Derivation
+</div>
+<div class="derivation latex" style="display:none;">
+
+<p><span class="math inline">\(\oint H(\rho) \hat{a_{\phi}} \cdot \overrightarrow{dl} = I_{enc}\)</span></p>
+<p><span class="math inline">\(\oint H(\rho) \hat{a_{\phi}} \cdot (d\rho \hat{a_{\rho}} + \rho d\phi \hat{a_{phi}} + dz \hat{a_z})  = I_{enc}\)</span></p>
+<p><span class="math inline">\(\oint H(\rho) \rho d\phi = I\)</span></p>
+<p><span class="math inline">\(H(\rho) \rho \oint_0^{2\pi} d\phi = I\)</span></p>
+<p><span class="math inline">\(H(\rho) \rho 2 \pi = I\)</span></p>
+<p><span class="math inline">\(H(\rho) = \frac{I}{\rho 2 \pi}\)</span></p>
+
+</div>
+</div>
+
+<h2 id="magnetic-field-intensity-of-slab-of-current">Magnetic field intensity of slab of current</h2>
+<p><span class="math display">\[\overrightarrow{H} = \frac{Z}{2}\]</span></p>
+<p>Where <span class="math inline">\(K = J \Delta H\)</span> is called the sheet charge density</p>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Derivation
+</div>
+<div class="derivation latex" style="display:none;">
+
+<p><a href="./currentslab.png"><img src="./currentslab.png" /></a></p>
+<p><span class="math display">\[ \begin{aligned}
+\oint \overrightarrow{H(z)} \cdot \overrightarrow{dl} = I_{enc} \\
+\oint_A^B \overrightarrow{H(z)} \cdot \overrightarrow{dl} + \int_B^C \overrightarrow{H(z)} \cdot \overrightarrow{dl} + \int_C^D \overrightarrow{H(z)} \cdot \overrightarrow{dl} + \int_D^A \overrightarrow{H(z)} \cdot \overrightarrow{dl}= I_{enc} \\
+\int_A^B \overrightarrow{H(z)} \cdot \overrightarrow{dl} + 0 + \int_C^D \overrightarrow{H(z)} \cdot \overrightarrow{dl} + 0 = I_{enc}\\
+\overrightarrow{H(z)} L  + \overrightarrow{H(z)} L = I_{enc}\\
+\overrightarrow{H(z)} = \frac{I_{enc}}{2 L} = \frac{J \Delta z L}{2 L} = \frac{J \Delta z}{2} = \frac{K}{2}
+\end{aligned} \]</span></p>
+
+</div>
+</div>
+
+<h2 id="magnetic-field-intensity-of-cylinder-of-current">Magnetic field intensity of cylinder of current</h2>
+<p>Many point currents arranged in a circle with radius <span class="math inline">\(a\)</span> and <span class="math inline">\(I_T = K(2 \pi)(a)\)</span></p>
+<p><span class="math display">\[ H(\rho) = \begin{cases}
+ \frac{I}{2 \pi \rho} &amp; \phi \geq a,\\
+0 &amp; \phi \leq a
+\end{cases} \]</span></p>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Derivation
+</div>
+<div class="derivation latex" style="display:none;">
+
+<p><span class="math display">\[ \begin{aligned}   
+\oint_0^{2 \pi} \overrightarrow{H}(\rho) \hat{a}_{\phi} \overrightarrow{dl} = \oint_0^{2 \pi} \overrightarrow{H}(\rho) \hat{a}_{\phi} \rho d\phi = H(\rho) 2 \pi \rho = I \\
+H(\rho) = \frac{I}{2 \pi \rho}
+\end{aligned} \]</span></p>
+<p>for <span class="math inline">\(\phi \geq a\)</span></p>
+<p><span class="math inline">\(H(\rho) = 0\)</span></p>
+<p>for <span class="math inline">\(\phi \leq a\)</span></p>
+
+</div>
+</div>
+
+<h1 id="point-form-of-amperes-circuital-law">Point form of Ampere's circuital law</h1>
+<p><strong>incomplete</strong></p>
+<p><span class="math inline">\(\frac{dH_y}{dx} - \frac{dH_x}{dy} = J_z\)</span> <span class="math display">\[ \begin{aligned}
+\oint \overrightarrow{H} \cdot \overrightarrow{dl} &amp; = J_Z \Delta x \Delta y \\
+\int_1^4 \overrightarrow{H} \cdot \overrightarrow{dl} + \int_2^3 \overrightarrow{H} \cdot \overrightarrow{dl} + \int_3^4 \overrightarrow{H} \cdot \overrightarrow{dl} + \int_1^2 \overrightarrow{H} \cdot \overrightarrow{dl} &amp; = J_z \Delta x \Delta y \\
+H_{14} \Delta x + H_{23} \Delta y - H_{34} \Delta x - H_{12} \Delta y = J_Z \Delta x \Delta y \\
+(H_{0x} - \frac{\Delta y}{2} \frac{dH_x}{dy})\Delta x 
+\end{aligned} \]</span></p>
+<p><span class="math inline">\(\overrightarrow{F_m} = \mu_0 (I \overrightarrow{dl} \times \overrightarrow{H})\)</span></p>
+<p><span class="math inline">\(\overrightarrow{F_m} = \mu_0 (Q\mu \times \overrightarrow{H})\)</span></p>
+<p><span class="math inline">\(\overrightarrow{F_m} = Qu \times \mu_0 \overrightarrow{H}\)</span></p>
+<p><span class="math inline">\(\overrightarrow{B} = \mu_0 \overrightarrow{H}\)</span></p>
+<p><span class="math inline">\(\overrightarrow{F_m} = Qu \times \overrightarrow{B}\)</span></p>
+<p><strong>Lorentz Force Equation</strong> <span class="math inline">\(\overrightarrow{F} = Q \overrightarrow{E} + Q\mu \times \overrightarrow{B}\)</span></p>
+<h1 id="mass-spectrometer">Mass spectrometer</h1>
+<p><strong>incomplete</strong> A particle with some known charge is fired into a chamber with a known magnetic field.</p>
+<p>Due to the forces generated from a moving charge in a magnetic field, the particle will curve as it travels through the field.</p>
+<p><span class="math inline">\(\overrightarrow{F_m} = Qu \times \overrightarrow{B} = QuB(-\hat{a_{\rho}}) = m \frac{u^2}{r} \hat{a_{\rho}}\)</span></p>
+<p>so <span class="math inline">\(r = \frac{mu^2}{QuB}\)</span></p>
+<pre class="example"><code>assume Si+ and As+
+
+$KE = (100 \frac{J}{C})(1.6*10^{-19} C)$
+
+$u(Si+) = 2.62 * 10^4 \frac{m}{s}$
+
+$u(As+) = 1.6 * 10^4 \frac{m}{s}$
+
+$r(Si+) = $
+
+$r(As+) = $
+</code></pre>
+<h1 id="magnetic-field-through-a-boundary">Magnetic field through a boundary</h1>
+<p>Since there are no magnetic monopoles, we can determine the normal component of the magnetic field through the boundary by drawing a simple body on the boundary.</p>
+<p><span class="math display">\[ \begin{aligned}
+B_{1N} &amp; = B_{2N} \\
+\mu_1 H_{1N} &amp; = \mu_2 H_{2N}
+\end{aligned} \]</span></p>
+<p>We can determine the parallel component using Ampere's circuital law with the assumption that the parallel field induces a current on the boundary.</p>
+<h1 id="faradays-law-change-in-magnetic-flux">Faraday's law (change in magnetic flux)</h1>
+<p>Experimentally, we can see that</p>
+<p><span class="math display">\[i =  -\frac{N}{R} \frac{d\Psi}{dt}\]</span></p>
+<p><span class="math display">\[ \begin{aligned}
+V_{emf} &amp; = iR =  -N\frac{d\Psi}{dt}  - \frac{d\lambda}{dt}\\
+\oint \overrightarrow{E} \cdot \overrightarrow{dl} &amp; = -N \frac{d \int \overrightarrow{B} \cdot \overrightarrow{ds}}{dt}
+\end{aligned} \]</span></p>
+<p>where <span class="math inline">\(N\)</span> is the number of turns in the coil, <span class="math inline">\(R\)</span> is the total resistance, and <span class="math inline">\(\Psi\)</span></p>
+<p>Or since <span class="math inline">\(L = \frac{\lambda}{i}\)</span></p>
+<p><span class="math inline">\(V_{emf} = - \frac{d\lambda}{dt} = -L \frac{di}{dt}\)</span></p>
+<h1 id="lenzs-law">Lenz's Law</h1>
+<p>The induced current will flow in a direction that opposes the magnetic flux.</p>
+<h1 id="power-and-energy-in-an-inductor">Power and Energy in an inductor</h1>
+<p><span class="math inline">\(qV\)</span> - energy delivered to R and L by a single charge</p>
+<p><span class="math inline">\(n\)</span> - number of <span class="math inline">\(q\)</span> moving around circuit per second</p>
+<p><span class="math inline">\(P = nqV = IV\)</span> - energy delivered to R and L per second by all charges</p>
+<p><span class="math display">\[ \begin{aligned}
+\oint \overrightarrow{E} \cdot \overrightarrow{dl} &amp; = \frac{d\lambda}{dt} \\
+-V + IR + 0 &amp; = -L \frac{di}{dt}
+\end{aligned} \]</span></p>
+<p><span class="math inline">\(V = IR + L \frac{di}{dt}\)</span></p>
+<p><span class="math display">\[ \begin{aligned}
+W &amp; = \int P dt = \int iV dt = \int_0^T(iR + L i\frac{di}{dt}) dt = \int_0^T i^2 R dt + \int_0^T Li di \\
+&amp; = \frac{1}{2}Li^2
+\end{aligned} \]</span></p>
+<h1 id="transformers">Transformers</h1>
+<p>Primary winding <span class="math inline">\(V_1 = \oint \overrightarrow{E} \cdot \overrightarrow{dl} = -(N_1 \frac{d\Psi}{dt})\)</span></p>
+<p><span class="math inline">\(-(N_2 \frac{d\Psi}{dt}) = \oint \overrightarrow{E} \cdot \overrightarrow{dl} = V_2\)</span></p>
+<p><span class="math inline">\(V_2 = \frac{N_2}{N_1} V_1\)</span></p>
+<h1 id="solenoid">Solenoid</h1>
+<p><span class="math inline">\(\int \overrightarrow{H} dl = I_{enc} \to A\)</span></p>
+<p><a href="./solenoid.png"><img src="./solenoid.png" /></a></p>
+<p><span class="math inline">\(\overrightarrow{B} = \mu \overrightarrow{H}\)</span> (Henries)</p>
+<p><span class="math inline">\(B * A = \Psi\)</span> (Henry-Amps)</p>
+<p><span class="math inline">\(\oint \overrightarrow{E} \cdot \overrightarrow{dl} = \frac{d}{dt} \Psi\)</span> (Henry-Amps)/sec = V</p>
+<div class="examples">
+<ol>
+<li><p>Let <span class="math inline">\(\frac{d\Psi}{dt} = 10V\)</span></p>
+<p>The reading from <span class="math inline">\(VOM_1\)</span> and <span class="math inline">\(VOM_2\)</span> are different. <span class="math inline">\(VOM_1\)</span> is approximately <span class="math inline">\(10V\)</span> since the changing magnetic field flows through the surface created by its wires.</p>
+<p>The reading from <span class="math inline">\(VOM_2\)</span>, since the surface is not pierced by the magnetic field coming from the solenoid.</p></li>
+<li><p>Using faraday's law,</p>
+<p><span class="math display">\[ \begin{aligned}
+  \oint \overrightarrow{E} \cdot \overrightarrow{dl} &amp; = - \frac{d\Psi}{dt} \\
+  IR &amp; = - \frac{d\Psi}{dt} = \frac{d}{dt} \left[ Blx \right] = Blxv
+  \end{aligned} \]</span></p>
+<p><span class="math inline">\(\overrightarrow{F_m} = \int I \overrightarrow{dl} \times \overrightarrow{B} dl = IB \int_0^l dy = -IBl \hat{a_x}\)</span></p></li>
+</ol>
+</div>
+<p><span class="math inline">\(\oint H \cdot dl = I_{enc}\)</span></p>
+<p>Move the boundary of the surface between the plates of a capacitor.</p>
+<p>$ =</p>
+<h1 id="youngs-experiment">Young's Experiment</h1>
+<p>Young demonstrated the particle and wave behavior of light with his experiment.</p>
+<p><a href="http://h2physics.org/wp-content/uploads/2009/08/young2a.jpg"><img src="http://h2physics.org/wp-content/uploads/2009/08/young2a.jpg" /></a></p>
+<p>He shone light through a pair of narrow slits, which resulted bands forming on the photosensitive plate, suggesting wave-like behavior. This is because the distance between a band and each slit results in a slight phase shift of the light wave.</p>
+<p>If the intensity of the light is lowered and exposure of the plate is brief, the photons hitting the plate cause specs of exposure, suggesting particle-like behavior.</p>
+<h1 id="electromagnetic-waves">Electromagnetic Waves</h1>
+<p><span class="math display">\[u = \frac{\omega}{\beta} = \frac{2 \pi f}{\frac{2 \pi}{\lambda}} = f \lambda = \frac{1}{\sqrt{\mu \varepsilon}} \]</span></p>
+<p><span class="math inline">\(\overrightarrow{\mathbb{P}} = \overrightarrow{E} \times \overrightarrow{H}\)</span> - energy of waves (Poynting vector)</p>
+<h2 id="plane-waves-in-lossless-media">Plane Waves in Lossless Media</h2>
+<p><strong>incomplete</strong></p>
+<p><span class="math inline">\(\overrightarrow{E}(z,t) = E_{x0} e^{-\alpha z} \cos(\omega t - \beta z) \hat{a}_x\)</span></p>
+<p><span class="math inline">\(\overrightarrow{H}(z,t) = \frac{\varepsilon}{\mu} E_{x0} e^{-\alpha z} \cos(\omega t - \beta z) \hat{a}_y\)</span></p>
+<p><span class="math inline">\(\mu = \frac{\omega}{\beta}\)</span> - velocity <span class="math inline">\(\beta = \frac{2 \pi}{\lambda}\)</span> - wave number</p>
+<p><span class="math inline">\(n = \sqrt{\frac{\mu}{\varepsilon}}\)</span> -</p>
+<div class="examples">
+<ol>
+<li><p>Let <span class="math inline">\(\overrightarrow{H} = 25 \cos(1.33*10^{-4}z + 40,000t) \hat{a}_y \frac{A}{m}\)</span></p>
+<p>Find the wavelength:</p></li>
+</ol>
+</div>
+<h2 id="plane-waves-in-lossy-media">Plane Waves in Lossy Media</h2>
+<p><span class="math inline">\(\overrightarrow{E}(z,t) = E_0 e^{-\alpha z} \cos(\omega t - \beta z) \hat{a}_x\)</span></p>
+<p><span class="math inline">\(\overrightarrow{H}(z,t) = \frac{E_0}{n} e^{-\alpha z} \cos(\omega t - \beta z) \hat{a}_y\)</span></p>
+<p><span class="math inline">\(n = \sqrt{\frac{j \omega \mu}{\sigma + j\omega \varepsilon}}\)</span> - intrinsic impedance</p>
+<p><span class="math inline">\(\alpha + j \beta = \sqrt{j \omega \mu (\sigma + j \omega \varepsilon)} = \gamma\)</span> - propogation constant</p>
+<div class="examples">
+<ol>
+<li><p>Assume <span class="math inline">\(\mu_r = 1\)</span>. <span class="math inline">\(\overrightarrow{H} = 25 \sin(2 \times 10^8 t + 6x) \hat{a}_y\)</span></p>
+<p>For the wave to hold in place <strong>*</strong> as <span class="math inline">\(t\)</span> increases, <span class="math inline">\(x\)</span> must decrease. So the wave propogates in the <span class="math inline">\(-\hat{a}_x\)</span> direction.</p>
+<p><span class="math inline">\(\omega = 2 \times 10^8 s^{-1}\)</span>, <span class="math inline">\(\beta = 6 = \frac{2 pi}{\lambda}\)</span>,</p></li>
+<li><p><span class="math inline">\(u = \frac{\omega}{\beta} = \frac{2 \times 10^8}{6} \frac{m}{s} = \frac{1}{\sqrt{\mu \varepsilon}}\)</span></p></li>
+</ol>
+<p>Since material is lossless, <span class="math inline">\(\mu = \mu_0\)</span></p>
+<p><span class="math inline">\(\frac{1}{3} \times 10^8 = \frac{1}{\sqrt{\mu \varepsilon}} = \frac{1}{\sqrt{\mu_0 \varepsilon_0 \varepsilon_r}}\)</span></p>
+<p>so <span class="math inline">\(\varepsilon_r = 81\)</span></p>
+<ol>
+<li><p>Find E. <span class="math inline">\(n = \sqrt{\frac{\mu}{\varepsilon_r}} = \frac{377}{9} \Omega\)</span></p>
+<p><span class="math inline">\(E = n H = \frac{377}{9} (25 \frac{mA}{m}) = 1.05 \frac{V}{m}\)</span></p>
+<p>Using the geometry of the wave <span class="math inline">\(\overrightarrow{\cal{P}} = \overrightarrow{E} \times \overrightarrow{H}\)</span>, we can find that the direction of propogation is in the <span class="math inline">\(\hat{a}_z\)</span> direction, so</p>
+<p><span class="math inline">\(\overrightarrow{E} = 1.05 \sin(2 \times 10^8 t + 6X) \hat{a}_z \frac{V}{m}\)</span></p></li>
+</ol>
+</div>
+<div class="examples">
+<p>Let <em>E⃗</em> = 16e<sup>-0.05x</sup> sin (2 × 10 <sup>8</sup> t - 2x) <em>â</em><sub>z</sub> $</p>
+<ol>
+<li><p>Find propogation constant</p>
+<p><span class="math inline">\(\gamma = \alpha + Jj \beta = 0.05 + j2\)</span></p></li>
+<li><p>Find <em>λ</em></p>
+<p><span class="math inline">\(\beta = \frac{2\pi}{\lambda}\)</span></p>
+<p><span class="math inline">\(\lambda = \frac{2\pi}{\beta} = \pi\)</span></p></li>
+<li><p>Find the velocity <span class="math inline">\(u\)</span></p>
+<p><span class="math inline">\(u = \frac{\omega}{\beta} = \frac{2 \times 10^8 (s^{-1})}{2 (m^{-1})} = 10^8 \frac{m}{s}\)</span></p></li>
+<li><p>Find the skin depth <span class="math inline">\(\delta\)</span></p>
+<p><span class="math inline">\(\delta = \frac{1}{\alpha} = 20\)</span></p></li>
+</ol>
+</div>
+<h2 id="skin-depth">Skin depth</h2>
+<p>If the current through the wire is increasing, current loops perpendicular to the current flow to oppose the magnetic field generated. <span class="math inline">\(\delta = \frac{1}{\alpha}\)</span> - skin depth</p>
+<p><a href="./skin_effect.png"><img src="./skin_effect.png" /></a></p>
+
+<div class="derivation" onclick="showHide(this);">
+<div>
+Derivation
+</div>
+<div class="derivation latex" style="display:none;">
+
+<p>The skin depth is defined as the depth at which the wave has attenuated to magnitude <span class="math inline">\(e^{-1}\)</span></p>
+<p><span class="math inline">\(e^{-\alpha \delta} = e^{-1}\)</span></p>
+<p>so <span class="math inline">\(\delta = \frac{1}{\alpha}\)</span></p>
+
+</div>
+</div>
+
+<h1 id="reflection">Reflection</h1>
+<div class="examples">
+<ol>
+<li><p>Assume non-magnetic lossless</p>
+<p>In the first medium, <span class="math inline">\(E_i = 10 \cos(3 \times 10 ^8 t - 1z) \hat{a}_x \frac{V}{m}\)</span>, <span class="math inline">\(\varepsilon_r = 1\)</span>, <span class="math inline">\(\varepsilon_{r2} = 16\)</span></p>
+<p><span class="math inline">\(\eta_0 = \sqrt{\mu_0}{\varepsilon_0}\)</span>, <span class="math inline">\(\eta_2 = \sqrt{\mu_0}{16 \varepsilon_0}\)</span></p>
+<p>Find r</p>
+<p><span class="math inline">\(r = \eta_2 - \eta_1}{\eta_2 + \eta_1} = -3/5\)</span></p>
+<p>Find <span class="math inline">\(E_r\)</span></p>
+<p><span class="math inline">\(E_{r0} = rE_{io} = -6\)</span></p>
+<p><span class="math inline">\(E_r = -6\cos(3 \times 10^8 t - 1z) \hat{a}_x\)</span></p>
+<p>Find <span class="math inline">\(E_t\)</span></p>
+<p><span class="math inline">\(E_{t0} = \tau E_{io} = 4\)</span></p>
+<p>But the medium is changed, so the wavelength is changed: <span class="math inline">\(\frac{\omega}{\beta} = \frac{1}{\sqrt{\mu_0 \varepsilon_{r2} \varepsilon_0}} = \frac{1}{\sqrt{16}\sqrt{\mu_0 \varepsilon_0}}\)</span></p>
+<p>so <span class="math inline">\(\beta = 4\)</span></p>
+<p><span class="math inline">\(E_i = 4 \cos(3 \times 10^8 t - 4 z) \hat{a}_z\)</span></p></li>
+</ol>
+</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
